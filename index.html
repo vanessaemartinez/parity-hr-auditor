@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parity HR — JD and Job Posting Equity Auditor</title>
+<style>
+  :root {
+    --navy: #002c49;
+    --slate: #475355;
+    --gold: #f9c307;
+    --gold-light: #facf39;
+    --white: #ffffff;
+    --off-white: #f8f6f0;
+    --light-gray: #f0ede6;
+    --sage: #5a8a6a;
+    --coral: #c0392b;
+    --amber: #d4820a;
+    --teal: #1a6b6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--off-white);
+    color: var(--navy);
+    min-height: 100vh;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-mark {
+    height: 48px;
+    width: auto;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .logo-text {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    padding: 52px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 400px; height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(249,195,7,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 52px;
+    background: var(--off-white);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  .hero h1 {
+    font-family: Arial, sans-serif;
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    color: var(--white);
+    line-height: 1.2;
+    max-width: 660px;
+    font-weight: 700;
+  }
+
+  .hero h1 em {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.78);
+    margin-top: 18px;
+    font-size: 1.05rem;
+    max-width: 560px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .distinction-box {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .distinction {
+    background: rgba(249,195,7,0.08);
+    border: 1px solid rgba(249,195,7,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    flex: 1;
+    min-width: 210px;
+    max-width: 340px;
+  }
+
+  .distinction h3 {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .distinction p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 300;
+  }
+
+  /* ACCESSIBILITY NOTICE */
+  .a11y-bar {
+    background: var(--navy);
+    border-bottom: 3px solid var(--gold);
+    padding: 12px 40px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .a11y-bar strong {
+    color: var(--gold);
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    box-shadow: 0 3px 24px rgba(0,44,73,0.09);
+    overflow: hidden;
+    margin-bottom: 28px;
+    border: 1px solid rgba(0,44,73,0.07);
+  }
+
+  .card-header {
+    background: var(--navy);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-badge {
+    width: 30px; height: 30px;
+    background: var(--gold);
+    color: var(--navy);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .card-header h2 {
+    font-family: Arial, sans-serif;
+    font-size: 1.05rem;
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .card-body { padding: 28px; }
+
+
+
+  /* TEXTAREA */
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--navy);
+    resize: vertical;
+    transition: border-color 0.2s;
+    background: var(--off-white);
+  }
+
+  textarea:focus { outline: none; border-color: var(--navy); background: white; }
+  textarea::placeholder { color: #aaa; }
+
+  .char-counter {
+    text-align: right;
+    font-size: 0.82rem;
+    color: var(--slate);
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  .char-counter.warning { color: var(--amber); font-weight: 500; }
+  .char-counter.over { color: var(--coral); font-weight: 700; }
+
+  .char-note {
+    font-size: 0.82rem;
+    color: var(--slate);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* BUTTON */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold); color: var(--navy); border: none;
+    border-radius: 10px; padding: 14px 32px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; margin-top: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .btn:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(249,195,7,0.4); }
+  .btn:disabled { background: #ccc; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(0,44,73,0.3);
+    border-top-color: var(--navy);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ERROR */
+  .error-msg {
+    background: #fff0ee; border: 1px solid #f0b0a0;
+    border-radius: 8px; padding: 14px 18px;
+    color: var(--coral); font-size: 0.9rem;
+    margin-top: 12px; display: none;
+    font-weight: 500;
+  }
+
+  /* RESULTS */
+  .results { display: none; }
+  .results.visible { display: block; animation: fadeUp 0.4s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DETECTION BANNER */
+  .detection-banner {
+    padding: 14px 28px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0,44,73,0.1);
+  }
+
+  .detection-banner.jd { background: #e8f0f8; color: var(--navy); }
+  .detection-banner.posting { background: #eef8ee; color: #1a4a1a; }
+  .detection-banner.mixed { background: #fffbe8; color: #5a4000; }
+
+  /* SCORE */
+  .equity-score {
+    display: flex; align-items: center; gap: 20px;
+    padding: 24px 28px;
+    background: var(--navy);
+    color: white;
+  }
+
+  .score-circle {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 3px solid var(--gold);
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .score-num {
+    font-family: Arial, sans-serif;
+    font-size: 1.6rem; line-height: 1; color: var(--gold);
+    font-weight: 700;
+  }
+
+  .score-label { font-size: 0.6rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.1em; }
+  .score-text h3 { font-family: Arial, sans-serif; font-size: 1.1rem; margin-bottom: 6px; font-weight: 700; }
+  .score-text p { font-size: 0.88rem; opacity: 0.82; line-height: 1.5; max-width: 560px; }
+
+  /* AUDIT SECTIONS */
+  .audit-section { border-bottom: 1px solid #eee; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    cursor: pointer; background: white;
+    transition: background 0.15s; user-select: none;
+  }
+
+  .section-header:hover { background: var(--off-white); }
+
+  .section-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    background: rgba(0,44,73,0.06);
+  }
+
+  .section-title { font-weight: 700; font-size: 1rem; color: var(--navy); flex: 1; }
+
+  .section-count {
+    border-radius: 12px; padding: 3px 12px;
+    font-size: 0.78rem; font-weight: 700; color: white;
+  }
+
+  .section-count.good { background: var(--sage); }
+  .section-count.warn { background: var(--amber); }
+  .section-count.flag { background: var(--coral); }
+
+  .section-body { padding: 0 28px 20px; display: none; }
+  .section-body.open { display: block; }
+
+  .change-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 16px; margin-bottom: 10px;
+    border-radius: 8px; font-size: 0.92rem; line-height: 1.6;
+  }
+
+  .change-item.flag { border-left: 4px solid var(--coral); background: #fff5f4; }
+  .change-item.warn { border-left: 4px solid var(--amber); background: #fffbf0; }
+  .change-item.good { border-left: 4px solid var(--sage); background: #f2f8f4; }
+
+  .change-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+  .change-content { flex: 1; }
+  .change-content strong { display: block; margin-bottom: 4px; color: var(--navy); font-weight: 700; font-size: 0.95rem; }
+
+  .before-after { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+
+  .ba-box {
+    flex: 1; min-width: 160px;
+    border-radius: 6px; padding: 10px 14px;
+    font-size: 0.85rem; line-height: 1.5;
+  }
+
+  .ba-before { background: #fde8e4; border: 1px solid #f0c0b8; }
+  .ba-after { background: #e4f0e4; border: 1px solid #b8d8b8; }
+  .ba-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.65; }
+
+  .citation {
+    margin-top: 8px; font-size: 0.8rem;
+    color: var(--teal); font-style: italic;
+    border-left: 3px solid var(--teal); padding-left: 10px;
+  }
+
+  .citation::before { content: '📚 '; font-style: normal; }
+
+  /* OUTPUT TABS */
+  .output-tabs {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    background: white;
+  }
+
+  .output-tab {
+    padding: 14px 26px;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; border: none;
+    background: transparent; color: #999;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .output-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+  .output-tab:hover { color: var(--navy); }
+
+  .output-panel { padding: 28px; display: none; }
+  .output-panel.active { display: block; }
+
+  /* REQUIRED FIELDS */
+  .required-fields {
+    background: #fffbe8;
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+  }
+
+  .required-fields h4 {
+    font-family: Arial, sans-serif;
+    color: #5a4000;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .required-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .required-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.9rem; line-height: 1.5;
+  }
+
+  .req-icon { color: var(--amber); flex-shrink: 0; font-size: 1rem; }
+
+  /* DOC OUTPUT */
+  .doc-output {
+    white-space: pre-wrap;
+    font-size: 1rem; line-height: 1.8;
+    color: var(--navy);
+    background: var(--off-white);
+    border-radius: 10px; padding: 24px;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+  }
+
+  /* ACCESSIBILITY NOTE */
+  .accessibility-note {
+    background: #e8f4f4;
+    border: 1px solid #a0cccc;
+    border-radius: 8px; padding: 16px 18px;
+    font-size: 0.88rem; line-height: 1.6;
+    margin-bottom: 16px; color: var(--teal);
+  }
+
+  .accessibility-note strong { display: block; margin-bottom: 6px; font-size: 0.92rem; font-weight: 700; }
+
+  /* BUTTONS ROW */
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+
+  .copy-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent;
+    border: 2px solid var(--navy); color: var(--navy);
+    border-radius: 8px; padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .copy-btn:hover { background: var(--navy); color: var(--gold); }
+
+  .chevron { margin-left: auto; transition: transform 0.2s; font-style: normal; font-size: 0.8rem; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    text-align: center; padding: 36px 24px;
+    font-size: 0.85rem; color: rgba(255,255,255,0.6);
+    line-height: 1.8;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; font-weight: 500; }
+  footer strong { display: block; color: var(--gold); font-size: 0.95rem; margin-bottom: 4px; font-weight: 700; }
+
+  /* FOCUS STYLES for keyboard nav */
+  :focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <img src="/Parity-HR-All-Yellow.png" alt="Parity HR" class="logo-mark" onerror="this.style.display='none'" /><span class="logo-text" id="logo-fallback" style="display:none">PARITY HR</span>
+  
+  </div>
+  <div class="tagline">JD and Job Posting Equity Auditor</div>
+</header>
+
+<div class="a11y-bar" role="note" aria-label="Accessibility information">
+  <strong>♿ Accessibility:</strong> This tool uses Arial (dyslexia-friendly), minimum 18pt body text, 4.5:1 color contrast, and full keyboard navigation. Screen reader compatible.
+</div>
+
+<div class="hero" role="banner">
+  <h1>One input.<br><em>Two equity-centered outputs.</em></h1>
+  <p>Paste your job description, job posting, or any draft. We detect what you have, audit it for equity, and return both a complete internal Job Description and an external Job Posting — with every missing field clearly marked.</p>
+  <div class="distinction-box">
+    <div class="distinction">
+      <h3>📄 Job Description</h3>
+      <p>Internal HR document. Defines the role, competencies, and level. Lives in your HRIS. Guides performance reviews and compensation.</p>
+    </div>
+    <div class="distinction">
+      <h3>📢 Job Posting</h3>
+      <p>External candidate-facing document. Sells the opportunity. Goes on your careers page and job boards. Shorter, warmer, candidate-focused.</p>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+
+
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge" aria-hidden="true">1</div>
+      <h2>Paste whatever you have — JD, posting, or both</h2>
+    </div>
+    <div class="card-body">
+      <textarea id="jdInput" aria-label="Job description or posting input" maxlength="12000"
+        placeholder="Paste your job description, job posting, or any draft here. It does not have to be complete or perfect. We will detect what you have, audit it for equity, and return both documents with required fields flagged."
+        oninput="updateCounter()"></textarea>
+      <div class="char-counter" id="charCounter" aria-live="polite">0 / 8,000 characters recommended</div>
+      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters. Longer documents may take up to 30 seconds to process.</p>
+      <div class="error-msg" id="errorMsg" role="alert"></div>
+      <button class="btn" id="auditBtn" onclick="runAudit()">
+        <span id="btnText">Run Equity Audit</span>
+        <div class="spinner" id="spinner" aria-hidden="true"></div>
+      </button>
+    </div>
+  </div>
+
+  <div class="results" id="results" role="main">
+
+    <div class="card">
+      <div class="detection-banner" id="detectionBanner" role="status"></div>
+
+      <div class="equity-score" role="region" aria-label="Equity Score">
+        <div class="score-circle" aria-hidden="true">
+          <div class="score-num" id="scoreNum">—</div>
+          <div class="score-label">score</div>
+        </div>
+        <div class="score-text">
+          <h3 id="scoreTitle"></h3>
+          <p id="scoreDesc"></p>
+        </div>
+      </div>
+
+      <div class="audit-sections" id="auditSections"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="step-badge" aria-hidden="true">✓</div>
+        <h2>Your equity-centered documents</h2>
+      </div>
+
+      <div class="output-tabs" role="tablist">
+        <button class="output-tab active" role="tab" aria-selected="true" onclick="switchTab('jd', this)">📄 Job Description</button>
+        <button class="output-tab" role="tab" aria-selected="false" onclick="switchTab('posting', this)">📢 Job Posting</button>
+      </div>
+
+      <div class="output-panel active" id="panel-jd" role="tabpanel">
+        <div class="required-fields" id="jd-required" style="display:none"></div>
+        <div class="accessibility-note">
+          <strong>📋 Before Filing This Internally</strong>
+          Store in your HRIS. Use Roboto, Arial, or Calibri at minimum 12pt. Share with hiring managers before posting. Update compensation band before filing. Review annually.
+        </div>
+        <div class="doc-output" id="jdOutput" tabindex="0" aria-label="Revised Job Description"></div>
+        <div class="btn-row">
+          <button class="copy-btn" onclick="copyDoc('jd')">📋 Copy Job Description</button>
+        </div>
+      </div>
+
+      <div class="output-panel" id="panel-posting" role="tabpanel">
+        <div class="required-fields" id="posting-required" style="display:none"></div>
+        <div class="accessibility-note">
+          <strong>📋 Before Posting Externally — Accessibility Checklist</strong>
+          Use Roboto, Arial, or Calibri at 14pt minimum. Confirm color contrast is 4.5:1 (WCAG 2.1 AA). Test with NVDA or VoiceOver before publishing. Confirm your ATS portal is screen reader accessible. Offer an alternative application method (email or phone).
+        </div>
+        <div class="doc-output" id="postingOutput" tabindex="0" aria-label="Revised Job Posting"></div>
+        <div class="btn-row">
+          <button class="copy-btn" onclick="copyDoc('posting')">📋 Copy Job Posting</button>
+          <button class="copy-btn" onclick="copyChecklist()">📋 Copy Accessibility Checklist</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <strong>PARITY HR — JD and Job Posting Equity Auditor</strong>
+  Equity-centered fractional HR for nonprofits, ESOP companies, and mission-driven organizations.<br>
+  <a href="https://chooseparity.com" target="_blank" rel="noopener">chooseparity.com</a> &nbsp;·&nbsp; Founded by Vanessa Martinez, SPHR, DEI Certified &nbsp;·&nbsp; San Antonio, TX
+</footer>
+
+<script>
+function updateCounter() {
+  const input = document.getElementById('jdInput');
+  const counter = document.getElementById('charCounter');
+  const len = input.value.length;
+  counter.textContent = len.toLocaleString() + ' / 8,000 characters recommended';
+  if (len > 10000) {
+    counter.className = 'char-counter over';
+  } else if (len > 8000) {
+    counter.className = 'char-counter warning';
+  } else {
+    counter.className = 'char-counter';
+  }
+}
+
+async function runAudit() {
+  const input = document.getElementById('jdInput').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+  errorMsg.style.display = 'none';
+
+if (!input || input.length < 50) {
+    errorMsg.textContent = 'Please paste a job description or posting before running the audit.';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('auditBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Auditing — this may take up to 30 seconds...';
+  document.getElementById('results').classList.remove('visible');
+
+  const prompt = `You are an expert equity-centered HR practitioner with 20 plus years of experience. You understand the critical difference between a Job Description and a Job Posting, and you help organizations understand and produce both correctly.
+
+IMPORTANT DEFINITIONS:
+A JOB DESCRIPTION is an internal HR document. It defines the role formally, lists competencies, responsibilities, level, pay band, FLSA classification, department, and reporting structure.
+A JOB POSTING is an external candidate-facing marketing document. It is shorter, warmer, written in second person, sells the opportunity, includes pay transparency, application instructions, and belonging language.
+
+Audit this document across four equity dimensions and respond with ONLY raw valid JSON, no markdown, no backticks, no text outside the JSON.
+
+{
+  "documentType": "<job_description|job_posting|mixed|unclear>",
+  "documentTypeMessage": "<one sentence explaining what was detected and why both documents matter>",
+  "score": <0-100>,
+  "scoreTitle": "<Needs Significant Work|Developing Foundation|Good Foundation|Strong Equity Practice>",
+  "scoreDesc": "<2 sentences: score meaning and most critical improvement>",
+  "sections": {
+    "inclusiveLanguage": {
+      "title": "Inclusive Language",
+      "severity": "<flag|warn|good>",
+      "items": [{"icon":"<emoji>","severity":"<flag|warn|good>","title":"<title>","explanation":"<why this creates a barrier>","before":"<exact phrase>","after":"<inclusive replacement>","citation":"<real research or legal citation>"}]
+    },
+    "fontAccessibility": {
+      "title": "Font and Visual Accessibility",
+      "severity": "<flag|warn|good>",
+      "items": [{"icon":"<emoji>","severity":"<flag|warn|good>","title":"<title>","explanation":"<WCAG or ADA guidance>","before":"<element or Not specified>","after":"<recommended standard>","citation":"<WCAG or ADA citation>"}]
+    },
+    "screenReader": {
+      "title": "Screen Reader Compatibility",
+      "severity": "<flag|warn|good>",
+      "items": [{"icon":"<emoji>","severity":"<flag|warn|good>","title":"<title>","explanation":"<impact on JAWS NVDA VoiceOver>","before":"<element or Not addressed>","after":"<fix>","citation":"<Section 508 or WCAG citation>"}]
+    },
+    "structuralEquity": {
+      "title": "Structural Equity and Barriers",
+      "severity": "<flag|warn|good>",
+      "items": [{"icon":"<emoji>","severity":"<flag|warn|good>","title":"<title>","explanation":"<barrier explanation>","before":"<phrase>","after":"<equitable approach>","citation":"<research or legal citation>"}]
+    }
+  },
+  "jobDescription": {
+    "requiredFields": ["<missing required field and why it is needed>"],
+    "document": "<complete internal Job Description in plain text. ALL CAPS section headers. Sentences under 25 words. Acronyms spelled out on first use. No symbols. Accommodation statement. Pay transparency. Mark missing fields as [REQUIRED: what is needed and why].>"
+  },
+  "jobPosting": {
+    "requiredFields": ["<missing required field>"],
+    "document": "<complete external Job Posting in plain text. ALL CAPS section headers. Second person tone. Sentences under 25 words. Acronyms spelled out. Warm and candidate-focused. Accommodation statement. EEO statement. Belonging statement. Mark missing fields as [REQUIRED: what is needed and why].>"
+  }
+}
+
+DOCUMENT TO AUDIT:
+${input}`;
+
+  try {
+    const response = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: prompt })
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || 'API error ' + response.status);
+    }
+
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('').trim();
+    const clean = text.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim();
+    const result = JSON.parse(clean);
+
+    renderResults(result);
+
+  } catch(err) {
+    errorMsg.textContent = 'Something went wrong: ' + err.message + '. Please check your API key and try again.';
+    errorMsg.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = 'Run Equity Audit';
+  }
+}
+
+function renderResults(result) {
+  const banner = document.getElementById('detectionBanner');
+  const typeMap = {
+    job_description: { cls: 'jd', icon: '📄', label: 'Job Description detected' },
+    job_posting: { cls: 'posting', icon: '📢', label: 'Job Posting detected' },
+    mixed: { cls: 'mixed', icon: '🔀', label: 'Mixed document detected' },
+    unclear: { cls: 'mixed', icon: '❓', label: 'Document type unclear' }
+  };
+  const typeInfo = typeMap[result.documentType] || typeMap.unclear;
+  banner.className = 'detection-banner ' + typeInfo.cls;
+  banner.innerHTML = typeInfo.icon + ' <span>' + typeInfo.label + ' — ' + (result.documentTypeMessage || '') + '</span>';
+
+  document.getElementById('scoreNum').textContent = result.score;
+  document.getElementById('scoreTitle').textContent = result.scoreTitle;
+  document.getElementById('scoreDesc').textContent = result.scoreDesc;
+
+  const container = document.getElementById('auditSections');
+  container.innerHTML = '';
+
+  const sectionOrder = ['inclusiveLanguage', 'fontAccessibility', 'screenReader', 'structuralEquity'];
+  const sectionMeta = {
+    inclusiveLanguage: { icon: '🗣️' },
+    fontAccessibility: { icon: '👁️' },
+    screenReader: { icon: '♿' },
+    structuralEquity: { icon: '⚖️' }
+  };
+
+  sectionOrder.forEach((key, idx) => {
+    const sec = result.sections[key];
+    if (!sec) return;
+    const items = sec.items || [];
+    const flagCount = items.filter(i => i.severity === 'flag').length;
+    const warnCount = items.filter(i => i.severity === 'warn').length;
+    const countLabel = flagCount > 0 ? flagCount + ' flag' + (flagCount > 1 ? 's' : '') : warnCount > 0 ? warnCount + ' note' + (warnCount > 1 ? 's' : '') : 'Good';
+    const countClass = flagCount > 0 ? 'flag' : warnCount > 0 ? 'warn' : 'good';
+    const meta = sectionMeta[key];
+
+    const div = document.createElement('div');
+    div.className = 'audit-section';
+
+    const itemsHTML = items.map(item => `
+      <div class="change-item ${item.severity || 'warn'}">
+        <span class="change-icon" aria-hidden="true">${item.icon || '•'}</span>
+        <div class="change-content">
+          <strong>${item.title || ''}</strong>
+          ${item.explanation || ''}
+          ${(item.before && item.after) ? `
+          <div class="before-after">
+            <div class="ba-box ba-before"><div class="ba-label">Before</div>${item.before}</div>
+            <div class="ba-box ba-after"><div class="ba-label">After</div>${item.after}</div>
+          </div>` : ''}
+          ${item.citation ? `<div class="citation">${item.citation}</div>` : ''}
+        </div>
+      </div>`).join('');
+
+    div.innerHTML = `
+      <div class="section-header" onclick="toggleSection(this)" role="button" tabindex="0" aria-expanded="${idx === 0}">
+        <div class="section-icon" aria-hidden="true">${meta.icon}</div>
+        <span class="section-title">${sec.title}</span>
+        <span class="section-count ${countClass}" aria-label="${countLabel}">${countLabel}</span>
+        <em class="chevron ${idx === 0 ? 'open' : ''}" aria-hidden="true">▾</em>
+      </div>
+      <div class="section-body ${idx === 0 ? 'open' : ''}">
+        ${itemsHTML || '<p style="padding:12px;color:#999;font-size:0.9rem;">No issues found in this category.</p>'}
+      </div>`;
+
+    div.querySelector('.section-header').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+    });
+
+    container.appendChild(div);
+  });
+
+  renderRequiredFields('jd-required', result.jobDescription?.requiredFields || []);
+  renderRequiredFields('posting-required', result.jobPosting?.requiredFields || []);
+  document.getElementById('jdOutput').textContent = result.jobDescription?.document || '';
+  document.getElementById('postingOutput').textContent = result.jobPosting?.document || '';
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderRequiredFields(containerId, fields) {
+  const container = document.getElementById(containerId);
+  if (!fields || fields.length === 0) { container.style.display = 'none'; return; }
+  container.style.display = 'block';
+  container.innerHTML = `<h4>⚠️ Required Fields — Complete Before Using</h4>
+    <ul class="required-list">${fields.map(f => `<li><span class="req-icon" aria-hidden="true">□</span><span>${f}</span></li>`).join('')}</ul>`;
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.output-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+  document.querySelectorAll('.output-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+  header.setAttribute('aria-expanded', String(!isOpen));
+}
+
+function copyDoc(type) {
+  const text = document.getElementById(type === 'jd' ? 'jdOutput' : 'postingOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('#panel-' + type + ' .copy-btn');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function copyChecklist() {
+  const checklist = `PARITY HR — ACCESSIBILITY PUBLISHING CHECKLIST
+
+FONT AND VISUAL
+[ ] Use Roboto, Arial, or Calibri — minimum 12pt for JDs, 14pt for postings
+[ ] Color contrast 4.5 to 1 minimum (WCAG 2.1 AA)
+[ ] No ALL CAPS text blocks, excessive italics, or decorative fonts
+[ ] Color is not the only way meaning is conveyed
+
+SCREEN READER COMPATIBILITY
+[ ] All acronyms spelled out on first use
+[ ] No em dashes, ampersands, or symbols in place of words
+[ ] All sentences under 25 words
+[ ] Clear section headers in logical reading order
+[ ] Plain text version available on request
+
+APPLICATION PROCESS
+[ ] ATS portal is WCAG 2.1 AA compliant
+[ ] Alternative application method offered — email or phone
+[ ] Accommodation request process stated in the posting
+[ ] Posting tested with NVDA or VoiceOver before publishing
+
+REQUIRED FIELDS
+[ ] All [REQUIRED] placeholders completed before posting
+[ ] Pay range reviewed and approved
+[ ] Accommodation contact email confirmed active
+[ ] Application deadline confirmed with hiring manager
+
+Generated by Parity HR — chooseparity.com
+Founded by Vanessa Martinez, SPHR, DEI Certified`;
+
+  navigator.clipboard.writeText(checklist).then(() => {
+    const btns = document.querySelectorAll('#panel-posting .copy-btn');
+    if (btns[1]) { btns[1].textContent = '✓ Copied!'; setTimeout(() => btns[1].textContent = '📋 Copy Accessibility Checklist', 2000); }
+  });
+}
+</script>
+</body>
+</html>
