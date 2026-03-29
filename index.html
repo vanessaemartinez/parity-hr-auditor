@@ -42,11 +42,11 @@
   .logo-area {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 0;
   }
 
   .logo-mark {
-    height: 48px;
+    height: 52px;
     width: auto;
     flex-shrink: 0;
     display: block;
@@ -396,12 +396,24 @@
   .ba-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.65; }
 
   .citation {
-    margin-top: 8px; font-size: 0.8rem;
-    color: var(--teal); font-style: italic;
-    border-left: 3px solid var(--teal); padding-left: 10px;
+    margin-top: 10px; font-size: 0.85rem;
+    color: #1a5050;
+    border-left: 3px solid var(--teal); padding-left: 12px;
+    line-height: 1.6;
+    background: #f0f8f8;
+    padding: 10px 12px;
+    border-radius: 0 6px 6px 0;
   }
 
-  .citation::before { content: '📚 '; font-style: normal; }
+  .citation-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
 
   /* OUTPUT TABS */
   .output-tabs {
@@ -794,7 +806,7 @@ function renderResults(result) {
             <div class="ba-box ba-before"><div class="ba-label">Before</div>${item.before}</div>
             <div class="ba-box ba-after"><div class="ba-label">After</div>${item.after}</div>
           </div>` : ''}
-          ${item.citation ? `<div class="citation">${item.citation}</div>` : ''}
+          ${item.citation ? `<div class="citation"><span class="citation-label">📚 Why we flag this</span>${item.citation}</div>` : ''}
         </div>
       </div>`).join('');
 
