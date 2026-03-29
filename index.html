@@ -214,62 +214,7 @@
 
   .card-body { padding: 28px; }
 
-  /* API KEY BOX */
-  .api-setup {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 22px 28px;
-    margin-bottom: 28px;
-    border: 2px solid var(--gold);
-    box-shadow: 0 3px 24px rgba(0,44,73,0.06);
-  }
 
-  .api-setup h3 {
-    font-family: Arial, sans-serif;
-    color: var(--navy);
-    margin-bottom: 6px;
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
-  .api-setup p {
-    font-size: 0.85rem;
-    color: var(--slate);
-    margin-bottom: 14px;
-    line-height: 1.5;
-  }
-
-  .api-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-
-  .api-input {
-    flex: 1; min-width: 260px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    padding: 11px 16px;
-    font-family: Arial, sans-serif;
-    font-size: 1rem;
-    color: var(--navy);
-    background: var(--off-white);
-    transition: border-color 0.2s;
-  }
-
-  .api-input:focus { outline: none; border-color: var(--navy); background: white; }
-  .api-input::placeholder { color: #aaa; }
-
-  .api-save-btn {
-    background: var(--navy); color: var(--gold); border: none;
-    border-radius: 8px; padding: 11px 22px;
-    font-family: Arial, sans-serif;
-    font-size: 1rem; font-weight: 700;
-    cursor: pointer; white-space: nowrap;
-    transition: background 0.2s;
-  }
-
-  .api-save-btn:hover { background: #001e33; }
-
-  .api-status { font-size: 0.85rem; margin-top: 8px; font-weight: 500; }
-  .api-status.saved { color: var(--sage); }
-  .api-status.missing { color: var(--coral); }
 
   /* TEXTAREA */
   textarea {
@@ -598,15 +543,7 @@
 
 <div class="main">
 
-  <div class="api-setup" role="region" aria-label="API Key Setup">
-    <h3>🔑 Enter Your Anthropic API Key</h3>
-    <p>Your key is stored only in your browser session — never saved or shared. Get yours at <strong>console.anthropic.com</strong>. Each audit costs approximately $0.01–0.03 in API credits.</p>
-    <div class="api-row">
-      <input type="password" class="api-input" id="apiKey" aria-label="Anthropic API Key" placeholder="sk-ant-api03-..." />
-      <button class="api-save-btn" onclick="saveKey()">Save Key</button>
-    </div>
-    <div class="api-status missing" id="apiStatus" role="status">No API key entered yet.</div>
-  </div>
+
 
   <div class="card">
     <div class="card-header">
@@ -694,21 +631,6 @@
 </footer>
 
 <script>
-let storedKey = '';
-
-function saveKey() {
-  const key = document.getElementById('apiKey').value.trim();
-  const status = document.getElementById('apiStatus');
-  if (!key || key.length < 20) {
-    status.textContent = 'That does not look like a valid API key. It should start with sk-ant-';
-    status.className = 'api-status missing';
-    return;
-  }
-  storedKey = key;
-  status.textContent = '✓ API key saved for this session. You are ready to run audits.';
-  status.className = 'api-status saved';
-}
-
 function updateCounter() {
   const input = document.getElementById('jdInput');
   const counter = document.getElementById('charCounter');
@@ -728,13 +650,7 @@ async function runAudit() {
   const errorMsg = document.getElementById('errorMsg');
   errorMsg.style.display = 'none';
 
-  if (!storedKey) {
-    errorMsg.textContent = 'Please enter and save your API key above before running an audit.';
-    errorMsg.style.display = 'block';
-    return;
-  }
-
-  if (!input || input.length < 50) {
+if (!input || input.length < 50) {
     errorMsg.textContent = 'Please paste a job description or posting before running the audit.';
     errorMsg.style.display = 'block';
     return;
@@ -799,10 +715,10 @@ DOCUMENT TO AUDIT:
 ${input}`;
 
   try {
-    const response = await fetch('/.netlify/functions/audit', {
+    const response = await fetch('/functions/audit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ apiKey: storedKey, prompt: prompt })
+      body: JSON.stringify({ prompt: prompt })
     });
 
     if (!response.ok) {
@@ -980,10 +896,6 @@ Founded by Vanessa Martinez, SPHR, DEI Certified`;
     if (btns[1]) { btns[1].textContent = '✓ Copied!'; setTimeout(() => btns[1].textContent = '📋 Copy Accessibility Checklist', 2000); }
   });
 }
-  // Show logo text fallback if image fails
-  document.querySelector('.logo-mark').addEventListener('error', function() {
-    document.getElementById('logo-fallback').style.display = 'block';
-  });
 </script>
 </body>
 </html>
