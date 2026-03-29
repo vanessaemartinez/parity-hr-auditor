@@ -726,10 +726,16 @@ ${input}`;
       throw new Error(err.error || 'API error ' + response.status);
     }
 
-    const data = await response.json();
-    const text = data.content.map(i => i.text || '').join('').trim();
-    const clean = text.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim();
-    const result = JSON.parse(clean);
+  const responseText = await response.text();
+let data;
+try {
+  data = JSON.parse(responseText);
+} catch(e) {
+  throw new Error('Response parse failed: ' + responseText.substring(0, 200));
+}
+const text = data.content.map(i => i.text || '').join('').trim();
+const clean = text.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim();
+const result = JSON.parse(clean);
 
     renderResults(result);
 
