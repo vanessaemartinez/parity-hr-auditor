@@ -721,17 +721,17 @@ ${input}`;
       body: JSON.stringify({ input: input })
     });
 
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error || 'API error ' + response.status);
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
     }
 
-    const data = await response.json();
-    const text = renderResults(result);(i => i.text || '').join('').trim();
-    const clean = text.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim();
-    const result = JSON.parse(clean);
+    if (!response.ok) {
+      throw new Error('API error ' + response.status);
+    }
 
-    renderResults(result);
+    renderResults(data);
 
   } catch(err) {
     errorMsg.textContent = 'Something went wrong: ' + err.message + '. Please check your API key and try again.';
