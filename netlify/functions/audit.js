@@ -36,7 +36,7 @@ exports.handler = async function(event) {
   }
 
   const requestBody = JSON.stringify({
-   model: 'claude-3-5-haiku-20241022',
+model: 'claude-3-sonnet-20240229',
     max_tokens: 4000,
     messages: [{ role: 'user', content: prompt }]
   });
