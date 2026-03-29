@@ -718,7 +718,7 @@ ${input}`;
     const response = await fetch('/api/audit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: prompt })
+      body: JSON.stringify({ input: input })
     });
 
     if (!response.ok) {
