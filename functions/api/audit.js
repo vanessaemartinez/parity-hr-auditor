@@ -30,7 +30,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }]
+        messages: [{ role: 'user', content: 'Say hello in exactly 5 words.' }]
       })
     });
 
