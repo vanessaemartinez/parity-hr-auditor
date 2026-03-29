@@ -727,7 +727,7 @@ ${input}`;
     }
 
     const data = await response.json();
-    const text = data.content.map(i => i.text || '').join('').trim();
+    const text = renderResults(result);(i => i.text || '').join('').trim();
     const clean = text.replace(/^```json?\s*/i, '').replace(/```\s*$/i, '').trim();
     const result = JSON.parse(clean);
 
