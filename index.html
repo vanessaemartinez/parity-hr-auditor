@@ -21,7 +21,9 @@
   body { font-family: Arial, sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; font-size: 18px; line-height: 1.7; }
   header { background: var(--navy); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
   .logo-area { display: flex; align-items: center; }
-  .logo-mark { height: 90px; width: auto; flex-shrink: 0; display: block; }
+  .logo-wordmark { display: flex; align-items: baseline; gap: 0; line-height: 1; }
+  .logo-parity { font-family: Arial, sans-serif; font-weight: 700; font-size: 2rem; letter-spacing: 0.12em; color: var(--white); }
+  .logo-hr { font-family: Arial, sans-serif; font-weight: 700; font-size: 2rem; letter-spacing: 0.08em; color: var(--gold); margin-left: 6px; }
   .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--gold); }
   .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; }
   .hero { background: var(--navy); padding: 52px 40px 80px; position: relative; overflow: hidden; }
@@ -172,10 +174,11 @@
 
 <header>
   <div class="logo-area">
-    <img src="/Parity-HR-All-Yellow.png" alt="Parity HR" class="logo-mark" onerror="this.style.display='none'" />
-    <span class="logo-text" id="logo-fallback" style="display:none">PARITY HR</span>
+    <div class="logo-wordmark">
+      <span class="logo-parity">PARITY</span><span class="logo-hr">HR</span>
+    </div>
   </div>
-  <div class="tagline">JD and Job Posting Equity Auditor</div>
+  <div class="tagline">JD &amp; Job Posting Equity Auditor</div>
 </header>
 
 <div class="a11y-bar" role="note" aria-label="Accessibility information">
@@ -322,11 +325,11 @@
       <div class="output-panel" id="panel-posting" role="tabpanel">
         <div class="doc-output-intro">
           <h3>📢 This is your external Job Posting</h3>
-          <p>A Job Posting is what candidates see. It is shorter, warmer, and written directly to the person applying. This is what you publish on your careers page, LinkedIn, Indeed, and other job boards. It is a different document from the Job Description above — do not file this one internally.</p>
+          <p>A Job Posting is what candidates see. It is shorter, warmer, and written directly to the person applying. This is what you publish on your careers page, LinkedIn, Indeed, and other job boards. It is a different document from your internal Job Description, and it should be stored separately — not in the same place as your HR records.</p>
           <div class="doc-steps">
             <div class="doc-step"><div class="doc-step-num">1</div><span>Fill in every <strong>[MISSING — DATA REQUIRED]</strong> field — especially salary range, location, and how to apply.</span></div>
             <div class="doc-step"><div class="doc-step-num">2</div><span>Read it aloud before posting. If it sounds stiff or confusing, simplify it.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Post to your careers page first, then to job boards. Test that your application link works on a phone.</span></div>
+            <div class="doc-step"><div class="doc-step-num">3</div><span>Save a copy in a dedicated Job Postings folder — separate from your HR records. Every time you repost this role, open the saved version, review it for any changes, and update it before publishing. If any changes affect what the role actually requires, update the Job Description too so both documents stay consistent.</span></div>
           </div>
         </div>
         <div class="required-fields" id="posting-required" style="display:none"></div>
