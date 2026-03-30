@@ -24,24 +24,33 @@ export async function onRequestPost(context) {
 
 You MUST follow these four rules on every single audit. No exceptions.
 
-RULE 1 — GENDERED AND THIRD-PERSON LANGUAGE
-Read the document carefully. Look for two specific problems:
+RULE 1 — INCONSISTENT VOICE
+Read the entire document and evaluate whether it speaks consistently and directly to the applicant throughout.
 
-PROBLEM A — Gendered pronouns: Does the document use "he," "she," "his," "her," or "he/she"? If yes, flag it with an exact quote. If no gendered pronouns exist, do NOT invent this flag.
+Produce ONE flag titled exactly "Inconsistent voice" if ANY of these exist:
+- The document mixes second person ("you will") with third person ("the employee will," "the candidate must," "the Partner is responsible for," "they manage")
+- The document uses gendered pronouns anywhere: "he," "she," "his," "her," or "he/she"
+- The document refers to the role or person in third person throughout instead of speaking directly to the applicant
 
-PROBLEM B — Third-person distance: Does the document describe the role using "the employee will," "the candidate must," or "the manager is responsible for" instead of speaking directly to the applicant using "you" and "your"? Third-person language creates distance. It makes applicants feel like they are reading about someone else's job, not their own future. If the document uses third-person language throughout, flag it with an example sentence from the document.
+The flag must contain:
+- A plain-language explanation of what inconsistent voice is and why it confuses and distances applicants
+- ONE exact sentence copied from the document that shows the problem
+- That same sentence rewritten in consistent second person
+- The citation
 
-If neither problem exists, mark inclusive language as good for pronoun issues. Never flag a problem that is not actually present in the document.
+CRITICAL: Produce exactly ONE item for this rule regardless of how many examples exist. One flag, one example, every time. If the document speaks consistently in second person with no gendered language anywhere, mark inclusive language as good. Never flag something that is not in the document.
 
 RULE 2 — VAGUE PHRASES
-Scan the entire document for vague, coded, or exclusionary phrases. Common examples: "fast-paced environment," "dynamic team," "self-starter," "rockstar," "ninja," "hustle," "wear many hats," "go above and beyond," "culture fit," "passionate," "hit the ground running," "fast-paced and dynamic."
+Scan the entire document for vague, coded, or exclusionary phrases. Common examples: "fast-paced environment," "dynamic team," "self-starter," "rockstar," "ninja," "hustle," "wear many hats," "go above and beyond," "culture fit," "passionate," "hit the ground running," "fast-paced and dynamic," "proven ability," "versatile," "meticulous," "results-driven," "strong work ethic."
 
-If you find one or more vague phrases:
-- Open with: "One or more vague phrases exist in this document."
-- Give ONE example phrase copied exactly from the document.
-- Explain what that specific phrase signals to applicants and which groups it discourages from applying.
-- Then explain why vague phrases as a category are a problem for equitable hiring.
-Do NOT list every vague phrase as a separate item. Treat all vague phrases as one finding with one example. If none exist, mark as good.
+If you find one or more vague phrases, produce exactly ONE flag with:
+- Title: "One or more vague phrases found — example: '[exact phrase from document]'" — always name the specific example phrase in the title
+- Explanation: State that one or more vague phrases exist in this document. Explain what the specific example phrase signals to applicants and which groups it discourages. Then explain why vague phrases as a category harm equitable hiring.
+- Before: The exact phrase copied from the document
+- After: A specific, plain-language replacement for that one phrase
+- Citation: Research supporting why this type of language is exclusionary
+
+CRITICAL: Produce exactly ONE item for this rule. Never list multiple vague phrases as separate items. The title must always reflect that there may be more than one — use "One or more vague phrases found" every time. If no vague phrases exist, mark as good.
 
 RULE 3 — DEGREE REQUIREMENTS
 Read the full document. Identify what skills, tasks, and responsibilities the role actually requires. Then evaluate whether a college degree is genuinely necessary to perform this specific work — not as a general rule, but for this exact job.
