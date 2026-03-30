@@ -21,12 +21,12 @@
   body { font-family: Arial, sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; font-size: 18px; line-height: 1.7; }
   header { background: var(--navy); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
   .logo-area { display: flex; align-items: center; }
-  .logo-mark { height: 52px; width: auto; flex-shrink: 0; display: block; }
+  .logo-mark { height: 90px; width: auto; flex-shrink: 0; display: block; }
   .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--gold); }
   .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; }
   .hero { background: var(--navy); padding: 52px 40px 80px; position: relative; overflow: hidden; }
   .hero::before { content:''; position:absolute; top:0; right:0; width:400px; height:100%; background:radial-gradient(ellipse at top right, rgba(249,195,7,0.08) 0%, transparent 70%); pointer-events:none; }
-  .hero::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:52px; background:var(--off-white); clip-path:ellipse(55% 100% at 50% 100%); }
+  .hero::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:90px; background:var(--off-white); clip-path:ellipse(55% 100% at 50% 100%); }
   .hero h1 { font-size: clamp(1.9rem,4.5vw,2.9rem); color:var(--white); line-height:1.2; max-width:660px; font-weight:700; }
   .hero h1 em { color:var(--gold); font-style:normal; }
   .hero p { color:rgba(255,255,255,0.78); margin-top:18px; font-size:1.05rem; max-width:560px; line-height:1.7; font-weight:300; }
@@ -528,15 +528,18 @@ function drawDonut(catScores) {
 function renderLegend(catScores) {
   const container = document.getElementById('chartLegend');
   container.innerHTML = '';
+  const statusColors = { 'Flagged': '#c0392b', 'Warning': '#d4820a', 'Good': '#5a8a6a' };
   CAT_ORDER.forEach(key => {
-    const pct = Math.round(((catScores[key]||0) / 25) * 100);
+    const score = catScores[key] || 0;
+    const status = score >= 20 ? 'Good' : score >= 12 ? 'Warning' : 'Flagged';
+    const dotColor = statusColors[status];
     const item = document.createElement('div');
     item.className = 'legend-item';
     item.setAttribute('role','listitem');
     item.innerHTML = `
-      <span class="legend-dot" style="background:${CAT_COLORS[key]}" aria-hidden="true"></span>
+      <span class="legend-dot" style="background:${dotColor}" aria-hidden="true"></span>
       <span>${CAT_LABELS[key]}</span>
-      <span class="legend-score">${pct}%</span>`;
+      <span class="legend-score" style="color:${dotColor}">${status}</span>`;
     container.appendChild(item);
   });
 }
