@@ -237,7 +237,7 @@
       class="code-input"
       id="codeInput"
       placeholder="e.g. EQS-ABCD-1234"
-      maxlength="12"
+      maxlength="13"
       autocomplete="off"
       spellcheck="false"
       aria-label="Access code"
@@ -739,11 +739,11 @@ document.addEventListener('DOMContentLoaded', function() {
       let val = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
       if (val.length > 3) val = val.slice(0,3) + '-' + val.slice(3);
       if (val.length > 8) val = val.slice(0,8) + '-' + val.slice(8);
-      this.value = val.slice(0,12);
+      this.value = val.slice(0,13);
     });
   }
 });
 
 </script>
 </body>
-</html> 
+</html>
