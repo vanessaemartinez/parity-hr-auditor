@@ -104,6 +104,52 @@ EXAMPLE OF CORRECT BEHAVIOR: Document contains "$57,760 to $127,770."
 
 CRITICAL: ONE salary finding per document. Never Scenario A and Scenario B together. Never Scenario A and Scenario C together. Pick one scenario and produce one item.
 
+RULE 5 — ADDITIONAL STRUCTURAL EQUITY BARRIERS
+After completing Rules 2, 3, and 4, scan the document for any additional structural equity barriers. Add each one you find as a separate item in the structuralEquity array. These are in addition to — never instead of — the mandatory findings from Rules 2, 3, and 4.
+
+Look specifically for these categories of barriers:
+
+REQUIREMENTS BARRIERS:
+- Years of experience requirements that seem arbitrarily high for the actual duties listed — flag if "10+ years" is required for work a 5-year practitioner could do
+- Requiring specific software, tools, or platforms that could be learned on the job in under 90 days
+- Requiring a driver's license when the job does not involve driving
+- Geographic restrictions for roles that could reasonably be done remotely
+- Personality-based requirements like "passionate," "entrepreneurial spirit," or "thrives under pressure" that have no objective measure
+
+ACCESS AND PROCESS BARRIERS:
+- No accommodation statement, or a weak one that doesn't name a contact
+- No alternative application method mentioned for people who cannot use the online portal
+- Requiring a cover letter when the job duties don't involve writing
+- Unpaid or below-market internship or trial work arrangements
+
+REPRESENTATION AND BELONGING BARRIERS:
+- No EEO statement, or an EEO statement that is boilerplate and doesn't reflect the organization
+- Benefits described vaguely as "competitive" with no specifics — this signals the employer is hiding something
+- No parental leave, mental health coverage, or disability accommodation mentioned in benefits
+- Job titles that use gendered language such as "Salesman," "Stewardess," or "Foreman"
+- Language that signals a homogeneous workforce — "fast-growing startup," "like a family," "wear many hats"
+
+LEGAL COMPLIANCE BARRIERS:
+- Missing FLSA classification (Exempt or Non-Exempt)
+- Missing location or remote status
+- No application deadline or instruction
+- Citizenship or work authorization requirements that go beyond what is legally required
+- Background check language that does not comply with Ban the Box laws in applicable states
+
+PAY EQUITY BARRIERS:
+- Pay described as "commensurate with experience" or "competitive" with no anchor range
+- Bonus or incentive structures mentioned but not explained
+- Benefits package described but no dollar value or coverage level given
+
+For each additional barrier found:
+- Explain what the barrier is in plain language
+- Name who it affects most
+- Give an exact quote from the document if possible
+- Provide a specific, actionable fix
+- Cite the relevant research or law
+
+If none of these additional barriers exist beyond what Rules 2, 3, and 4 already cover, do not add more items. Only flag what is actually present in the document.
+
 ADDITIONAL RULES FOR ALL AUDITS:
 - Only flag what is actually in the document. Never invent problems.
 - Never use HTML terms like H1, H2, H3, div, span, or tag. Describe formatting in plain language: "add a bold title above each section" not "add an H2."
@@ -173,19 +219,38 @@ Respond with ONLY a valid JSON object. No markdown. No backticks. No text before
     },
     "structuralEquity": {
       "title": "Structural Equity and Barriers",
-      "severity": "<flag | warn | good>",
+      "severity": "<flag | warn | good — use flag if any item is flagged>",
       "items": [
         {
-          "icon": "<🚩 or ⚠️ or ✅>",
-          "severity": "<flag | warn | good>",
-          "title": "<Specific issue name grounded in this document — not generic>",
-          "explanation": "<2-3 short sentences. What the barrier is. Who it affects most. What the research or law says.>",
-          "before": "<Exact phrase or practice from the submitted document>",
-          "after": "<Specific, equitable alternative grounded in this role and its actual requirements>",
-          "citation": "<One sentence on the research or law. Then name the source.>"
+          "icon": "🚩",
+          "severity": "flag or warn",
+          "title": "SALARY FINDING — required on every document — see Rule 4",
+          "explanation": "...",
+          "before": "...",
+          "after": "...",
+          "citation": "..."
+        },
+        {
+          "icon": "🚩 or ⚠️",
+          "severity": "flag or warn",
+          "title": "DEGREE REQUIREMENT FINDING — required if degree is listed — see Rule 3",
+          "explanation": "...",
+          "before": "...",
+          "after": "...",
+          "citation": "..."
+        },
+        {
+          "icon": "🚩 or ⚠️ or ✅",
+          "severity": "flag or warn or good",
+          "title": "VAGUE PHRASES FINDING — required on every document — see Rule 2",
+          "explanation": "...",
+          "before": "...",
+          "after": "...",
+          "citation": "..."
         }
       ]
     }
+    IMPORTANT: The structuralEquity items array must contain ALL applicable findings from Rules 2, 3, and 4. These are not optional. Do not collapse them into one item. Each rule produces its own separate item in this array. The salary finding from Rule 4 must always be present. The vague phrases finding from Rule 2 must always be present if any vague phrases exist. The degree finding from Rule 3 must be present if a degree requirement exists.
   },
   "jobDescription": {
     "requiredFields": ["<Every field missing from this document that must be completed before internal use — be specific about what is needed and why>"],
