@@ -71,9 +71,9 @@ Use this exact structure:
           "icon": "<🚩 or ⚠️ or ✅>",
           "severity": "<flag | warn | good>",
           "title": "<Short issue name>",
-          "explanation": "<2-3 short sentences. Explain what a screen reader is if needed. Say what the problem is. Say who is affected.>",
+          "explanation": "<2-3 short sentences. Explain what a screen reader is if needed. Say what the problem is. Say who is affected. Never use HTML tag names like H2 or H3 — describe changes in plain language instead, such as 'add a bold section label' or 'use a clear title for each section'.>",
           "before": "<current state>",
-          "after": "<improved version>",
+          "after": "<Plain-language fix. Describe what to change in words a non-technical person understands. Do not use HTML terms like H1, H2, H3, div, or tag. Say things like: add a bold title above each section, or use a simple bulleted list instead of a paragraph.>",
           "citation": "<Explain in one sentence what screen readers do and who uses them. Then name the source. Example: Screen readers read text aloud for people who are blind or have low vision. Source: Section 508 of the Rehabilitation Act of 1973.>"
         }
       ]
