@@ -96,11 +96,11 @@ Use this exact structure:
   },
   "jobDescription": {
     "requiredFields": ["<List every field that is missing and must be completed before use>"],
-    "document": "<A complete, professional internal Job Description. Include ALL of these sections with real content based on what was submitted. Fill in what you can. Mark gaps as [MISSING — DATA REQUIRED: description of what is needed].\n\nJOB DESCRIPTION\n\nPOSITION TITLE: [title]\nDEPARTMENT: [department or REQUIRED]\nREPORTS TO: [supervisor title or REQUIRED]\nFLSA STATUS: [Exempt or Non-Exempt or REQUIRED]\nPAY BAND: [MISSING — DATA MISSING — DATA REQUIRED: Insert approved salary range before filing]\nLOCATION: [MISSING — DATA REQUIRED]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it supports the organization]\n\nESSENTIAL FUNCTIONS\n1. [Key responsibility]\n2. [Key responsibility]\n3. [Key responsibility]\n4. [Key responsibility]\n5. [Key responsibility]\n\nMINIMUM QUALIFICATIONS\n[List education, experience, and skills required]\n\nPREFERRED QUALIFICATIONS\n[List additional qualifications that are helpful but not required]\n\nCOMPETENCIES\n[List 3-5 core competencies for this role]\n\nWORKING CONDITIONS\n[Describe physical requirements, schedule, travel, or remote options]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA MISSING — DATA REQUIRED: Insert HR contact email].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by law.>"
+    "document": "<A complete, professional internal Job Description. Include ALL of these sections with real content based on what was submitted. Fill in what you can. Mark gaps as [MISSING — DATA REQUIRED: description of what is needed].\n\nJOB DESCRIPTION\n\nPOSITION TITLE: [title]\nDEPARTMENT: [department or REQUIRED]\nREPORTS TO: [supervisor title or REQUIRED]\nFLSA STATUS: [Exempt or Non-Exempt or REQUIRED]\nPAY BAND: [MISSING — DATA REQUIRED: Insert approved salary range before filing]\nLOCATION: [MISSING — DATA REQUIRED]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it supports the organization]\n\nESSENTIAL FUNCTIONS\n1. [Key responsibility]\n2. [Key responsibility]\n3. [Key responsibility]\n4. [Key responsibility]\n5. [Key responsibility]\n\nMINIMUM QUALIFICATIONS\n[List education, experience, and skills required]\n\nPREFERRED QUALIFICATIONS\n[List additional qualifications that are helpful but not required]\n\nCOMPETENCIES\n[List 3-5 core competencies for this role]\n\nWORKING CONDITIONS\n[Describe physical requirements, schedule, travel, or remote options]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: Insert HR contact email].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by law.>"
   },
   "jobPosting": {
     "requiredFields": ["<List every field that must be completed before posting externally>"],
-    "document": "<A complete, warm, candidate-facing Job Posting. Write in second person. Use plain language. Include ALL sections.\n\nJOB POSTING\n\n[Position Title]\n[Organization Name or REQUIRED]\n[Location and Remote/Hybrid/On-site status or REQUIRED]\n[Salary Range: MISSING — DATA REQUIRED — Pay transparency builds trust and widens your applicant pool]\n\nABOUT THE ROLE\n[3-4 sentences. Describe what the person will do. Say why this role matters. Use welcoming, inclusive language.]\n\nWHAT YOU WILL DO\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n\nWHAT WE ARE LOOKING FOR\n[List required qualifications. Separate required from preferred. Avoid unnecessary degree requirements.]\n\nWHAT WE OFFER\n[MISSING — DATA MISSING — DATA REQUIRED: List salary range, benefits, PTO, remote options, and other perks]\n\nOUR COMMITMENT TO BELONGING\n[2-3 sentences. Say who is welcome to apply. Include a genuine belonging statement.]\n\nHOW TO APPLY\n[Clear instructions. Include deadline if known. State that accommodations are available.]\n\nACCOMMODATION NOTICE\nWe are committed to providing an accessible application process. If you need an accommodation to apply or interview, please contact [MISSING — DATA MISSING — DATA REQUIRED: Insert HR contact email] before the application deadline.>"
+    "document": "<A complete, warm, candidate-facing Job Posting. Write in second person. Use plain language. Include ALL sections.\n\nJOB POSTING\n\n[Position Title]\n[Organization Name or REQUIRED]\n[Location and Remote/Hybrid/On-site status or REQUIRED]\n[Salary Range: MISSING — DATA REQUIRED — Pay transparency builds trust and widens your applicant pool]\n\nABOUT THE ROLE\n[3-4 sentences. Describe what the person will do. Say why this role matters. Use welcoming, inclusive language.]\n\nWHAT YOU WILL DO\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n- [Key responsibility in plain language]\n\nWHAT WE ARE LOOKING FOR\n[List required qualifications. Separate required from preferred. Avoid unnecessary degree requirements.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: List salary range, benefits, PTO, remote options, and other perks]\n\nOUR COMMITMENT TO BELONGING\n[2-3 sentences. Say who is welcome to apply. Include a genuine belonging statement.]\n\nHOW TO APPLY\n[Clear instructions. Include deadline if known. State that accommodations are available.]\n\nACCOMMODATION NOTICE\nWe are committed to providing an accessible application process. If you need an accommodation to apply or interview, please contact [MISSING — DATA REQUIRED: Insert HR contact email] before the application deadline.>"
   }
 }
 
@@ -116,7 +116,7 @@ ${input}`;
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4096,
+        max_tokens: 8000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -131,11 +131,24 @@ ${input}`;
     }
 
     const text = data.content[0].text || '';
-    const clean = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
+
+    // Strip markdown fences if present (multiple possible formats)
+    const clean = text
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/```\s*$/i, '')
+      .trim();
+
+    // Find the first { and last } to extract JSON even if there's stray text
+    const firstBrace = clean.indexOf('{');
+    const lastBrace = clean.lastIndexOf('}');
+    const jsonString = (firstBrace !== -1 && lastBrace !== -1)
+      ? clean.substring(firstBrace, lastBrace + 1)
+      : clean;
 
     let result;
     try {
-      result = JSON.parse(clean);
+      result = JSON.parse(jsonString);
     } catch(e) {
       return new Response(
         JSON.stringify({ error: 'Parse error. Model returned: ' + clean.substring(0, 300) }),
