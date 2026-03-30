@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parity HR — JD and Job Posting Equity Auditor</title>
+<title>EquiDraft by Parity HR</title>
 <style>
   :root {
     --navy: #002c49;
@@ -21,9 +21,11 @@
   body { font-family: Arial, sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; font-size: 18px; line-height: 1.7; }
   header { background: var(--navy); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
   .logo-area { display: flex; align-items: center; }
-  .logo-wordmark { display: flex; align-items: baseline; gap: 0; line-height: 1; }
-  .logo-parity { font-family: Arial, sans-serif; font-weight: 700; font-size: 2rem; letter-spacing: 0.12em; color: var(--white); }
-  .logo-hr { font-family: Arial, sans-serif; font-weight: 700; font-size: 2rem; letter-spacing: 0.08em; color: var(--gold); margin-left: 6px; }
+  .logo-wordmark { display: flex; flex-direction: column; gap: 0; line-height: 1; }
+  .logo-name-row { display: flex; align-items: baseline; }
+  .logo-equi { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--white); }
+  .logo-draft { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--gold); }
+  .logo-byline { font-family: Arial, sans-serif; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 3px; }
   .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--gold); }
   .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; }
   .hero { background: var(--navy); padding: 52px 40px 80px; position: relative; overflow: hidden; }
@@ -175,19 +177,19 @@
 <header>
   <div class="logo-area">
     <div class="logo-wordmark">
-      <span class="logo-parity">PARITY</span><span class="logo-hr">HR</span>
+      <div class="logo-name-row"><span class="logo-equi">Equi</span><span class="logo-draft">Draft</span></div>
+      <span class="logo-byline">by Parity HR</span>
     </div>
   </div>
-  <div class="tagline">JD &amp; Job Posting Equity Auditor</div>
 </header>
 
 <div class="a11y-bar" role="note" aria-label="Accessibility information">
-  <strong>♿ Accessibility:</strong> This tool uses Arial (dyslexia-friendly), minimum 18pt body text, 4.5:1 color contrast, and full keyboard navigation. Screen reader compatible.
+  <strong>♿ Accessibility:</strong> EquiDraft uses Arial (dyslexia-friendly), minimum 18pt body text, 4.5:1 color contrast, and full keyboard navigation. Screen reader compatible.
 </div>
 
 <div class="hero" role="banner">
-  <h1>One input.<br><em>Two equity-centered outputs.</em></h1>
-  <p>Paste your job description, job posting, or any draft. We detect what you have, audit it for equity, and return both a complete internal Job Description and an external Job Posting — with every missing field clearly marked.</p>
+  <h1>The way you write a job posting<br>determines who applies.<br><em>We can help you get it right.</em></h1>
+  <p>Paste what you have. Get back two equity-centered documents — a complete internal Job Description and a polished external Job Posting — in under two minutes.</p>
   <div class="distinction-box">
     <div class="distinction">
       <h3>📄 Job Description</h3>
@@ -205,17 +207,17 @@
   <div class="card">
     <div class="card-header">
       <div class="step-badge" aria-hidden="true">1</div>
-      <h2>Paste whatever you have — JD, posting, or both</h2>
+      <h2>Paste whatever you have — a draft, an old posting, or just a job title</h2>
     </div>
     <div class="card-body">
       <textarea id="jdInput" aria-label="Job description or posting input" maxlength="12000"
         placeholder="Paste your job description, job posting, or any draft here. It does not have to be complete or perfect. We will detect what you have, audit it for equity, and return both documents with required fields flagged."
         oninput="updateCounter()"></textarea>
       <div class="char-counter" id="charCounter" aria-live="polite">0 / 8,000 characters recommended</div>
-      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters. Longer documents may take up to 30 seconds to process.</p>
+      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters. Plan for up to 10 minutes to review and complete both documents.</p>
       <div class="error-msg" id="errorMsg" role="alert"></div>
       <button class="btn" id="auditBtn" onclick="runAudit()">
-        <span id="btnText">Run Equity Audit</span>
+        <span id="btnText">Start My Draft</span>
         <div class="spinner" id="spinner" aria-hidden="true"></div>
       </button>
     </div>
@@ -349,8 +351,8 @@
 </div>
 
 <footer>
-  <strong>PARITY HR — JD and Job Posting Equity Auditor</strong>
-  Equity-centered fractional HR for nonprofits, ESOP companies, and mission-driven organizations.<br>
+  <strong>EquiDraft by Parity HR</strong>
+  Equity-centered document drafting for nonprofits, small businesses, and mission-driven organizations.<br>
   <a href="https://chooseparity.com" target="_blank" rel="noopener">chooseparity.com</a> &nbsp;·&nbsp; Founded by Vanessa Martinez, SPHR, DEI Certified &nbsp;·&nbsp; San Antonio, TX
 </footer>
 
@@ -391,7 +393,7 @@ async function runAudit() {
   const btnText = document.getElementById('btnText');
   btn.disabled = true;
   spinner.style.display = 'block';
-  btnText.textContent = 'Auditing — this may take up to 30 seconds...';
+  btnText.textContent = 'Working on your documents…';
   document.getElementById('results').classList.remove('visible');
   try {
     const response = await fetch('/api/audit', {
@@ -409,7 +411,7 @@ async function runAudit() {
   } finally {
     btn.disabled = false;
     spinner.style.display = 'none';
-    btnText.textContent = 'Run Equity Audit';
+    btnText.textContent = 'Start My Draft';
   }
 }
 
