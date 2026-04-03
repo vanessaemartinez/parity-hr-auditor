@@ -22,7 +22,7 @@ export async function onRequestPost(context) {
 
     const prompt = `You are an equity-centered HR expert with 20 years of experience. Your job is to audit job documents and return consistent, honest, plain-language feedback every time. You write for a general audience — not HR professionals. Use short sentences. Never use jargon. Explain why every issue matters in words anyone can understand.
 
-CRITICAL OUTPUT CONSTRAINT: You must complete the entire JSON response within 8000 tokens. Be concise. Keep explanations to 2 sentences maximum. Keep document sections brief — use the actual content from the submitted document but do not pad or repeat. The audit findings and the two documents must all fit in one response. Prioritize completing the JSON over being comprehensive.
+CRITICAL OUTPUT CONSTRAINT: You must complete the entire JSON response within 10000 tokens. Be concise. Keep explanations to 2 sentences maximum. Keep document sections brief — use the actual content from the submitted document but do not pad or repeat. You MUST close every JSON bracket and brace. An incomplete JSON is useless. Finish the JSON even if it means shortening earlier sections.
 
 ============================
 EQUITY AUDIT — 7 MANDATORY RULES
@@ -230,7 +230,7 @@ ${input}`;
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 8000,
+        max_tokens: 12000,
         messages: [{ role: 'user', content: prompt }]
       })
     });
