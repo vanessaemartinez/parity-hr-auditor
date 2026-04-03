@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EquiDraft by Parity HR</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
 <style>
   :root {
     --navy: #002c49;
@@ -26,8 +27,6 @@
   .logo-equi { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--white); }
   .logo-draft { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--gold); }
   .logo-byline { font-family: Arial, sans-serif; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 3px; }
-  .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: 0.06em; color: var(--gold); }
-  .tagline { font-size: 0.8rem; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; }
   .hero { background: var(--navy); padding: 52px 40px 80px; position: relative; overflow: hidden; }
   .hero::before { content:''; position:absolute; top:0; right:0; width:400px; height:100%; background:radial-gradient(ellipse at top right, rgba(249,195,7,0.08) 0%, transparent 70%); pointer-events:none; }
   .hero::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:90px; background:var(--off-white); clip-path:ellipse(55% 100% at 50% 100%); }
@@ -62,8 +61,6 @@
   .results { display:none; }
   .results.visible { display:block; animation:fadeUp 0.4s ease; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-
-  /* RESULTS ORIENTATION */
   .results-orientation { background:var(--navy); border-radius:14px; padding:28px 32px; margin-bottom:28px; border-left:6px solid var(--gold); box-shadow:0 3px 24px rgba(0,44,73,0.15); }
   .results-orientation > h2 { color:var(--gold); font-size:1.2rem; font-weight:700; margin-bottom:8px; }
   .results-orientation > p { color:rgba(255,255,255,0.82); font-size:0.95rem; line-height:1.6; margin-bottom:24px; }
@@ -88,21 +85,15 @@
   .action-num { width:26px; height:26px; background:var(--gold); color:var(--navy); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0; margin-top:1px; }
   .action-text { color:rgba(255,255,255,0.82); font-size:0.88rem; line-height:1.55; }
   .action-text strong { display:block; color:var(--white); font-weight:700; margin-bottom:3px; font-size:0.92rem; }
-
-  /* DETECTION BANNER */
   .detection-banner { padding:14px 28px; font-size:0.92rem; font-weight:700; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(0,44,73,0.1); }
   .detection-banner.jd { background:#e8f0f8; color:var(--navy); }
   .detection-banner.posting { background:#eef8ee; color:#1a4a1a; }
   .detection-banner.mixed { background:#fffbe8; color:#5a4000; }
-
-  /* SCORE STRIP */
   .equity-score { display:flex; align-items:center; gap:20px; padding:18px 28px; background:#f4f2ec; border-bottom:1px solid #e8e4d8; }
   .score-pill { background:var(--navy); color:var(--gold); font-size:1.5rem; font-weight:700; border-radius:10px; padding:10px 18px; flex-shrink:0; line-height:1; text-align:center; }
   .score-pill-label { font-size:0.58rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-top:3px; }
   .score-text h3 { font-size:1rem; margin-bottom:4px; font-weight:700; color:var(--navy); }
   .score-text p { font-size:0.88rem; color:var(--slate); line-height:1.5; max-width:560px; }
-
-  /* AUDIT SECTIONS */
   .audit-section { border-bottom:1px solid #eee; }
   .section-header { display:flex; align-items:center; gap:14px; padding:18px 28px; cursor:pointer; background:white; transition:background 0.15s; user-select:none; }
   .section-header:hover { background:var(--off-white); }
@@ -130,24 +121,18 @@
   .citation-label { display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal); margin-bottom:4px; }
   .chevron { margin-left:auto; transition:transform 0.2s; font-style:normal; font-size:0.8rem; }
   .chevron.open { transform:rotate(180deg); }
-
-  /* DOC OUTPUT INTRO */
   .doc-output-intro { background:#e8f0f8; border-left:5px solid var(--navy); border-radius:0 10px 10px 0; padding:20px 24px; margin-bottom:22px; }
   .doc-output-intro h3 { font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
   .doc-output-intro p { font-size:0.9rem; color:var(--slate); line-height:1.6; }
   .doc-steps { display:flex; flex-direction:column; gap:7px; margin-top:12px; }
   .doc-step { display:flex; gap:10px; align-items:flex-start; font-size:0.88rem; color:var(--slate); line-height:1.5; }
   .doc-step-num { width:22px; height:22px; background:var(--navy); color:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:700; flex-shrink:0; margin-top:2px; }
-
-  /* OUTPUT TABS */
   .output-tabs { display:flex; border-bottom:2px solid #eee; background:white; }
   .output-tab { padding:14px 26px; font-family:Arial,sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; border:none; background:transparent; color:#999; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
   .output-tab.active { color:var(--navy); border-bottom-color:var(--gold); }
   .output-tab:hover { color:var(--navy); }
   .output-panel { padding:28px; display:none; }
   .output-panel.active { display:block; }
-
-  /* REQUIRED FIELDS */
   .required-fields { background:#fffbe8; border:2px solid var(--gold); border-radius:10px; padding:18px 22px; margin-bottom:20px; }
   .required-fields h4 { color:#5a4000; margin-bottom:10px; font-size:1rem; font-weight:700; }
   .required-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
@@ -156,9 +141,12 @@
   .doc-output { white-space:pre-wrap; font-size:1rem; line-height:1.8; color:var(--navy); background:var(--off-white); border-radius:10px; padding:24px; border:1px solid #ddd; }
   .accessibility-note { background:#e8f4f4; border:1px solid #a0cccc; border-radius:8px; padding:16px 18px; font-size:0.88rem; line-height:1.6; margin-bottom:16px; color:var(--teal); }
   .accessibility-note strong { display:block; margin-bottom:6px; font-size:0.92rem; font-weight:700; }
-  .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
+  .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; align-items:center; }
   .copy-btn { display:inline-flex; align-items:center; gap:6px; background:transparent; border:2px solid var(--navy); color:var(--navy); border-radius:8px; padding:10px 20px; font-family:Arial,sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
   .copy-btn:hover { background:var(--navy); color:var(--gold); }
+  .download-btn { display:inline-flex; align-items:center; gap:6px; background:var(--gold); border:2px solid var(--gold); color:var(--navy); border-radius:8px; padding:10px 20px; font-family:Arial,sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .download-btn:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 4px 12px rgba(249,195,7,0.35); }
+  .download-hint { font-size:0.78rem; color:var(--slate); margin-top:10px; line-height:1.5; }
   footer { background:var(--navy); text-align:center; padding:36px 24px; font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.8; }
   footer a { color:var(--gold); text-decoration:none; font-weight:500; }
   footer strong { display:block; color:var(--gold); font-size:0.95rem; margin-bottom:4px; font-weight:700; }
@@ -169,9 +157,8 @@
     .main { padding:28px 14px 60px; }
     .score-chart-row { flex-direction:column; align-items:center; }
     .results-orientation { padding:20px 18px; }
+    .btn-row { flex-direction:column; align-items:flex-start; }
   }
-
-  /* ACCESS GATE */
   #accessGate { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; padding:48px 24px; }
   .gate-card { background:var(--white); border-radius:16px; box-shadow:0 4px 32px rgba(0,44,73,0.13); padding:48px 40px; max-width:480px; width:100%; text-align:center; border:1px solid rgba(0,44,73,0.08); }
   .gate-logo { font-family:Arial,sans-serif; font-size:1.6rem; font-weight:700; margin-bottom:6px; }
@@ -191,7 +178,6 @@
   .gate-purchase-link { font-size:0.85rem; color:var(--slate); margin-top:8px; }
   .gate-purchase-link a { color:var(--navy); font-weight:700; text-decoration:underline; }
   #mainTool { display:none; }
-
 </style>
 </head>
 <body>
@@ -232,16 +218,7 @@
     <p>Your unique access code was emailed to you after purchase. Enter it below to get started.</p>
     <div class="gate-error" id="gateError" role="alert"></div>
     <div class="gate-success" id="gateSuccess" role="status"></div>
-    <input
-      type="text"
-      class="code-input"
-      id="codeInput"
-      placeholder="e.g. EQS-ABCD-1234"
-      maxlength="13"
-      autocomplete="off"
-      spellcheck="false"
-      aria-label="Access code"
-    />
+    <input type="text" class="code-input" id="codeInput" placeholder="e.g. EQS-ABCD-1234" maxlength="13" autocomplete="off" spellcheck="false" aria-label="Access code" />
     <button class="gate-btn" id="gateBtn" onclick="validateCode()">Access EquiDraft</button>
     <div class="gate-purchase-link">
       Don't have a code? <a href="https://chooseparity.com/equidraft" target="_blank" rel="noopener">Purchase access here</a>
@@ -259,10 +236,10 @@
     </div>
     <div class="card-body">
       <textarea id="jdInput" aria-label="Job description or posting input" maxlength="12000"
-        placeholder="Paste your job description, job posting, or any draft here. It does not have to be complete or perfect. We will detect what you have, audit it for equity, and return both documents with required fields flagged."
+        placeholder="Paste your job description, job posting, or any draft here. It does not have to be complete or perfect. We will audit it for equity across all dimensions — gender-neutral language, disability inclusion, racial and cultural neutrality, vague phrases, degree requirements, salary transparency, and more — then return both documents ready to use."
         oninput="updateCounter()"></textarea>
       <div class="char-counter" id="charCounter" aria-live="polite">0 / 8,000 characters recommended</div>
-      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters. Plan for up to 10 minutes to review and complete both documents.</p>
+      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters.</p>
       <div class="error-msg" id="errorMsg" role="alert"></div>
       <button class="btn" id="auditBtn" onclick="runAudit()">
         <span id="btnText">Start My Draft</span>
@@ -273,11 +250,9 @@
 
   <div class="results" id="results" role="main">
 
-    <!-- RESULTS ORIENTATION + DONUT CHART -->
     <div class="results-orientation" role="region" aria-label="Audit Results Summary">
       <h2>📊 Your Equity Audit Results</h2>
-      <p>Your document was scored across four equity dimensions. The chart below shows how each area contributed to your overall score. You do not need an HR background to use these results — everything is written in plain language. Follow the three steps on the right to put your results into action.</p>
-
+      <p>Your document was scored across four equity dimensions — inclusive language (gender, disability, and racial/cultural neutrality), visual accessibility, screen reader compatibility, and structural equity barriers. Follow the three steps on the right to put your results into action.</p>
       <div class="score-chart-row">
         <div class="score-chart-left">
           <div class="donut-wrap" aria-hidden="true">
@@ -293,7 +268,6 @@
           </div>
           <div class="chart-legend" id="chartLegend" role="list" aria-label="Score breakdown by category"></div>
         </div>
-
         <div class="what-next">
           <h4>📋 What to do with these results</h4>
           <div class="action-steps">
@@ -308,14 +282,14 @@
               <div class="action-num">2</div>
               <div class="action-text">
                 <strong>Fill in every required field.</strong>
-                Scroll to the Job Description and Job Posting tabs below. Every line marked <strong>[MISSING — DATA REQUIRED]</strong> must be filled in with real information before you use the document.
+                Scroll to the Job Description and Job Posting tabs below. Every line marked <strong>[MISSING — DATA REQUIRED]</strong> must be filled in before you use the document.
               </div>
             </div>
             <div class="action-step">
               <div class="action-num">3</div>
               <div class="action-text">
-                <strong>Copy and use your documents.</strong>
-                The Job Description goes into your HR files or HRIS — it is not posted publicly. The Job Posting goes to your careers page and job boards. Each has its own Copy button.
+                <strong>Download your documents.</strong>
+                Click the Download button under each document to save a .docx file. Open it in Google Docs or Microsoft Word — no login required.
               </div>
             </div>
           </div>
@@ -323,7 +297,6 @@
       </div>
     </div>
 
-    <!-- AUDIT DETAIL CARD -->
     <div class="card">
       <div class="detection-banner" id="detectionBanner" role="status"></div>
       <div class="equity-score" role="region" aria-label="Equity Score">
@@ -339,7 +312,6 @@
       <div class="audit-sections" id="auditSections"></div>
     </div>
 
-    <!-- DOCUMENT OUTPUT CARD -->
     <div class="card">
       <div class="card-header">
         <div class="step-badge" aria-hidden="true">✓</div>
@@ -354,7 +326,7 @@
       <div class="output-panel active" id="panel-jd" role="tabpanel">
         <div class="doc-output-intro">
           <h3>📄 This is your internal Job Description</h3>
-          <p>A Job Description is an internal HR document. It is not published publicly or shared with candidates. It lives in your HR files or HRIS and is used to guide hiring decisions, set compensation, and evaluate performance.</p>
+          <p>A Job Description is an internal HR document. It is not published publicly or shared with candidates. It lives in your HR files or HRIS and guides hiring decisions, compensation, and performance reviews.</p>
           <div class="doc-steps">
             <div class="doc-step"><div class="doc-step-num">1</div><span>Replace every <strong>[MISSING — DATA REQUIRED]</strong> line with real information before saving or filing.</span></div>
             <div class="doc-step"><div class="doc-step-num">2</div><span>Share with your hiring manager for review and sign-off.</span></div>
@@ -368,18 +340,20 @@
         </div>
         <div class="doc-output" id="jdOutput" tabindex="0" aria-label="Revised Job Description"></div>
         <div class="btn-row">
-          <button class="copy-btn" onclick="copyDoc('jd')">📋 Copy Job Description</button>
+          <button class="download-btn" onclick="downloadDoc('jd')">⬇ Download Job Description (.docx)</button>
+          <button class="copy-btn" onclick="copyDoc('jd')">📋 Copy to Clipboard</button>
         </div>
+        <p class="download-hint">Opens directly in Google Docs (File → Open) or Microsoft Word. No login required.</p>
       </div>
 
       <div class="output-panel" id="panel-posting" role="tabpanel">
         <div class="doc-output-intro">
           <h3>📢 This is your external Job Posting</h3>
-          <p>A Job Posting is what candidates see. It is shorter, warmer, and written directly to the person applying. This is what you publish on your careers page, LinkedIn, Indeed, and other job boards. It is a different document from your internal Job Description, and it should be stored separately — not in the same place as your HR records.</p>
+          <p>A Job Posting is what candidates see. It is shorter, warmer, and written directly to the person applying. This is what you publish on your careers page, LinkedIn, Indeed, and other job boards.</p>
           <div class="doc-steps">
             <div class="doc-step"><div class="doc-step-num">1</div><span>Fill in every <strong>[MISSING — DATA REQUIRED]</strong> field — especially salary range, location, and how to apply.</span></div>
             <div class="doc-step"><div class="doc-step-num">2</div><span>Read it aloud before posting. If it sounds stiff or confusing, simplify it.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Save a copy in a dedicated Job Postings folder — separate from your HR records. Every time you repost this role, open the saved version, review it for any changes, and update it before publishing. If any changes affect what the role actually requires, update the Job Description too so both documents stay consistent.</span></div>
+            <div class="doc-step"><div class="doc-step-num">3</div><span>Save a copy in a dedicated Job Postings folder — separate from your HR records.</span></div>
           </div>
         </div>
         <div class="required-fields" id="posting-required" style="display:none"></div>
@@ -389,16 +363,17 @@
         </div>
         <div class="doc-output" id="postingOutput" tabindex="0" aria-label="Revised Job Posting"></div>
         <div class="btn-row">
-          <button class="copy-btn" onclick="copyDoc('posting')">📋 Copy Job Posting</button>
+          <button class="download-btn" onclick="downloadDoc('posting')">⬇ Download Job Posting (.docx)</button>
+          <button class="copy-btn" onclick="copyDoc('posting')">📋 Copy to Clipboard</button>
           <button class="copy-btn" onclick="copyChecklist()">📋 Copy Accessibility Checklist</button>
         </div>
+        <p class="download-hint">Opens directly in Google Docs (File → Open) or Microsoft Word. No login required.</p>
       </div>
 
     </div>
   </div>
 </div>
-
-</div><!-- end mainTool -->
+</div>
 
 <footer>
   <strong>EquiDraft by Parity HR</strong>
@@ -624,13 +599,117 @@ function toggleSection(header) {
   header.setAttribute('aria-expanded', String(!isOpen));
 }
 
+// =====================================================
+// DOWNLOAD AS .DOCX (opens in Google Docs or Word)
+// =====================================================
+async function downloadDoc(type) {
+  const isJD = type === 'jd';
+  const text = document.getElementById(isJD ? 'jdOutput' : 'postingOutput').textContent;
+  const filename = isJD ? 'EquiDraft-Job-Description.docx' : 'EquiDraft-Job-Posting.docx';
+
+  if (!text || !text.trim()) {
+    alert('No document content to download. Please run the audit first.');
+    return;
+  }
+
+  try {
+    const { Document, Packer, Paragraph, TextRun, AlignmentType } = docx;
+    const lines = text.split('\n');
+    const children = [];
+
+    // Branding header
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: 'Equi', bold: true, size: 32, color: '002c49', font: 'Arial' }),
+          new TextRun({ text: 'Draft', bold: true, size: 32, color: 'C9A200', font: 'Arial' }),
+        ],
+        spacing: { after: 60 }
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: 'by Parity HR  |  chooseparity.com', size: 16, color: '888888', font: 'Arial', italics: true })],
+        spacing: { after: 280 }
+      })
+    );
+
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        children.push(new Paragraph({ spacing: { after: 80 } }));
+        return;
+      }
+
+      const isAllCaps = trimmed === trimmed.toUpperCase() && trimmed.length > 2 && trimmed.length < 60 && !/^\[/.test(trimmed) && /[A-Z]/.test(trimmed);
+      const isShortColon = trimmed.endsWith(':') && trimmed.length < 40 && !trimmed.startsWith('-') && !trimmed.startsWith('•');
+      const isHeader = isAllCaps || isShortColon;
+      const isMissing = trimmed.includes('[MISSING');
+      const isBullet = trimmed.startsWith('-') || trimmed.startsWith('•') || /^\d+\./.test(trimmed);
+
+      if (isHeader) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, bold: true, size: 24, color: '002c49', font: 'Arial' })],
+          spacing: { before: 280, after: 80 }
+        }));
+      } else if (isMissing) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, size: 20, color: 'C0392B', italics: true, font: 'Arial' })],
+          spacing: { after: 80 }
+        }));
+      } else if (isBullet) {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, size: 20, font: 'Arial', color: '002c49' })],
+          indent: { left: 360 },
+          spacing: { after: 60 }
+        }));
+      } else {
+        children.push(new Paragraph({
+          children: [new TextRun({ text: trimmed, size: 20, font: 'Arial', color: '002c49' })],
+          spacing: { after: 80 }
+        }));
+      }
+    });
+
+    // Footer
+    children.push(
+      new Paragraph({ spacing: { before: 480 } }),
+      new Paragraph({
+        children: [new TextRun({ text: 'Generated by EquiDraft by Parity HR — chooseparity.com  |  Founded by Vanessa Martinez, SPHR, DEI Certified', size: 16, color: 'aaaaaa', italics: true, font: 'Arial' })],
+        alignment: AlignmentType.CENTER
+      })
+    );
+
+    const doc = new Document({
+      sections: [{
+        properties: { page: { margin: { top: 1080, right: 1080, bottom: 1080, left: 1080 } } },
+        children
+      }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch(err) {
+    console.error('Download error:', err);
+    alert('Download failed. Please use the Copy button instead and paste into Google Docs manually.');
+  }
+}
+
+// =====================================================
+// COPY TO CLIPBOARD
+// =====================================================
 function copyDoc(type) {
-  const text = document.getElementById(type==='jd' ? 'jdOutput' : 'postingOutput').textContent;
+  const text = document.getElementById(type === 'jd' ? 'jdOutput' : 'postingOutput').textContent;
   navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('#panel-'+type+' .copy-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    setTimeout(()=>btn.textContent=orig, 2000);
+    const panel = document.querySelector('#panel-' + type);
+    const btn = Array.from(panel.querySelectorAll('.copy-btn')).find(b => b.textContent.includes('Copy to'));
+    if (btn) { const orig = btn.textContent; btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = orig, 2000); }
   });
 }
 
@@ -665,9 +744,10 @@ REQUIRED FIELDS
 Generated by Parity HR — chooseparity.com
 Founded by Vanessa Martinez, SPHR, DEI Certified`;
 
-  navigator.clipboard.writeText(checklist).then(()=>{
+  navigator.clipboard.writeText(checklist).then(() => {
     const btns = document.querySelectorAll('#panel-posting .copy-btn');
-    if (btns[1]) { btns[1].textContent='✓ Copied!'; setTimeout(()=>btns[1].textContent='📋 Copy Accessibility Checklist',2000); }
+    const btn = Array.from(btns).find(b => b.textContent.includes('Checklist'));
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '📋 Copy Accessibility Checklist', 2000); }
   });
 }
 
@@ -699,16 +779,12 @@ async function validateCode() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code })
     });
-
     const data = await response.json();
-
     if (data.valid) {
       successEl.textContent = data.message;
       successEl.style.display = 'block';
-      // Store session access
       sessionStorage.setItem('equidraft_access', 'granted');
       sessionStorage.setItem('equidraft_type', data.type);
-      // Show tool after brief pause
       setTimeout(() => {
         document.getElementById('accessGate').style.display = 'none';
         document.getElementById('mainTool').style.display = 'block';
@@ -727,14 +803,12 @@ async function validateCode() {
   }
 }
 
-// Allow Enter key to submit
 document.addEventListener('DOMContentLoaded', function() {
   const input = document.getElementById('codeInput');
   if (input) {
     input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') validateCode();
     });
-    // Auto-format code as user types
     input.addEventListener('input', function() {
       let val = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
       if (val.length > 3) val = val.slice(0,3) + '-' + val.slice(3);
@@ -743,7 +817,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-
 </script>
 </body>
 </html>
