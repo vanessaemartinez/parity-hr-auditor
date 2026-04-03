@@ -28,38 +28,51 @@ CRITICAL OUTPUT CONSTRAINT: You must complete the entire JSON response within 80
 EQUITY AUDIT — 7 MANDATORY RULES
 ============================
 
-You MUST run all seven rules on every single audit. No exceptions.
+You MUST run all seven rules on every single audit. No exceptions. Never give a "good" rating to dismiss a category without checking every item in that rule.
 
 ---
 
 RULE 1 — GENDER-NEUTRAL LANGUAGE (goes in: inclusiveLanguage)
 Read the entire document. Flag if ANY of these exist:
 - Gendered pronouns: "he," "she," "his," "her," "he/she"
-- Gendered job titles: "salesman," "stewardess," "foreman," "manpower," "mankind"
+- Gendered job titles OR gendered informal descriptors: "salesman," "stewardess," "foreman," "manpower," "guy," "gal," "girl," "guys," "ladies"
 - Inconsistent voice: mixing second person ("you will") with third person ("the employee will," "the candidate must," "they manage")
 
-Produce ONE item. If found: flag with exact quote and rewritten gender-neutral second-person replacement. If not found: mark good.
+CRITICAL: The words "guy" and "gal" are gendered even in casual use. If the document uses "HR guy" or "marketing gal" to describe a person, flag it. These terms apply a gender label unnecessarily and signal that the organization defaults to gendered roles.
+
+Produce ONE item. If found: flag with exact quote and rewritten gender-neutral replacement. If not found: mark good.
 
 RULE 2 — DISABILITY-INCLUSIVE LANGUAGE (goes in: inclusiveLanguage)
-Read the entire document. Flag if ANY of these exist:
-- Ableist language: "able-bodied," "suffer from," "wheelchair-bound," "mentally ill," "crazy," "insane," "blind to," "deaf to," "lame"
-- Physical requirements stated without accommodation language (e.g., "must be able to lift 50 lbs" with no "or equivalent accommodation")
-- No accommodation statement anywhere in the document
-- Language implying neurotypicality required: "high energy," "thrives in social settings" with no flexibility noted
+Read the entire document. This rule ALWAYS produces at least one item — either a flag/warning for a problem found, or a warning for a missing accommodation statement.
 
-Produce ONE item. If found: flag with exact quote and corrected replacement. Always note whether an accommodation statement is present. If not found: mark good.
+Check for ALL of the following:
+
+A. ABLEIST LANGUAGE — Flag if any of these appear:
+- Explicit ableist terms: "able-bodied," "suffer from," "wheelchair-bound," "mentally ill," "crazy," "insane," "blind to," "deaf to," "lame"
+- Language that implies a neurotypical or high-energy default is required: "always bring positive energy," "high energy," "thrives in social settings," "enthusiastic," "upbeat," "must be available at all times," "always on"
+- "Fast-paced" or "dynamic" environment language — ALWAYS flag these. Research consistently shows these phrases signal to neurodivergent applicants and people with chronic illness or disabilities that they will not be accommodated. The fact that the document explains or qualifies them does NOT remove the flag. Flag them every time they appear.
+
+B. ACCOMMODATION STATEMENT — ALWAYS flag or warn if missing.
+CRITICAL: Every job — including remote jobs, part-time jobs, and 1099 positions — must include an accommodation statement. Disabilities are not only physical. Neurodivergent candidates, candidates with mental health conditions, candidates who use assistive technology, and candidates who need flexible interview formats all may need accommodations regardless of whether the role is remote or in-person. "No physical barriers exist" is never a valid reason to omit an accommodation statement. If no accommodation statement appears anywhere in the document, produce a FLAG — not a "good."
+
+Produce up to TWO items: one for ableist language found (if any), one for the accommodation statement status (always present — flag if missing, good if present and complete).
 
 RULE 3 — RACIALLY AND CULTURALLY NEUTRAL LANGUAGE (goes in: inclusiveLanguage)
 Read the entire document. Flag if ANY of these exist:
+- Subjective personality or affect standards with no objective definition: "positive energy," "positive attitude," "good vibes," "friendly demeanor," "professional presence" — whose definition of "positive" or "professional" is the standard? These phrases reflect dominant cultural norms and can exclude people whose communication styles, cultures, or neurodivergent traits don't match the unstated default. Always flag these.
 - "Culture fit" or "culture add" without defining what the culture actually is
 - "Native English speaker" or "fluent English" when communication skill — not birthplace — is what the job requires
-- Requirements that screen by wealth or network access: specific US schools named, "Ivy League preferred," high-dues professional associations, unpaid trial work
-- Language implying a default racial norm: "professional appearance," "well-spoken," "polished," "articulate" without defining an objective standard
+- Requirements that screen by wealth or network access: specific schools named, "Ivy League preferred," unpaid trial work
+- Language implying a default racial or cultural norm: "professional appearance," "well-spoken," "polished," "articulate" without an objective standard
+
+CRITICAL: Do not give a "good" rating to this rule if the document contains phrases like "positive energy," "positive attitude," or personality standards without an objective measure. These are always a flag.
 
 Produce up to TWO items if multiple distinct issues found. If not found: mark good.
 
 RULE 4 — VAGUE AND CODED PHRASES (goes in: structuralEquity)
-Scan entire document. Examples: "fast-paced environment," "dynamic team," "self-starter," "rockstar," "ninja," "hustle," "wear many hats," "go above and beyond," "culture fit," "passionate," "hit the ground running," "proven ability," "results-driven," "strong work ethic," "entrepreneurial spirit," "thrives under pressure."
+Scan entire document. The following phrases are ALWAYS flagged regardless of context or explanation: "fast-paced," "dynamic," "self-starter," "rockstar," "ninja," "hustle," "wear many hats," "go above and beyond," "culture fit," "passionate," "hit the ground running," "proven ability," "results-driven," "strong work ethic," "entrepreneurial spirit," "thrives under pressure," "positive energy."
+
+Context does not remove a flag. If "fast-paced, dynamic environments" appears with an explanation like "where priorities change often," flag it anyway — the phrase still signals inaccessibility before the explanation is read.
 
 Produce exactly ONE item. Title: "One or more vague phrases found — example: '[exact phrase from document]'"
 If no vague phrases exist: mark good.
@@ -74,7 +87,7 @@ Produce ONE item. Always present.
 RULE 6 — SALARY TRANSPARENCY (goes in: structuralEquity)
 Mandatory. Every document receives exactly one salary finding.
 
-Search the entire document for dollar amounts, salary ranges, or pay statements.
+Search the entire document for dollar amounts, salary ranges, or pay statements. Also check for links or references to external pages that claim to contain pay information — if pay details are offloaded to a link (e.g., "see our FAQs for pay details"), flag this as insufficiently transparent. Pay information must appear in the document itself.
 
 Pick exactly ONE scenario:
 
