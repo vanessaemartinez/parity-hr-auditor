@@ -139,18 +139,65 @@ ${input}`;
 function documentsPrompt(input) {
   return `You are an equity-centered HR expert. Using the job document below, generate a complete internal Job Description and a complete external Job Posting. Return ONLY valid JSON — no markdown, no backticks, no text before or after. You MUST close every bracket and brace. Fit in 5000 tokens.
 
-Mark every gap as [MISSING — DATA REQUIRED: explain what is needed]. Use second person (you/your) throughout the Job Posting. Include accommodation and EEO statements in both documents.
+════════════════════════════════════════
+MANDATORY LANGUAGE RULES — APPLY IN BOTH DOCUMENTS
+Do not copy problematic language from the original. Rewrite every instance.
+════════════════════════════════════════
+
+RULE A — REMOVE ALL GENDERED LANGUAGE
+Never use: "he," "she," "his," "her," "he/she," "guy," "gal," "girl," "guys," "ladies."
+Rewrite gendered descriptions with neutral alternatives.
+Example: "HR guy Matt and marketing gal Callie" → "HR professional Matt and marketing professional Callie"
+
+RULE B — REMOVE ALL VAGUE AND CODED PHRASES
+Never use these words anywhere in either document. Replace every instance with specific, plain-language alternatives:
+- "fast-paced" → describe the actual work: "you will manage multiple client accounts simultaneously with shifting weekly priorities"
+- "dynamic" → describe what actually changes: "priorities and client needs shift week to week"
+- "self-starter" → "you manage your own schedule and deadlines without daily supervision"
+- "passionate" → name the actual skill or commitment required
+- "rockstar," "ninja," "hustle" → remove entirely, describe the actual work
+- "go above and beyond" → describe the actual expectation specifically
+- "strong work ethic" → name the observable behavior
+- "positive energy" → remove entirely — this is a subjective, culturally-defined standard that excludes candidates with depression, chronic illness, or different cultural communication styles. Do not include it in either document in any form.
+- "entrepreneurial spirit" → describe the actual independent work expected
+- "thrives under pressure" → describe the actual working conditions specifically
+- "wear many hats" → list the actual variety of responsibilities
+
+RULE C — REMOVE NEUROTYPICAL AND ABLEIST DEFAULTS
+Never imply a high-energy, always-available, or neurotypical default is required.
+Remove or rewrite: "always bring positive energy," "high energy," "always on," "upbeat," "enthusiastic" as a requirement.
+
+════════════════════════════════════════
+DOCUMENT STRUCTURE RULES
+These two documents serve different audiences and must be structured accordingly.
+════════════════════════════════════════
+
+JOB DESCRIPTION — INTERNAL HR DOCUMENT ONLY
+- Purpose: internal filing, HRIS, compensation benchmarking, performance management
+- Audience: HR team, hiring manager, legal — NOT candidates
+- Do NOT include: company origin story, founder bios, marketing copy, culture descriptions, "about us" narrative
+- DO include: all administrative fields, competencies, working conditions, legal statements
+- Tone: precise, functional, compliance-focused
+
+JOB POSTING — EXTERNAL CANDIDATE-FACING DOCUMENT
+- Purpose: attract qualified, diverse applicants
+- Audience: candidates — write in second person (you/your) throughout
+- DO include: company story and context (1-2 sentences), reporting structure (who they report to), salary or salary range, schedule and hours, FLSA status, work arrangement (remote/hybrid/on-site), benefits
+- Tone: warm, plain, direct, welcoming
+
+Mark every gap as [MISSING — DATA REQUIRED: explain specifically what is needed and why].
+Include accommodation and EEO statements in BOTH documents.
 
 Return this exact JSON:
 
 {
   "jobDescription": {
-    "requiredFields": ["<specific missing field and why it is needed>"],
-    "document": "JOB DESCRIPTION\n\nPOSITION TITLE: [from document or MISSING — DATA REQUIRED: insert official title]\nDEPARTMENT: [from document or MISSING — DATA REQUIRED]\nREPORTS TO: [from document or MISSING — DATA REQUIRED]\nFLSA STATUS: [Exempt or Non-Exempt or MISSING — DATA REQUIRED: confirm with HR or legal counsel]\nPAY BAND: [from document or MISSING — DATA REQUIRED: insert approved salary range]\nLOCATION: [from document or MISSING — DATA REQUIRED: insert location and remote or hybrid status]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED: insert date this description takes effect]\n\nPOSITION SUMMARY\n[2-3 sentences from document content describing role and purpose.]\n\nESSENTIAL FUNCTIONS\n[Numbered list from document. Use actual duties — no generic placeholders.]\n\nMINIMUM QUALIFICATIONS\n[Required qualifications. Include experience substitution options where degree is not required.]\n\nPREFERRED QUALIFICATIONS\n[Qualifications that strengthen candidacy but are not required.]\n\nCOMPETENCIES\n[3-5 competencies from the role responsibilities.]\n\nWORKING CONDITIONS\n[Schedule, remote or hybrid options, travel. From document or MISSING — DATA REQUIRED.]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: insert HR contact email or phone].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by applicable law."
+    "requiredFields": ["<specific missing field and why it is needed internally>"],
+    "document": "JOB DESCRIPTION\n\nPOSITION TITLE: [from document or MISSING — DATA REQUIRED: insert official position title]\nDEPARTMENT: [from document or MISSING — DATA REQUIRED: insert department name]\nREPORTS TO: [from document or MISSING — DATA REQUIRED: insert direct supervisor title]\nFLSA STATUS: [Exempt or Non-Exempt based on salary and duties — or MISSING — DATA REQUIRED: confirm with HR or legal counsel before filing]\nPAY BAND: [from document or MISSING — DATA REQUIRED: insert approved salary range before filing — required for compensation benchmarking]\nLOCATION: [from document or MISSING — DATA REQUIRED: insert work location and remote, hybrid, or on-site status]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED: insert the date this description takes effect]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it fits the organization. Use document content. No marketing language.]\n\nESSENTIAL FUNCTIONS\n[Numbered list of core responsibilities drawn directly from the document. Use actual duties — no generic placeholders. Rewrite any vague language into specific, observable tasks.]\n\nMINIMUM QUALIFICATIONS\n[Required education, experience, and skills. Where a degree is not legally required for this work, include: 'Or equivalent combination of education and experience.' List relevant certifications as alternatives to degree where appropriate.]\n\nPREFERRED QUALIFICATIONS\n[Qualifications that strengthen a candidacy but are not required to perform the core functions.]\n\nCOMPETENCIES\n[3-5 observable, measurable competencies drawn from the actual role responsibilities. No personality traits.]\n\nWORKING CONDITIONS\n[Schedule, hours per week, remote or hybrid arrangement, travel requirements. From document or MISSING — DATA REQUIRED.]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone number].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by applicable law."
   },
   "jobPosting": {
-    "requiredFields": ["<specific missing field and why it must be completed before posting>"],
-    "document": "JOB POSTING\n\n[Position Title]\n[Organization Name — from document or MISSING — DATA REQUIRED]\n[Location and work arrangement — from document or MISSING — DATA REQUIRED]\n[Salary — from document or MISSING — DATA REQUIRED: salary transparency increases qualified applications and reduces pay discrimination]\n\nABOUT THIS ROLE\n[3-4 sentences in second person. Welcoming. From document content.]\n\nWHAT YOU WILL DO\n[Bulleted list using you and your. From document duties.]\n\nWHAT WE ARE LOOKING FOR\n[Required qualifications clearly separated from preferred. Experience substitution options included.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: insert salary range, benefits, paid time off, retirement, health coverage, mental health benefits, remote options, accommodation process]\n\nOUR COMMITMENT TO EQUAL OPPORTUNITY\nWe are an equal opportunity employer committed to a workplace where every person is treated with dignity and respect. We welcome applicants of all backgrounds, identities, and abilities. We comply with all applicable federal, state, and local equal employment opportunity laws.\n\nHOW TO APPLY\n[Clear instructions. Deadline if known. Note accommodations available. Include alternative method such as email or phone for those who cannot use online portal.]\n\nACCOMMODATION NOTICE\nWe are committed to an accessible application process. If you need an accommodation to apply or interview, please contact [MISSING — DATA REQUIRED: insert HR contact email or phone] before the application deadline."
+    "requiredFields": ["<specific missing field that must be completed before this posting goes public>"],
+    "document": "JOB POSTING\n\n[Position Title]\n[Organization Name — from document or MISSING — DATA REQUIRED]\n[Location | Work arrangement: Remote, Hybrid, or On-Site — from document or MISSING — DATA REQUIRED]\n[Salary or salary range — from document or MISSING — DATA REQUIRED: candidates deserve to know compensation before investing time in an application. Salary transparency reduces pay gaps and increases qualified applicants.]\n[Schedule and hours — from document or MISSING — DATA REQUIRED: e.g. Full-time, Part-time, expected hours per week]\n[FLSA Status: Exempt or Non-Exempt — from document or MISSING — DATA REQUIRED: required by law to disclose]\n[Reports to: supervisor title — from document or MISSING — DATA REQUIRED]\n\nABOUT [ORGANIZATION NAME]\n[1-2 sentences describing what the organization does, who it serves, and why the work matters. From document content. Warm, plain language. No jargon.]\n\nABOUT THIS ROLE\n[3-4 sentences in second person describing what you will do and why this role matters. Welcoming language. Drawn from document. No vague phrases.]\n\nWHAT YOU WILL DO\n[Bulleted list of key responsibilities in plain language. Use you and your throughout. Drawn from document duties. Rewrite any vague language into specific, observable tasks.]\n\nWHAT WE ARE LOOKING FOR\nRequired:\n[Required qualifications listed clearly. Where a degree is not legally required, include: Or equivalent combination of relevant experience and training.]\n\nPreferred:\n[Qualifications that would strengthen your application but are not required.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: insert salary or salary range, health insurance details, paid time off, retirement plan, mental health benefits, disability coverage, remote work stipend or equipment, professional development budget, and any other benefits. Candidates cannot assess whether this role is right for them without this information.]\n\nOUR COMMITMENT TO EQUAL OPPORTUNITY\nWe are an equal opportunity employer committed to a workplace where every person is treated with dignity and respect. We welcome applicants of all backgrounds, identities, and abilities. We comply with all applicable federal, state, and local equal employment opportunity laws.\n\nHOW TO APPLY\n[Clear application instructions. Include deadline if known. State that accommodations are available during the application and interview process. Include an alternative application method — email or phone — for candidates who cannot use the online portal.]\n\nACCOMMODATION NOTICE\nWe are committed to an accessible application and interview process. If you need an accommodation at any stage, please contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone] before the application deadline. We will work with you to meet your needs."
   }
 }
 
