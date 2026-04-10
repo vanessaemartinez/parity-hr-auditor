@@ -6,14 +6,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 function parseJSON(text) {
+  // Strip ALL markdown fences anywhere in the text
   const clean = text
-    .replace(/^```json\s*/i, '')
-    .replace(/^```\s*/i, '')
-    .replace(/```\s*$/i, '')
+    .replace(/```json/gi, '')
+    .replace(/```/g, '')
     .trim();
   const first = clean.indexOf('{');
   const last  = clean.lastIndexOf('}');
-  if (first === -1 || last === -1) throw new Error('No JSON object found');
+  if (first === -1 || last === -1) throw new Error('No JSON object found in: ' + clean.substring(0, 100));
   return JSON.parse(clean.substring(first, last + 1));
 }
 
