@@ -1,774 +1,269 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EquiDraft by Parity HR</title>
-<style>
-  :root {
-    --navy: #002c49;
-    --slate: #475355;
-    --gold: #f9c307;
-    --gold-light: #facf39;
-    --white: #ffffff;
-    --off-white: #f8f6f0;
-    --sage: #5a8a6a;
-    --coral: #c0392b;
-    --amber: #d4820a;
-    --teal: #1a6b6b;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; font-size: 18px; line-height: 1.7; }
-  header { background: var(--navy); padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
-  .logo-area { display: flex; align-items: center; }
-  .logo-wordmark { display: flex; flex-direction: column; gap: 0; line-height: 1; }
-  .logo-name-row { display: flex; align-items: baseline; }
-  .logo-equi { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--white); }
-  .logo-draft { font-family: Arial, sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--gold); }
-  .logo-byline { font-family: Arial, sans-serif; font-weight: 400; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 3px; }
-  .hero { background: var(--navy); padding: 52px 40px 80px; position: relative; overflow: hidden; }
-  .hero::before { content:''; position:absolute; top:0; right:0; width:400px; height:100%; background:radial-gradient(ellipse at top right, rgba(249,195,7,0.08) 0%, transparent 70%); pointer-events:none; }
-  .hero::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:90px; background:var(--off-white); clip-path:ellipse(55% 100% at 50% 100%); }
-  .hero h1 { font-size: clamp(1.9rem,4.5vw,2.9rem); color:var(--white); line-height:1.2; max-width:660px; font-weight:700; }
-  .hero h1 em { color:var(--gold); font-style:normal; }
-  .hero p { color:rgba(255,255,255,0.78); margin-top:18px; font-size:1.05rem; max-width:560px; line-height:1.7; font-weight:300; }
-  .distinction-box { display:flex; gap:16px; margin-top:32px; flex-wrap:wrap; }
-  .distinction { background:rgba(249,195,7,0.08); border:1px solid rgba(249,195,7,0.25); border-radius:10px; padding:16px 20px; flex:1; min-width:210px; max-width:340px; }
-  .distinction h3 { font-weight:700; color:var(--gold); font-size:0.95rem; margin-bottom:6px; }
-  .distinction p { font-size:0.82rem; color:rgba(255,255,255,0.65); line-height:1.5; margin:0; font-weight:300; }
-  .a11y-bar { background:var(--navy); border-bottom:3px solid var(--gold); padding:12px 40px; font-size:0.82rem; color:rgba(255,255,255,0.8); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .a11y-bar strong { color:var(--gold); }
-  .main { max-width:980px; margin:0 auto; padding:48px 24px 80px; }
-  .card { background:var(--white); border-radius:14px; box-shadow:0 3px 24px rgba(0,44,73,0.09); overflow:hidden; margin-bottom:28px; border:1px solid rgba(0,44,73,0.07); }
-  .card-header { background:var(--navy); padding:18px 28px; display:flex; align-items:center; gap:14px; }
-  .step-badge { width:30px; height:30px; background:var(--gold); color:var(--navy); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; flex-shrink:0; }
-  .card-header h2 { font-size:1.05rem; color:var(--white); font-weight:700; }
-  .card-body { padding:28px; }
-  textarea { width:100%; min-height:220px; border:2px solid #ddd; border-radius:10px; padding:16px; font-family:Arial,sans-serif; font-size:1rem; line-height:1.7; color:var(--navy); resize:vertical; transition:border-color 0.2s; background:var(--off-white); }
-  textarea:focus { outline:none; border-color:var(--navy); background:white; }
-  textarea::placeholder { color:#aaa; }
-  .char-counter { text-align:right; font-size:0.82rem; color:var(--slate); margin-top:6px; }
-  .char-counter.warning { color:var(--amber); font-weight:500; }
-  .char-counter.over { color:var(--coral); font-weight:700; }
-  .char-note { font-size:0.82rem; color:var(--slate); margin-top:6px; line-height:1.4; }
-  .btn { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:var(--navy); border:none; border-radius:10px; padding:14px 32px; font-family:Arial,sans-serif; font-size:1rem; font-weight:700; cursor:pointer; transition:all 0.2s; margin-top:16px; letter-spacing:0.02em; }
-  .btn:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 4px 16px rgba(249,195,7,0.4); }
-  .btn:disabled { background:#ccc; color:#888; cursor:not-allowed; transform:none; box-shadow:none; }
-  .spinner { width:18px; height:18px; border:2px solid rgba(0,44,73,0.3); border-top-color:var(--navy); border-radius:50%; animation:spin 0.7s linear infinite; display:none; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .error-msg { background:#fff0ee; border:1px solid #f0b0a0; border-radius:8px; padding:14px 18px; color:var(--coral); font-size:0.9rem; margin-top:12px; display:none; font-weight:500; }
-  .results { display:none; }
-  .results.visible { display:block; animation:fadeUp 0.4s ease; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .results-orientation { background:var(--navy); border-radius:14px; padding:28px 32px; margin-bottom:28px; border-left:6px solid var(--gold); box-shadow:0 3px 24px rgba(0,44,73,0.15); }
-  .results-orientation > h2 { color:var(--gold); font-size:1.2rem; font-weight:700; margin-bottom:8px; }
-  .results-orientation > p { color:rgba(255,255,255,0.82); font-size:0.95rem; line-height:1.6; margin-bottom:24px; }
-  .score-chart-row { display:flex; gap:36px; align-items:flex-start; flex-wrap:wrap; }
-  .score-chart-left { display:flex; flex-direction:column; align-items:center; min-width:180px; }
-  .donut-wrap { position:relative; width:160px; height:160px; }
-  .donut-wrap canvas { display:block; }
-  .donut-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
-  .donut-score { font-size:2.2rem; font-weight:700; color:var(--gold); line-height:1; }
-  .donut-sublabel { font-size:0.62rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; }
-  .score-title-block { margin-top:14px; text-align:center; }
-  .score-title-block h3 { color:var(--white); font-size:0.98rem; font-weight:700; }
-  .score-title-block p { color:rgba(255,255,255,0.7); font-size:0.82rem; line-height:1.5; margin-top:4px; }
-  .chart-legend { margin-top:14px; display:flex; flex-direction:column; gap:7px; width:100%; }
-  .legend-item { display:flex; align-items:center; gap:8px; font-size:0.78rem; color:rgba(255,255,255,0.75); }
-  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-  .legend-score { margin-left:auto; font-weight:700; color:var(--white); }
-  .what-next { flex:2; min-width:240px; }
-  .what-next h4 { color:var(--gold); font-size:0.88rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; }
-  .action-steps { display:flex; flex-direction:column; gap:10px; }
-  .action-step { display:flex; gap:12px; align-items:flex-start; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:14px 16px; }
-  .action-num { width:26px; height:26px; background:var(--gold); color:var(--navy); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0; margin-top:1px; }
-  .action-text { color:rgba(255,255,255,0.82); font-size:0.88rem; line-height:1.55; }
-  .action-text strong { display:block; color:var(--white); font-weight:700; margin-bottom:3px; font-size:0.92rem; }
-  .detection-banner { padding:14px 28px; font-size:0.92rem; font-weight:700; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(0,44,73,0.1); }
-  .detection-banner.jd { background:#e8f0f8; color:var(--navy); }
-  .detection-banner.posting { background:#eef8ee; color:#1a4a1a; }
-  .detection-banner.mixed { background:#fffbe8; color:#5a4000; }
-  .equity-score { display:flex; align-items:center; gap:20px; padding:18px 28px; background:#f4f2ec; border-bottom:1px solid #e8e4d8; }
-  .score-pill { background:var(--navy); color:var(--gold); font-size:1.5rem; font-weight:700; border-radius:10px; padding:10px 18px; flex-shrink:0; line-height:1; text-align:center; }
-  .score-pill-label { font-size:0.58rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-top:3px; }
-  .score-text h3 { font-size:1rem; margin-bottom:4px; font-weight:700; color:var(--navy); }
-  .score-text p { font-size:0.88rem; color:var(--slate); line-height:1.5; max-width:560px; }
-  .audit-section { border-bottom:1px solid #eee; }
-  .section-header { display:flex; align-items:center; gap:14px; padding:18px 28px; cursor:pointer; background:white; transition:background 0.15s; user-select:none; }
-  .section-header:hover { background:var(--off-white); }
-  .section-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; background:rgba(0,44,73,0.06); }
-  .section-title { font-weight:700; font-size:1rem; color:var(--navy); flex:1; }
-  .section-count { border-radius:12px; padding:3px 12px; font-size:0.78rem; font-weight:700; color:white; }
-  .section-count.good { background:var(--sage); }
-  .section-count.warn { background:var(--amber); }
-  .section-count.flag { background:var(--coral); }
-  .section-body { padding:0 28px 20px; display:none; }
-  .section-body.open { display:block; }
-  .change-item { display:flex; gap:14px; align-items:flex-start; padding:14px 16px; margin-bottom:10px; border-radius:8px; font-size:0.92rem; line-height:1.6; }
-  .change-item.flag { border-left:4px solid var(--coral); background:#fff5f4; }
-  .change-item.warn { border-left:4px solid var(--amber); background:#fffbf0; }
-  .change-item.good { border-left:4px solid var(--sage); background:#f2f8f4; }
-  .change-icon { font-size:1.1rem; flex-shrink:0; margin-top:2px; }
-  .change-content { flex:1; }
-  .change-content strong { display:block; margin-bottom:4px; color:var(--navy); font-weight:700; font-size:0.95rem; }
-  .before-after { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-  .ba-box { flex:1; min-width:160px; border-radius:6px; padding:10px 14px; font-size:0.85rem; line-height:1.5; }
-  .ba-before { background:#fde8e4; border:1px solid #f0c0b8; }
-  .ba-after { background:#e4f0e4; border:1px solid #b8d8b8; }
-  .ba-label { font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px; opacity:0.65; }
-  .citation { margin-top:10px; font-size:0.85rem; color:#1a5050; background:#f0f8f8; padding:10px 12px; border-left:3px solid var(--teal); border-radius:0 6px 6px 0; line-height:1.6; }
-  .citation-label { display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal); margin-bottom:4px; }
-  .chevron { margin-left:auto; transition:transform 0.2s; font-style:normal; font-size:0.8rem; }
-  .chevron.open { transform:rotate(180deg); }
-  .doc-output-intro { background:#e8f0f8; border-left:5px solid var(--navy); border-radius:0 10px 10px 0; padding:20px 24px; margin-bottom:22px; }
-  .doc-output-intro h3 { font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
-  .doc-output-intro p { font-size:0.9rem; color:var(--slate); line-height:1.6; }
-  .doc-steps { display:flex; flex-direction:column; gap:7px; margin-top:12px; }
-  .doc-step { display:flex; gap:10px; align-items:flex-start; font-size:0.88rem; color:var(--slate); line-height:1.5; }
-  .doc-step-num { width:22px; height:22px; background:var(--navy); color:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:700; flex-shrink:0; margin-top:2px; }
-  .output-tabs { display:flex; border-bottom:2px solid #eee; background:white; }
-  .output-tab { padding:14px 26px; font-family:Arial,sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; border:none; background:transparent; color:#999; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
-  .output-tab.active { color:var(--navy); border-bottom-color:var(--gold); }
-  .output-tab:hover { color:var(--navy); }
-  .output-panel { padding:28px; display:none; }
-  .output-panel.active { display:block; }
-  .required-fields { background:#fffbe8; border:2px solid var(--gold); border-radius:10px; padding:18px 22px; margin-bottom:20px; }
-  .required-fields h4 { color:#5a4000; margin-bottom:10px; font-size:1rem; font-weight:700; }
-  .required-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
-  .required-list li { display:flex; align-items:flex-start; gap:10px; font-size:0.9rem; line-height:1.5; }
-  .req-icon { color:var(--amber); flex-shrink:0; font-size:1rem; }
-  .doc-output { white-space:pre-wrap; font-size:1rem; line-height:1.8; color:var(--navy); background:var(--off-white); border-radius:10px; padding:24px; border:1px solid #ddd; }
-  .accessibility-note { background:#e8f4f4; border:1px solid #a0cccc; border-radius:8px; padding:16px 18px; font-size:0.88rem; line-height:1.6; margin-bottom:16px; color:var(--teal); }
-  .accessibility-note strong { display:block; margin-bottom:6px; font-size:0.92rem; font-weight:700; }
-  .btn-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; align-items:center; }
-  .copy-btn { display:inline-flex; align-items:center; gap:6px; background:transparent; border:2px solid var(--navy); color:var(--navy); border-radius:8px; padding:10px 20px; font-family:Arial,sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
-  .copy-btn:hover { background:var(--navy); color:var(--gold); }
-  .download-btn { display:inline-flex; align-items:center; gap:6px; background:var(--gold); border:2px solid var(--gold); color:var(--navy); border-radius:8px; padding:10px 20px; font-family:Arial,sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
-  .download-btn:hover { background:var(--gold-light); transform:translateY(-1px); box-shadow:0 4px 12px rgba(249,195,7,0.35); }
-  .download-hint { font-size:0.78rem; color:var(--slate); margin-top:10px; line-height:1.5; }
-  footer { background:var(--navy); text-align:center; padding:36px 24px; font-size:0.85rem; color:rgba(255,255,255,0.6); line-height:1.8; }
-  footer a { color:var(--gold); text-decoration:none; font-weight:500; }
-  footer strong { display:block; color:var(--gold); font-size:0.95rem; margin-bottom:4px; font-weight:700; }
-  :focus-visible { outline:3px solid var(--gold); outline-offset:2px; }
-  @media (max-width:640px) {
-    header { padding:14px 18px; }
-    .hero { padding:36px 18px 60px; }
-    .main { padding:28px 14px 60px; }
-    .score-chart-row { flex-direction:column; align-items:center; }
-    .results-orientation { padding:20px 18px; }
-    .btn-row { flex-direction:column; align-items:flex-start; }
-  }
-  #accessGate { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; padding:48px 24px; }
-  .gate-card { background:var(--white); border-radius:16px; box-shadow:0 4px 32px rgba(0,44,73,0.13); padding:48px 40px; max-width:480px; width:100%; text-align:center; border:1px solid rgba(0,44,73,0.08); }
-  .gate-logo { font-family:Arial,sans-serif; font-size:1.6rem; font-weight:700; margin-bottom:6px; }
-  .gate-equi { color:var(--navy); }
-  .gate-draft { color:var(--gold); }
-  .gate-byline { font-size:0.75rem; color:var(--slate); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:28px; }
-  .gate-card h2 { font-family:Arial,sans-serif; font-size:1.3rem; color:var(--navy); font-weight:700; margin-bottom:10px; }
-  .gate-card p { font-size:0.95rem; color:var(--slate); line-height:1.6; margin-bottom:24px; }
-  .code-input { width:100%; border:2px solid #ddd; border-radius:10px; padding:14px 16px; font-family:Arial,sans-serif; font-size:1.1rem; font-weight:700; letter-spacing:0.12em; text-align:center; text-transform:uppercase; color:var(--navy); background:var(--off-white); transition:border-color 0.2s; margin-bottom:12px; }
-  .code-input:focus { outline:none; border-color:var(--navy); background:white; }
-  .code-input::placeholder { letter-spacing:0.05em; font-weight:400; color:#aaa; text-transform:none; }
-  .gate-btn { width:100%; background:var(--gold); color:var(--navy); border:none; border-radius:10px; padding:14px 24px; font-family:Arial,sans-serif; font-size:1rem; font-weight:700; cursor:pointer; transition:all 0.2s; margin-bottom:16px; }
-  .gate-btn:hover { background:var(--gold-light); transform:translateY(-1px); }
-  .gate-btn:disabled { background:#ccc; color:#888; cursor:not-allowed; transform:none; }
-  .gate-error { background:#fff0ee; border:1px solid #f0b0a0; border-radius:8px; padding:12px 16px; color:var(--coral); font-size:0.88rem; margin-bottom:12px; display:none; line-height:1.5; }
-  .gate-success { background:#f2f8f4; border:1px solid #b8d8b8; border-radius:8px; padding:12px 16px; color:var(--sage); font-size:0.88rem; margin-bottom:12px; display:none; line-height:1.5; font-weight:600; }
-  .gate-purchase-link { font-size:0.85rem; color:var(--slate); margin-top:8px; }
-  .gate-purchase-link a { color:var(--navy); font-weight:700; text-decoration:underline; }
-  #mainTool { display:none; }
-</style>
-</head>
-<body>
+// ─────────────────────────────────────────────────────────────────────────────
+// EquiDraft Audit Worker — Two-call architecture
+// Call 1: Equity audit + scoring (sections only)
+// Call 2: Generate both documents
+// Run in parallel — both fit in 6000 tokens each, never truncate
+// ─────────────────────────────────────────────────────────────────────────────
 
-<header>
-  <div class="logo-area">
-    <div class="logo-wordmark">
-      <div class="logo-name-row"><span class="logo-equi">Equi</span><span class="logo-draft">Draft</span></div>
-      <span class="logo-byline">by Parity HR</span>
-    </div>
-  </div>
-</header>
-
-<div class="a11y-bar" role="note" aria-label="Accessibility information">
-  <strong>♿ Accessibility:</strong> EquiDraft uses Arial (dyslexia-friendly), minimum 18pt body text, 4.5:1 color contrast, and full keyboard navigation. Screen reader compatible.
-</div>
-
-<div class="hero" role="banner">
-  <h1>The way you write a job posting<br>determines who applies.<br><em>We can help you get it right.</em></h1>
-  <p>Paste what you have. Get back two equity-centered documents — a complete internal Job Description and a polished external Job Posting — in under two minutes.</p>
-  <div class="distinction-box">
-    <div class="distinction">
-      <h3>📄 Job Description</h3>
-      <p>Internal HR document. Defines the role, competencies, and level. Lives in your HRIS. Guides performance reviews and compensation.</p>
-    </div>
-    <div class="distinction">
-      <h3>📢 Job Posting</h3>
-      <p>External candidate-facing document. Sells the opportunity. Goes on your careers page and job boards. Shorter, warmer, candidate-focused.</p>
-    </div>
-  </div>
-</div>
-
-<div id="accessGate">
-  <div class="gate-card">
-    <div class="gate-logo"><span class="gate-equi">Equi</span><span class="gate-draft">Draft</span></div>
-    <div class="gate-byline">by Parity HR</div>
-    <h2>Enter your access code</h2>
-    <p>Your unique access code was emailed to you after purchase. Enter it below to get started.</p>
-    <div class="gate-error" id="gateError" role="alert"></div>
-    <div class="gate-success" id="gateSuccess" role="status"></div>
-    <input type="text" class="code-input" id="codeInput" placeholder="e.g. EQS-ABCD-1234" maxlength="13" autocomplete="off" spellcheck="false" aria-label="Access code" />
-    <button class="gate-btn" id="gateBtn" onclick="validateCode()">Access EquiDraft</button>
-    <div class="gate-purchase-link">
-      Don't have a code? <a href="https://chooseparity.com/equidraft" target="_blank" rel="noopener">Purchase access here</a>
-    </div>
-  </div>
-</div>
-
-<div id="mainTool">
-<div class="main">
-
-  <div class="card">
-    <div class="card-header">
-      <div class="step-badge" aria-hidden="true">1</div>
-      <h2>Paste whatever you have — a draft, an old posting, or just a job title</h2>
-    </div>
-    <div class="card-body">
-      <textarea id="jdInput" aria-label="Job description or posting input" maxlength="12000"
-        placeholder="Paste your job description, job posting, or any draft here. It does not have to be complete or perfect. We will audit it for equity across all dimensions — gender-neutral language, disability inclusion, racial and cultural neutrality, vague phrases, degree requirements, salary transparency, and more — then return both documents ready to use."
-        oninput="updateCounter()"></textarea>
-      <div class="char-counter" id="charCounter" aria-live="polite">0 / 8,000 characters recommended</div>
-      <p class="char-note">For best results, keep your input under 8,000 characters. The tool accepts up to 12,000 characters.</p>
-      <div class="error-msg" id="errorMsg" role="alert"></div>
-      <button class="btn" id="auditBtn" onclick="runAudit()">
-        <span id="btnText">Start My Draft</span>
-        <div class="spinner" id="spinner" aria-hidden="true"></div>
-      </button>
-    </div>
-  </div>
-
-  <div class="results" id="results" role="main">
-
-    <div class="results-orientation" role="region" aria-label="Audit Results Summary">
-      <h2>📊 Your Equity Audit Results</h2>
-      <p>Your document was scored across four equity dimensions — inclusive language (gender, disability, and racial/cultural neutrality), visual accessibility, screen reader compatibility, and structural equity barriers. Follow the three steps on the right to put your results into action.</p>
-      <div class="score-chart-row">
-        <div class="score-chart-left">
-          <div class="donut-wrap" aria-hidden="true">
-            <canvas id="donutChart" width="160" height="160"></canvas>
-            <div class="donut-center">
-              <div class="donut-score" id="donutScoreNum">—</div>
-              <div class="donut-sublabel">/ 100</div>
-            </div>
-          </div>
-          <div class="score-title-block">
-            <h3 id="chartScoreTitle"></h3>
-            <p id="chartScoreDesc"></p>
-          </div>
-          <div class="chart-legend" id="chartLegend" role="list" aria-label="Score breakdown by category"></div>
-        </div>
-        <div class="what-next">
-          <h4>📋 What to do with these results</h4>
-          <div class="action-steps">
-            <div class="action-step">
-              <div class="action-num">1</div>
-              <div class="action-text">
-                <strong>Fix the red flags first.</strong>
-                Red flags are the most urgent issues. They may expose your organization to legal risk or significantly reduce who applies. Scroll down to read each flag and see the suggested fix.
-              </div>
-            </div>
-            <div class="action-step">
-              <div class="action-num">2</div>
-              <div class="action-text">
-                <strong>Fill in every required field.</strong>
-                Scroll to the Job Description and Job Posting tabs below. Every line marked <strong>[MISSING — DATA REQUIRED]</strong> must be filled in before you use the document.
-              </div>
-            </div>
-            <div class="action-step">
-              <div class="action-num">3</div>
-              <div class="action-text">
-                <strong>Download your documents.</strong>
-                Click the Download button under each document to save a .docx file. Open it in Google Docs or Microsoft Word — no login required.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="detection-banner" id="detectionBanner" role="status"></div>
-      <div class="equity-score" role="region" aria-label="Equity Score">
-        <div class="score-pill" aria-hidden="true">
-          <span id="scoreNum">—</span>
-          <span class="score-pill-label">equity score</span>
-        </div>
-        <div class="score-text">
-          <h3 id="scoreTitle"></h3>
-          <p id="scoreDesc"></p>
-        </div>
-      </div>
-      <div class="audit-sections" id="auditSections"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div class="step-badge" aria-hidden="true">✓</div>
-        <h2>Your equity-centered documents</h2>
-      </div>
-
-      <div class="output-tabs" role="tablist">
-        <button class="output-tab active" role="tab" aria-selected="true" onclick="switchTab('jd', this)">📄 Job Description</button>
-        <button class="output-tab" role="tab" aria-selected="false" onclick="switchTab('posting', this)">📢 Job Posting</button>
-      </div>
-
-      <div class="output-panel active" id="panel-jd" role="tabpanel">
-        <div class="doc-output-intro">
-          <h3>📄 This is your internal Job Description</h3>
-          <p>A Job Description is an internal HR document. It is not published publicly or shared with candidates. It lives in your HR files or HRIS and guides hiring decisions, compensation, and performance reviews.</p>
-          <div class="doc-steps">
-            <div class="doc-step"><div class="doc-step-num">1</div><span>Replace every <strong>[MISSING — DATA REQUIRED]</strong> line with real information before saving or filing.</span></div>
-            <div class="doc-step"><div class="doc-step-num">2</div><span>Share with your hiring manager for review and sign-off.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Save to your HR system. Revisit it once a year or whenever the role changes significantly.</span></div>
-          </div>
-        </div>
-        <div class="required-fields" id="jd-required" style="display:none"></div>
-        <div class="accessibility-note">
-          <strong>📋 Before Filing This Internally</strong>
-          Store in your HRIS. Use Arial or Calibri at minimum 12pt. Share with the hiring manager before posting. Update the compensation band before filing. Review annually.
-        </div>
-        <div class="doc-output" id="jdOutput" tabindex="0" aria-label="Revised Job Description"></div>
-        <div class="btn-row">
-          <button class="download-btn" onclick="downloadDoc('jd')">⬇ Download Job Description (.txt)</button>
-          <button class="copy-btn" onclick="copyDoc('jd')">📋 Copy to Clipboard</button>
-        </div>
-        <p class="download-hint">Opens directly in Google Docs (File → Open) or Microsoft Word. No login required.</p>
-      </div>
-
-      <div class="output-panel" id="panel-posting" role="tabpanel">
-        <div class="doc-output-intro">
-          <h3>📢 This is your external Job Posting</h3>
-          <p>A Job Posting is what candidates see. It is shorter, warmer, and written directly to the person applying. This is what you publish on your careers page, LinkedIn, Indeed, and other job boards.</p>
-          <div class="doc-steps">
-            <div class="doc-step"><div class="doc-step-num">1</div><span>Fill in every <strong>[MISSING — DATA REQUIRED]</strong> field — especially salary range, location, and how to apply.</span></div>
-            <div class="doc-step"><div class="doc-step-num">2</div><span>Read it aloud before posting. If it sounds stiff or confusing, simplify it.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Save a copy in a dedicated Job Postings folder — separate from your HR records.</span></div>
-          </div>
-        </div>
-        <div class="required-fields" id="posting-required" style="display:none"></div>
-        <div class="accessibility-note">
-          <strong>📋 Before Posting Externally — Accessibility Checklist</strong>
-          Use Arial or Calibri at 14pt minimum. Confirm color contrast is 4.5:1 (WCAG 2.1 AA). Test with NVDA or VoiceOver before publishing. Confirm your ATS portal is screen reader accessible. Offer an alternative application method (email or phone).
-        </div>
-        <div class="doc-output" id="postingOutput" tabindex="0" aria-label="Revised Job Posting"></div>
-        <div class="btn-row">
-          <button class="download-btn" onclick="downloadDoc('posting')">⬇ Download Job Posting (.txt)</button>
-          <button class="copy-btn" onclick="copyDoc('posting')">📋 Copy to Clipboard</button>
-          <button class="copy-btn" onclick="copyChecklist()">📋 Copy Accessibility Checklist</button>
-        </div>
-        <p class="download-hint">Opens directly in Google Docs (File → Open) or Microsoft Word. No login required.</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-</div>
-
-<footer>
-  <strong>EquiDraft by Parity HR</strong>
-  Equity-centered document drafting for nonprofits, small businesses, and mission-driven organizations.<br>
-  <a href="https://chooseparity.com" target="_blank" rel="noopener">chooseparity.com</a> &nbsp;·&nbsp; Founded by Vanessa Martinez, SPHR, DEI Certified &nbsp;·&nbsp; San Antonio, TX
-</footer>
-
-<script>
-const CAT_COLORS = {
-  inclusiveLanguage: '#5a8a6a',
-  fontAccessibility: '#1a6b6b',
-  screenReader:      '#d4820a',
-  structuralEquity:  '#f9c307'
-};
-const CAT_LABELS = {
-  inclusiveLanguage: 'Inclusive Language',
-  fontAccessibility: 'Font & Visual Access',
-  screenReader:      'Screen Reader',
-  structuralEquity:  'Structural Equity'
-};
-const CAT_ORDER = ['inclusiveLanguage','fontAccessibility','screenReader','structuralEquity'];
-
-function updateCounter() {
-  const input = document.getElementById('jdInput');
-  const counter = document.getElementById('charCounter');
-  const len = input.value.length;
-  counter.textContent = len.toLocaleString() + ' / 8,000 characters recommended';
-  counter.className = len > 10000 ? 'char-counter over' : len > 8000 ? 'char-counter warning' : 'char-counter';
+function parseJSON(text) {
+  // Strip ALL markdown fences anywhere in the text
+  const clean = text
+    .replace(/```json/gi, '')
+    .replace(/```/g, '')
+    .trim();
+  const first = clean.indexOf('{');
+  const last  = clean.lastIndexOf('}');
+  if (first === -1 || last === -1) throw new Error('No JSON object found in: ' + clean.substring(0, 100));
+  return JSON.parse(clean.substring(first, last + 1));
 }
 
-async function runAudit() {
-  const input = document.getElementById('jdInput').value.trim();
-  const errorMsg = document.getElementById('errorMsg');
-  errorMsg.style.display = 'none';
-  if (!input || input.length < 50) {
-    errorMsg.textContent = 'Please paste a job description or posting before running the audit.';
-    errorMsg.style.display = 'block';
-    return;
-  }
-  const btn = document.getElementById('auditBtn');
-  const spinner = document.getElementById('spinner');
-  const btnText = document.getElementById('btnText');
-  btn.disabled = true;
-  spinner.style.display = 'block';
-  btnText.textContent = 'Working on your documents…';
-  document.getElementById('results').classList.remove('visible');
-  try {
-    const response = await fetch('/api/audit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ input })
-    });
-    const data = await response.json();
-    if (data.error) throw new Error(data.error);
-    if (!response.ok) throw new Error('API error ' + response.status);
-    renderResults(data);
-  } catch(err) {
-    errorMsg.textContent = 'Something went wrong: ' + err.message + '. Please check your API key and try again.';
-    errorMsg.style.display = 'block';
-  } finally {
-    btn.disabled = false;
-    spinner.style.display = 'none';
-    btnText.textContent = 'Start My Draft';
-  }
-}
-
-function renderResults(result) {
-  const banner = document.getElementById('detectionBanner');
-  const typeMap = {
-    job_description: { cls:'jd',     icon:'📄', label:'Job Description detected' },
-    job_posting:     { cls:'posting', icon:'📢', label:'Job Posting detected' },
-    mixed:           { cls:'mixed',   icon:'🔀', label:'Mixed document detected' },
-    unclear:         { cls:'mixed',   icon:'❓', label:'Document type unclear' }
-  };
-  const typeInfo = typeMap[result.documentType] || typeMap.unclear;
-  banner.className = 'detection-banner ' + typeInfo.cls;
-  banner.innerHTML = typeInfo.icon + ' <span>' + typeInfo.label + ' — ' + (result.documentTypeMessage || '') + '</span>';
-
-  const score = result.score || 0;
-  document.getElementById('scoreNum').textContent = score;
-  document.getElementById('scoreTitle').textContent = result.scoreTitle || '';
-  document.getElementById('scoreDesc').textContent = result.scoreDesc || '';
-  document.getElementById('donutScoreNum').textContent = score;
-  document.getElementById('chartScoreTitle').textContent = result.scoreTitle || '';
-  document.getElementById('chartScoreDesc').textContent = result.scoreDesc || '';
-
-  const catScores = {};
-  CAT_ORDER.forEach(key => {
-    const sec = result.sections && result.sections[key];
-    const items = (sec && sec.items) || [];
-    const flags = items.filter(i => i.severity === 'flag').length;
-    const warns = items.filter(i => i.severity === 'warn').length;
-    catScores[key] = Math.max(2, Math.min(25, 25 - flags * 6 - warns * 3));
+async function callClaude(apiKey, prompt, maxTokens) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      messages: [{ role: 'user', content: prompt }]
+    })
   });
-
-  drawDonut(catScores);
-  renderLegend(catScores);
-
-  const container = document.getElementById('auditSections');
-  container.innerHTML = '';
-  const secMeta = {
-    inclusiveLanguage: { icon:'🗣️' },
-    fontAccessibility: { icon:'👁️' },
-    screenReader:      { icon:'♿' },
-    structuralEquity:  { icon:'⚖️' }
-  };
-
-  CAT_ORDER.forEach((key, idx) => {
-    const sec = result.sections && result.sections[key];
-    if (!sec) return;
-    const items = sec.items || [];
-    const flagCount = items.filter(i => i.severity === 'flag').length;
-    const warnCount = items.filter(i => i.severity === 'warn').length;
-    const countLabel = flagCount > 0 ? flagCount + ' flag' + (flagCount > 1 ? 's' : '') :
-                       warnCount > 0 ? warnCount + ' note' + (warnCount > 1 ? 's' : '') : 'Good';
-    const countClass = flagCount > 0 ? 'flag' : warnCount > 0 ? 'warn' : 'good';
-
-    const itemsHTML = items.map(item => `
-      <div class="change-item ${item.severity || 'warn'}">
-        <span class="change-icon" aria-hidden="true">${item.icon || '•'}</span>
-        <div class="change-content">
-          <strong>${item.title || ''}</strong>
-          ${item.explanation || ''}
-          ${(item.before && item.after) ? `
-            <div class="before-after">
-              <div class="ba-box ba-before"><div class="ba-label">Before</div>${item.before}</div>
-              <div class="ba-box ba-after"><div class="ba-label">After</div>${item.after}</div>
-            </div>` : ''}
-          ${item.citation ? `<div class="citation"><span class="citation-label">📚 Why we flag this</span>${item.citation}</div>` : ''}
-        </div>
-      </div>`).join('');
-
-    const div = document.createElement('div');
-    div.className = 'audit-section';
-    div.innerHTML = `
-      <div class="section-header" onclick="toggleSection(this)" role="button" tabindex="0" aria-expanded="${idx === 0}">
-        <div class="section-icon" aria-hidden="true">${secMeta[key].icon}</div>
-        <span class="section-title">${sec.title}</span>
-        <span class="section-count ${countClass}" aria-label="${countLabel}">${countLabel}</span>
-        <em class="chevron ${idx === 0 ? 'open' : ''}" aria-hidden="true">▾</em>
-      </div>
-      <div class="section-body ${idx === 0 ? 'open' : ''}">
-        ${itemsHTML || '<p style="padding:12px;color:#999;font-size:0.9rem;">No issues found in this category.</p>'}
-      </div>`;
-    div.querySelector('.section-header').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
-    });
-    container.appendChild(div);
-  });
-
-  renderRequiredFields('jd-required',     result.jobDescription?.requiredFields || []);
-  renderRequiredFields('posting-required', result.jobPosting?.requiredFields     || []);
-  document.getElementById('jdOutput').textContent      = result.jobDescription?.document || '';
-  document.getElementById('postingOutput').textContent = result.jobPosting?.document     || '';
-
-  document.getElementById('results').classList.add('visible');
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const data = await res.json();
+  if (!data.content || !data.content[0]) throw new Error('Empty API response: ' + JSON.stringify(data).substring(0, 200));
+  return data.content[0].text || '';
 }
 
-function drawDonut(catScores) {
-  const canvas = document.getElementById('donutChart');
-  const ctx = canvas.getContext('2d');
-  const S = 160, cx = S/2, cy = S/2, outerR = 72, innerR = 50, gap = 0.04;
-  ctx.clearRect(0, 0, S, S);
-  const total = CAT_ORDER.reduce((s,k) => s + (catScores[k]||0), 0) || 100;
-  let angle = -Math.PI / 2;
-  CAT_ORDER.forEach(key => {
-    const val = catScores[key] || 0;
-    const sweep = (val / total) * Math.PI * 2 - gap;
-    const a0 = angle + gap/2, a1 = angle + sweep + gap/2;
-    ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(a0)*innerR, cy + Math.sin(a0)*innerR);
-    ctx.arc(cx, cy, outerR, a0, a1);
-    ctx.arc(cx, cy, innerR, a1, a0, true);
-    ctx.closePath();
-    ctx.fillStyle = CAT_COLORS[key];
-    ctx.fill();
-    angle += sweep + gap;
-  });
-}
+// ─── PROMPT 1: AUDIT ONLY ────────────────────────────────────────────────────
+function auditPrompt(input) {
+  return `You are an equity-centered HR expert. Audit the job document below. Return ONLY the audit JSON — no jobDescription, no jobPosting. Those are handled separately.
 
-function renderLegend(catScores) {
-  const container = document.getElementById('chartLegend');
-  container.innerHTML = '';
-  const statusColors = { 'Flagged': '#c0392b', 'Warning': '#d4820a', 'Good': '#5a8a6a' };
-  CAT_ORDER.forEach(key => {
-    const score = catScores[key] || 0;
-    const status = score >= 20 ? 'Good' : score >= 12 ? 'Warning' : 'Flagged';
-    const dotColor = statusColors[status];
-    const item = document.createElement('div');
-    item.className = 'legend-item';
-    item.setAttribute('role','listitem');
-    item.innerHTML = `
-      <span class="legend-dot" style="background:${dotColor}" aria-hidden="true"></span>
-      <span>${CAT_LABELS[key]}</span>
-      <span class="legend-score" style="color:${dotColor}">${status}</span>`;
-    container.appendChild(item);
-  });
-}
+CRITICAL: Return ONLY valid JSON. No markdown. No backticks. No text before or after. You MUST close every bracket and brace. Keep ALL explanations to 1-2 sentences maximum. Fit in 5000 tokens.
 
-function renderRequiredFields(id, fields) {
-  const el = document.getElementById(id);
-  if (!fields || fields.length === 0) { el.style.display = 'none'; return; }
-  el.style.display = 'block';
-  el.innerHTML = `<h4>⚠️ Required Fields — Complete Before Using</h4>
-    <ul class="required-list">${fields.map(f=>`<li><span class="req-icon" aria-hidden="true">□</span><span>${f}</span></li>`).join('')}</ul>`;
-}
+============================
+7 MANDATORY AUDIT RULES
+============================
 
-function switchTab(tab, btn) {
-  document.querySelectorAll('.output-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');});
-  document.querySelectorAll('.output-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  btn.setAttribute('aria-selected','true');
-  document.getElementById('panel-'+tab).classList.add('active');
-}
+RULE 1 — GENDER-NEUTRAL LANGUAGE (goes in: inclusiveLanguage)
+Flag if ANY exist:
+- Gendered pronouns: "he," "she," "his," "her," "he/she"
+- Gendered descriptors: "salesman," "foreman," "manpower," "guy," "gal," "girl," "guys," "ladies"
+- Voice inconsistency: mixing "you will" with "the employee will" or "the candidate must"
+NOTE: "HR guy" and "marketing gal" are gendered — always flag them.
+ONE item. Flag if found, good if not.
 
-function toggleSection(header) {
-  const body = header.nextElementSibling;
-  const chevron = header.querySelector('.chevron');
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  chevron.classList.toggle('open', !isOpen);
-  header.setAttribute('aria-expanded', String(!isOpen));
-}
+RULE 2 — DISABILITY-INCLUSIVE LANGUAGE (goes in: inclusiveLanguage)
+ALWAYS produces at least one item.
+A. ABLEIST LANGUAGE — flag if found:
+- "able-bodied," "suffer from," "wheelchair-bound," "mentally ill," "crazy," "lame"
+- Neurotypical defaults: "always bring positive energy," "high energy," "always on," "upbeat"
+- "Fast-paced" or "dynamic" — ALWAYS flag regardless of context or explanation.
+B. ACCOMMODATION STATEMENT — ALWAYS flag if missing. Every job (remote, part-time, 1099) needs one. "No physical barriers" never justifies omitting it.
+Up to TWO items.
 
-// =====================================================
-// DOWNLOAD AS .TXT — opens in Google Docs, Word, Notes
-// Most reliable cross-browser, no library needed
-// =====================================================
-function downloadDoc(type) {
-  const isJD = type === 'jd';
-  const rawText = document.getElementById(isJD ? 'jdOutput' : 'postingOutput').textContent;
-  const filename = isJD ? 'EquiDraft-Job-Description.txt' : 'EquiDraft-Job-Posting.txt';
+RULE 3 — RACIALLY AND CULTURALLY NEUTRAL LANGUAGE (goes in: inclusiveLanguage)
+Flag if ANY exist:
+- Subjective affect standards: "positive energy," "positive attitude," "good vibes," "friendly demeanor" — always flag, no exceptions
+- "Culture fit" without defining the culture
+- "Professional appearance," "well-spoken," "polished," "articulate" without objective standard
+- School name-dropping, unpaid trial work
+Up to TWO items.
 
-  if (!rawText || !rawText.trim()) {
-    alert('No document content to download. Please run the audit first.');
-    return;
+RULE 4 — VAGUE AND CODED PHRASES (goes in: structuralEquity)
+Always flag if any appear — context never removes the flag:
+"fast-paced," "dynamic," "self-starter," "rockstar," "ninja," "hustle," "wear many hats," "go above and beyond," "culture fit," "passionate," "hit the ground running," "proven ability," "results-driven," "strong work ethic," "entrepreneurial spirit," "thrives under pressure," "positive energy"
+ONE item: title must be "One or more vague phrases found — example: '[exact phrase from document]'"
+
+RULE 5 — DEGREE AND CREDENTIAL REQUIREMENTS (goes in: structuralEquity)
+Could someone do this job via experience, certification, or training without a four-year degree?
+If yes: flag — name the skills, why no degree needed, experience substitute, relevant certs.
+If licensed credential required (RN, CPA, LCSW): mark good, explain briefly.
+ONE item always present.
+
+RULE 6 — SALARY TRANSPARENCY (goes in: structuralEquity)
+Exactly ONE salary finding per document. Salary behind a link = missing — flag it.
+SCENARIO A — No salary in document: flag. Give BLS average for this specific role.
+SCENARIO B — Range exists: calculate spread = (max-min)/min x 100. Flag if over threshold (50% entry, 65% professional, 80% director).
+SCENARIO C — Single figure only: warn, suggest range.
+ONE item only — never combine scenarios.
+
+RULE 7 — ADDITIONAL STRUCTURAL BARRIERS (goes in: structuralEquity)
+Add only if present beyond Rules 4/5/6:
+- Arbitrarily high experience thresholds for the actual duties
+- Missing FLSA classification
+- Missing location or remote status
+- No EEO statement
+- Benefits described only as "competitive" with no specifics
+- Homogeneous culture signals: "like a family," "we work hard and play hard"
+Only flag what is actually in the document.
+
+Return this exact JSON structure:
+
+{
+  "score": <0-100>,
+  "scoreTitle": "<Needs Significant Work | Developing Foundation | Good Foundation | Strong Equity Practice>",
+  "scoreDesc": "<Two short sentences: score meaning, single most important fix.>",
+  "documentType": "<job_description | job_posting | mixed | unclear>",
+  "documentTypeMessage": "<One sentence: document type detected and why separate JD and posting matters.>",
+  "sections": {
+    "inclusiveLanguage": {
+      "title": "Inclusive Language",
+      "severity": "<flag | warn | good>",
+      "items": [{"icon":"<🚩|⚠️|✅>","severity":"<flag|warn|good>","title":"<issue>","explanation":"<1-2 sentences>","before":"<exact quote>","after":"<specific fix>","citation":"<one sentence + source>"}]
+    },
+    "fontAccessibility": {
+      "title": "Font and Visual Accessibility",
+      "severity": "<flag | warn | good>",
+      "items": [{"icon":"<🚩|⚠️|✅>","severity":"<flag|warn|good>","title":"<issue>","explanation":"<1-2 sentences>","before":"<current state>","after":"<specific standard>","citation":"<one sentence + source>"}]
+    },
+    "screenReader": {
+      "title": "Screen Reader Compatibility",
+      "severity": "<flag | warn | good>",
+      "items": [{"icon":"<🚩|⚠️|✅>","severity":"<flag|warn|good>","title":"<issue>","explanation":"<1-2 sentences>","before":"<current state>","after":"<plain-language fix>","citation":"<one sentence + source>"}]
+    },
+    "structuralEquity": {
+      "title": "Structural Equity and Barriers",
+      "severity": "<flag | warn | good>",
+      "items": [{"icon":"<🚩|⚠️|✅>","severity":"<flag|warn|good>","title":"<issue>","explanation":"<1-2 sentences>","before":"<exact quote or state>","after":"<specific fix>","citation":"<one sentence + source>"}]
+    }
   }
+}
 
-  const header = isJD
-    ? 'EQUIDRAFT BY PARITY HR\nJob Description\nchooeparity.com\n\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE FILING.\n\n' + '='.repeat(60) + '\n\n'
-    : 'EQUIDRAFT BY PARITY HR\nJob Posting\nchooeparity.com\n\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE POSTING.\n\n' + '='.repeat(60) + '\n\n';
+DOCUMENT TO AUDIT:
+${input}`;
+}
 
-  const footer = '\n\n' + '='.repeat(60) + '\nGenerated by EquiDraft by Parity HR — chooseparity.com\nFounded by Vanessa Martinez, SPHR, DEI Certified';
+// ─── PROMPT 2: DOCUMENTS ONLY ─────────────────────────────────────────────────
+function documentsPrompt(input) {
+  return `You are an equity-centered HR expert. Using the job document below, generate a complete internal Job Description and a complete external Job Posting. Return ONLY valid JSON — no markdown, no backticks, no text before or after. You MUST close every bracket and brace. Fit in 5000 tokens.
 
-  const fullText = header + rawText + footer;
+════════════════════════════════════════
+MANDATORY LANGUAGE RULES — APPLY IN BOTH DOCUMENTS
+Do not copy problematic language from the original. Rewrite every instance.
+════════════════════════════════════════
+
+RULE A — REMOVE ALL GENDERED LANGUAGE
+Never use: "he," "she," "his," "her," "he/she," "guy," "gal," "girl," "guys," "ladies."
+Rewrite gendered descriptions with neutral alternatives.
+Example: "HR guy Matt and marketing gal Callie" → "HR professional Matt and marketing professional Callie"
+
+RULE B — REMOVE ALL VAGUE AND CODED PHRASES
+Never use these words anywhere in either document. Replace every instance with specific, plain-language alternatives:
+- "fast-paced" → describe the actual work: "you will manage multiple client accounts simultaneously with shifting weekly priorities"
+- "dynamic" → describe what actually changes: "priorities and client needs shift week to week"
+- "self-starter" → "you manage your own schedule and deadlines without daily supervision"
+- "passionate" → name the actual skill or commitment required
+- "rockstar," "ninja," "hustle" → remove entirely, describe the actual work
+- "go above and beyond" → describe the actual expectation specifically
+- "strong work ethic" → name the observable behavior
+- "positive energy" → remove entirely — this is a subjective, culturally-defined standard that excludes candidates with depression, chronic illness, or different cultural communication styles. Do not include it in either document in any form.
+- "entrepreneurial spirit" → describe the actual independent work expected
+- "thrives under pressure" → describe the actual working conditions specifically
+- "wear many hats" → list the actual variety of responsibilities
+
+RULE C — REMOVE NEUROTYPICAL AND ABLEIST DEFAULTS
+Never imply a high-energy, always-available, or neurotypical default is required.
+Remove or rewrite: "always bring positive energy," "high energy," "always on," "upbeat," "enthusiastic" as a requirement.
+
+════════════════════════════════════════
+DOCUMENT STRUCTURE RULES
+These two documents serve different audiences and must be structured accordingly.
+════════════════════════════════════════
+
+JOB DESCRIPTION — INTERNAL HR DOCUMENT ONLY
+- Purpose: internal filing, HRIS, compensation benchmarking, performance management
+- Audience: HR team, hiring manager, legal — NOT candidates
+- Do NOT include: company origin story, founder bios, marketing copy, culture descriptions, "about us" narrative
+- DO include: all administrative fields, competencies, working conditions, legal statements
+- Tone: precise, functional, compliance-focused
+
+JOB POSTING — EXTERNAL CANDIDATE-FACING DOCUMENT
+- Purpose: attract qualified, diverse applicants
+- Audience: candidates — write in second person (you/your) throughout
+- DO include: company story and context (1-2 sentences), reporting structure (who they report to), salary or salary range, schedule and hours, FLSA status, work arrangement (remote/hybrid/on-site), benefits
+- Tone: warm, plain, direct, welcoming
+
+Mark every gap as [MISSING — DATA REQUIRED: explain specifically what is needed and why].
+Include accommodation and EEO statements in BOTH documents.
+
+Return this exact JSON:
+
+{
+  "jobDescription": {
+    "requiredFields": ["<specific missing field and why it is needed internally>"],
+    "document": "JOB DESCRIPTION\n\nPOSITION TITLE: [from document or MISSING — DATA REQUIRED: insert official position title]\nDEPARTMENT: [from document or MISSING — DATA REQUIRED: insert department name]\nREPORTS TO: [from document or MISSING — DATA REQUIRED: insert direct supervisor title]\nFLSA STATUS: [Exempt or Non-Exempt based on salary and duties — or MISSING — DATA REQUIRED: confirm with HR or legal counsel before filing]\nPAY BAND: [from document or MISSING — DATA REQUIRED: insert approved salary range before filing — required for compensation benchmarking]\nLOCATION: [from document or MISSING — DATA REQUIRED: insert work location and remote, hybrid, or on-site status]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED: insert the date this description takes effect]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it fits the organization. Use document content. No marketing language.]\n\nESSENTIAL FUNCTIONS\n[Numbered list of core responsibilities drawn directly from the document. Use actual duties — no generic placeholders. Rewrite any vague language into specific, observable tasks.]\n\nMINIMUM QUALIFICATIONS\n[Required education, experience, and skills. Where a degree is not legally required for this work, include: 'Or equivalent combination of education and experience.' List relevant certifications as alternatives to degree where appropriate.]\n\nPREFERRED QUALIFICATIONS\n[Qualifications that strengthen a candidacy but are not required to perform the core functions.]\n\nCOMPETENCIES\n[CRITICAL: If the input document contains explicitly listed competencies, reproduce them VERBATIM — do not rewrite, reorder, or replace them. Only generate competencies if none are provided in the input.]\n\nWORKING CONDITIONS\n[Schedule, hours per week, remote or hybrid arrangement, travel requirements. From document or MISSING — DATA REQUIRED.]\n\nPHYSICAL DEMANDS AND WORKING CONDITIONS\n[List specific physical requirements of this role. Examples: prolonged sitting at a workstation, repetitive use of hands and wrists, extended screen use, ability to lift up to [X] lbs, occasional standing or walking, ability to work in variable noise environments. From document or MISSING — DATA REQUIRED: confirm with hiring manager before filing. Required for ADA compliance.]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone number].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by applicable law."
+  },
+  "jobPosting": {
+    "requiredFields": ["<specific missing field that must be completed before this posting goes public>"],
+    "document": "JOB POSTING\n\n[Position Title]\n[Organization Name — from document or MISSING — DATA REQUIRED]\n[Location | Work arrangement: Remote, Hybrid, or On-Site — from document or MISSING — DATA REQUIRED]\n[Salary or salary range — from document or MISSING — DATA REQUIRED: candidates deserve to know compensation before investing time in an application. Salary transparency reduces pay gaps and increases qualified applicants.]\n[Schedule and hours — from document or MISSING — DATA REQUIRED: e.g. Full-time, Part-time, expected hours per week]\n[FLSA Status: Exempt or Non-Exempt — from document or MISSING — DATA REQUIRED: required by law to disclose]\n[Reports to: supervisor title — from document or MISSING — DATA REQUIRED]\n\nABOUT [ORGANIZATION NAME]\n[1-2 sentences describing what the organization does, who it serves, and why the work matters. From document content. Warm, plain language. No jargon.]\n\nABOUT THIS ROLE\n[3-4 sentences in second person describing what you will do and why this role matters. Welcoming language. Drawn from document. No vague phrases.]\n\nWHAT YOU WILL DO\n[Bulleted list of key responsibilities in plain language. Use you and your throughout. Drawn from document duties. Rewrite any vague language into specific, observable tasks.]\n\nWHAT WE ARE LOOKING FOR\nRequired:\n[Required qualifications listed clearly. Where a degree is not legally required, include: Or equivalent combination of relevant experience and training.]\n\nPreferred:\n[Qualifications that would strengthen your application but are not required.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: insert salary or salary range, health insurance details, paid time off, retirement plan, mental health benefits, disability coverage, remote work stipend or equipment, professional development budget, and any other benefits. Candidates cannot assess whether this role is right for them without this information.]\n\nPHYSICAL DEMANDS\n[Plain-language description of physical requirements, written accessibly for candidates. Example: This role involves extended time at a computer workstation. If you have questions about physical requirements or need an accommodation, please reach out before applying.]\n\nOUR COMMITMENT TO EQUAL OPPORTUNITY\nWe are an equal opportunity employer committed to a workplace where every person is treated with dignity and respect. We welcome applicants of all backgrounds, identities, and abilities. We comply with all applicable federal, state, and local equal employment opportunity laws.\n\nHOW TO APPLY\n[Clear application instructions. Include deadline if known. State that accommodations are available during the application and interview process. Include an alternative application method — email or phone — for candidates who cannot use the online portal.]\n\nACCOMMODATION NOTICE\nWe are committed to an accessible application and interview process. If you need an accommodation at any stage, please contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone] before the application deadline. We will work with you to meet your needs."
+  }
+}
+
+DOCUMENT TO PROCESS:
+${input}`;
+}
+
+// ─── MAIN HANDLER ─────────────────────────────────────────────────────────────
+export async function onRequestPost(context) {
+  const { request, env } = context;
 
   try {
-    // Method 1: Blob + object URL (works in most modern browsers)
-    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = filename;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+    const body      = await request.json();
+    const { input } = body;
+    const apiKey    = env.ANTHROPIC_API_KEY;
 
-    const btn  = document.querySelector('#panel-' + type + ' .download-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✓ Downloaded!';
-    setTimeout(() => btn.textContent = orig, 2500);
-  } catch(err) {
-    // Method 2: data URI fallback
+    if (!apiKey) return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    if (!input)  return new Response(JSON.stringify({ error: 'No input provided' }),      { status: 400, headers: { 'Content-Type': 'application/json' } });
+
+    // Run both calls in parallel — faster than sequential, each safely under token limit
+    const [auditText, docsText] = await Promise.all([
+      callClaude(apiKey, auditPrompt(input),    6000),
+      callClaude(apiKey, documentsPrompt(input), 6000)
+    ]);
+
+    let auditResult, docsResult;
+
     try {
-      const encoded = 'data:text/plain;charset=utf-8,' + encodeURIComponent(fullText);
-      const a = document.createElement('a');
-      a.href = encoded;
-      a.download = filename;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch(err2) {
-      alert('Download not supported in this browser. Please use the Copy button and paste into Google Docs.');
+      auditResult = parseJSON(auditText);
+    } catch(e) {
+      return new Response(JSON.stringify({ error: 'Audit parse error. Model returned: ' + auditText.substring(0, 300) }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
+
+    try {
+      docsResult = parseJSON(docsText);
+    } catch(e) {
+      return new Response(JSON.stringify({ error: 'Documents parse error. Model returned: ' + docsText.substring(0, 300) }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    // Merge into one response for the frontend
+    const result = {
+      ...auditResult,
+      jobDescription: docsResult.jobDescription,
+      jobPosting:     docsResult.jobPosting
+    };
+
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    });
+
+  } catch (err) {
+    return new Response(JSON.stringify({ error: 'Function error: ' + err.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
 
-// =====================================================
-// COPY TO CLIPBOARD
-// =====================================================
-function copyDoc(type) {
-  const text = document.getElementById(type === 'jd' ? 'jdOutput' : 'postingOutput').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const panel = document.querySelector('#panel-' + type);
-    const btn = Array.from(panel.querySelectorAll('.copy-btn')).find(b => b.textContent.includes('Copy to'));
-    if (btn) { const orig = btn.textContent; btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = orig, 2000); }
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
   });
 }
-
-function copyChecklist() {
-  const checklist = `PARITY HR — ACCESSIBILITY PUBLISHING CHECKLIST
-
-FONT AND VISUAL
-[ ] Use Arial or Calibri — minimum 12pt for JDs, 14pt for postings
-[ ] Color contrast 4.5 to 1 minimum (WCAG 2.1 AA)
-[ ] No ALL CAPS text blocks, excessive italics, or decorative fonts
-[ ] Color is not the only way meaning is conveyed
-
-SCREEN READER COMPATIBILITY
-[ ] All acronyms spelled out on first use
-[ ] No em dashes, ampersands, or symbols in place of words
-[ ] All sentences under 25 words
-[ ] Clear section headers in logical reading order
-[ ] Plain text version available on request
-
-APPLICATION PROCESS
-[ ] ATS portal is WCAG 2.1 AA compliant
-[ ] Alternative application method offered — email or phone
-[ ] Accommodation request process stated in the posting
-[ ] Posting tested with NVDA or VoiceOver before publishing
-
-REQUIRED FIELDS
-[ ] All [REQUIRED] placeholders completed before posting
-[ ] Pay range reviewed and approved
-[ ] Accommodation contact email confirmed active
-[ ] Application deadline confirmed with hiring manager
-
-Generated by Parity HR — chooseparity.com
-Founded by Vanessa Martinez, SPHR, DEI Certified`;
-
-  navigator.clipboard.writeText(checklist).then(() => {
-    const btns = document.querySelectorAll('#panel-posting .copy-btn');
-    const btn = Array.from(btns).find(b => b.textContent.includes('Checklist'));
-    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = '📋 Copy Accessibility Checklist', 2000); }
-  });
-}
-
-// =====================================================
-// ACCESS GATE
-// =====================================================
-async function validateCode() {
-  const input = document.getElementById('codeInput');
-  const errorEl = document.getElementById('gateError');
-  const successEl = document.getElementById('gateSuccess');
-  const btn = document.getElementById('gateBtn');
-  const code = input.value.trim().toUpperCase();
-
-  errorEl.style.display = 'none';
-  successEl.style.display = 'none';
-
-  if (!code || code.length < 8) {
-    errorEl.textContent = 'Please enter your access code. It looks like EQS-ABCD-1234.';
-    errorEl.style.display = 'block';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Checking...';
-
-  try {
-    const response = await fetch('/api/validate-code', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code })
-    });
-    const data = await response.json();
-    if (data.valid) {
-      successEl.textContent = data.message;
-      successEl.style.display = 'block';
-      sessionStorage.setItem('equidraft_access', 'granted');
-      sessionStorage.setItem('equidraft_type', data.type);
-      setTimeout(() => {
-        document.getElementById('accessGate').style.display = 'none';
-        document.getElementById('mainTool').style.display = 'block';
-      }, 1200);
-    } else {
-      errorEl.textContent = data.error || 'Invalid code. Please check your purchase confirmation email and try again.';
-      errorEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Access EquiDraft';
-    }
-  } catch(err) {
-    errorEl.textContent = 'Something went wrong. Please try again.';
-    errorEl.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Access EquiDraft';
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('codeInput');
-  if (input) {
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') validateCode();
-    });
-    input.addEventListener('input', function() {
-      let val = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-      if (val.length > 3) val = val.slice(0,3) + '-' + val.slice(3);
-      if (val.length > 8) val = val.slice(0,8) + '-' + val.slice(8);
-      this.value = val.slice(0,13);
-    });
-  }
-});
-</script>
-</body>
-</html>
