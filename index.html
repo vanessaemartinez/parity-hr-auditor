@@ -16,6 +16,8 @@
     --coral: #c0392b;
     --amber: #d4820a;
     --teal: #1a6b6b;
+    --posting-green: #1a4a1a;
+    --posting-green-light: #7ec87e;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, sans-serif; background: var(--off-white); color: var(--navy); min-height: 100vh; font-size: 18px; line-height: 1.7; }
@@ -62,9 +64,9 @@
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
   /* ── RESULTS ORIENTATION ── */
-  .results-orientation { background:var(--navy); border-radius:14px; padding:28px 32px; margin-bottom:28px; border-left:6px solid var(--gold); box-shadow:0 3px 24px rgba(0,44,73,0.15); }
-  .results-orientation > h2 { color:var(--gold); font-size:1.2rem; font-weight:700; margin-bottom:8px; }
-  .results-orientation > p { color:rgba(255,255,255,0.82); font-size:0.95rem; line-height:1.6; margin-bottom:24px; }
+  .results-orientation { background:var(--navy); border-radius:14px; padding:32px; margin-bottom:28px; border-left:6px solid var(--gold); box-shadow:0 3px 24px rgba(0,44,73,0.15); }
+  .results-orientation > h2 { color:var(--gold); font-size:1.5rem; font-weight:700; margin-bottom:10px; letter-spacing:0.01em; }
+  .results-orientation > p { color:rgba(255,255,255,0.85); font-size:1rem; line-height:1.7; font-weight:400; margin-bottom:28px; }
   .score-chart-row { display:flex; gap:36px; align-items:flex-start; flex-wrap:wrap; }
   .score-chart-left { display:flex; flex-direction:column; align-items:center; min-width:180px; }
   .donut-wrap { position:relative; width:160px; height:160px; }
@@ -73,41 +75,53 @@
   .donut-score { font-size:2.2rem; font-weight:700; color:var(--gold); line-height:1; }
   .donut-sublabel { font-size:0.62rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; }
   .score-title-block { margin-top:14px; text-align:center; }
-  .score-title-block h3 { color:var(--white); font-size:0.98rem; font-weight:700; }
-  .score-title-block p { color:rgba(255,255,255,0.7); font-size:0.82rem; line-height:1.5; margin-top:4px; }
+  .score-title-block h3 { color:var(--white); font-size:1rem; font-weight:700; }
+  .score-title-block p { color:rgba(255,255,255,0.75); font-size:0.85rem; line-height:1.5; margin-top:6px; font-weight:400; }
   .chart-legend { margin-top:14px; display:flex; flex-direction:column; gap:7px; width:100%; }
-  .legend-item { display:flex; align-items:center; gap:8px; font-size:0.78rem; color:rgba(255,255,255,0.75); }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:0.82rem; color:rgba(255,255,255,0.8); font-weight:400; }
   .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
   .legend-score { margin-left:auto; font-weight:700; color:var(--white); }
 
-  /* ── NEXT STEPS — replaces "what-next" ── */
+  /* ── NEXT STEPS ── */
   .next-steps-block { flex:2; min-width:240px; display:flex; flex-direction:column; gap:16px; }
-  .next-steps-block h4 { color:var(--gold); font-size:0.88rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px; }
+  .next-steps-block > h4 { color:var(--gold); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px; }
   .next-steps-overall { display:flex; flex-direction:column; gap:10px; }
-  .action-step { display:flex; gap:12px; align-items:flex-start; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:14px 16px; }
-  .action-num { width:26px; height:26px; background:var(--gold); color:var(--navy); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0; margin-top:1px; }
-  .action-text { color:rgba(255,255,255,0.82); font-size:0.88rem; line-height:1.55; }
-  .action-text strong { display:block; color:var(--white); font-weight:700; margin-bottom:3px; font-size:0.92rem; }
+  .action-step { display:flex; gap:12px; align-items:flex-start; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:14px 16px; }
+  .action-num { width:28px; height:28px; background:var(--gold); color:var(--navy); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:700; flex-shrink:0; margin-top:2px; }
+  .action-text { color:rgba(255,255,255,0.88); font-size:0.92rem; line-height:1.6; font-weight:400; }
+  .action-text strong { display:block; color:var(--white); font-weight:700; margin-bottom:4px; font-size:0.96rem; }
+  .action-text .action-sub { display:block; color:rgba(255,255,255,0.65); font-size:0.82rem; margin-top:6px; line-height:1.5; font-style:italic; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px; }
 
-  /* ── CONTEXTUAL DOC DIRECTIONS (shown after audit) ── */
+  /* ── CONTEXTUAL DOC DIRECTIONS ── */
   .doc-directions { display:none; margin-top:4px; }
   .doc-directions.visible { display:flex; flex-direction:column; gap:10px; }
-  .doc-dir-block { background:rgba(255,255,255,0.05); border:1px solid rgba(249,195,7,0.2); border-radius:10px; padding:14px 16px; }
-  .doc-dir-block h5 { color:var(--gold); font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; }
-  .doc-dir-block ol { padding-left:18px; display:flex; flex-direction:column; gap:6px; }
-  .doc-dir-block li { color:rgba(255,255,255,0.82); font-size:0.85rem; line-height:1.5; }
-  .doc-dir-note { font-size:0.78rem; color:rgba(255,255,255,0.45); font-style:italic; margin-top:10px; line-height:1.4; }
+  .doc-dir-block { background:rgba(255,255,255,0.06); border:1px solid rgba(249,195,7,0.25); border-radius:10px; padding:16px 18px; }
+  .doc-dir-block h5 { color:var(--gold); font-size:0.95rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:10px; }
+  .doc-dir-block ol { padding-left:20px; display:flex; flex-direction:column; gap:7px; }
+  .doc-dir-block li { color:rgba(255,255,255,0.88); font-size:0.9rem; line-height:1.55; font-weight:400; }
+  .doc-dir-note { font-size:0.82rem; color:rgba(255,255,255,0.5); font-style:italic; margin-top:6px; line-height:1.5; }
 
-  /* ── DETECTION + SCORE ── */
-  .detection-banner { padding:14px 28px; font-size:0.92rem; font-weight:700; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(0,44,73,0.1); }
-  .detection-banner.jd { background:#e8f0f8; color:var(--navy); }
-  .detection-banner.posting { background:#eef8ee; color:#1a4a1a; }
-  .detection-banner.mixed { background:#fffbe8; color:#5a4000; }
+  /* ── DOCUMENT TYPE BANNER ── */
+  .detection-outer { margin-bottom:0; }
+  .detection-banner { padding:16px 28px; font-size:0.95rem; font-weight:700; display:flex; align-items:flex-start; gap:12px; border-bottom:1px solid rgba(0,44,73,0.1); flex-direction:column; }
+  .detection-banner.jd { background:#dde8f5; color:var(--navy); border-left:5px solid var(--navy); }
+  .detection-banner.posting { background:#ddf0dd; color:#1a3a1a; border-left:5px solid var(--sage); }
+  .detection-banner.mixed { background:#fff3cc; color:#5a4000; border-left:5px solid var(--amber); }
+  .detection-banner.unclear { background:#f5f0e8; color:#5a4a30; border-left:5px solid var(--amber); }
+  .detection-banner-title { font-size:1rem; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .detection-banner-why { font-size:0.85rem; font-weight:400; line-height:1.5; margin-top:4px; opacity:0.85; }
+
+  /* ── EQUITY SCORE ── */
   .equity-score { display:flex; align-items:center; gap:20px; padding:18px 28px; background:#f4f2ec; border-bottom:1px solid #e8e4d8; }
   .score-pill { background:var(--navy); color:var(--gold); font-size:1.5rem; font-weight:700; border-radius:10px; padding:10px 18px; flex-shrink:0; line-height:1; text-align:center; }
   .score-pill-label { font-size:0.58rem; color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-top:3px; }
   .score-text h3 { font-size:1rem; margin-bottom:4px; font-weight:700; color:var(--navy); }
   .score-text p { font-size:0.88rem; color:var(--slate); line-height:1.5; max-width:560px; }
+
+  /* ── DIMENSIONS INTRO ── */
+  .dimensions-intro { padding:18px 28px 0; background:white; }
+  .dimensions-intro h3 { font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .dimensions-intro p { font-size:0.88rem; color:var(--slate); line-height:1.55; padding-bottom:14px; border-bottom:2px solid var(--off-white); }
 
   /* ── AUDIT SECTIONS ── */
   .audit-section { border-bottom:1px solid #eee; }
@@ -128,8 +142,6 @@
   .change-icon { font-size:1.1rem; flex-shrink:0; margin-top:2px; }
   .change-content { flex:1; }
   .change-content strong { display:block; margin-bottom:4px; color:var(--navy); font-weight:700; font-size:0.95rem; }
-
-  /* ── BEFORE/AFTER BOXES ── */
   .before-after { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
   .ba-box { flex:1; min-width:160px; border-radius:6px; padding:10px 14px; font-size:0.85rem; line-height:1.5; }
   .ba-before { background:#fde8e4; border:1px solid #f0c0b8; }
@@ -141,23 +153,28 @@
   .chevron { margin-left:auto; transition:transform 0.2s; font-style:normal; font-size:0.8rem; }
   .chevron.open { transform:rotate(180deg); }
 
-  /* ── DOCUMENT OUTPUT SECTION ── */
-  .doc-output-intro { border-radius:0 10px 10px 0; padding:20px 24px; margin-bottom:22px; }
-  .doc-output-intro.jd-intro { background:#002c49; border-left:5px solid var(--gold); }
-  .doc-output-intro.posting-intro { background:#1a4a1a; border-left:5px solid #7ec87e; }
-  .doc-output-intro h3 { font-size:1.3rem; font-weight:700; margin-bottom:8px; }
+  /* ── DOWNLOAD WARNING ── */
+  .download-warning { background:rgba(249,195,7,0.12); border:2px solid var(--gold); border-radius:10px; padding:14px 18px; margin-bottom:20px; display:flex; align-items:flex-start; gap:12px; font-size:0.9rem; color:var(--navy); line-height:1.55; }
+  .download-warning-icon { font-size:1.3rem; flex-shrink:0; margin-top:1px; }
+  .download-warning strong { display:block; font-weight:700; margin-bottom:3px; }
+
+  /* ── DOCUMENT OUTPUT ── */
+  .doc-output-intro { border-radius:0 10px 10px 0; padding:22px 26px; margin-bottom:22px; }
+  .doc-output-intro.jd-intro { background:var(--navy); border-left:6px solid var(--gold); }
+  .doc-output-intro.posting-intro { background:var(--posting-green); border-left:6px solid var(--posting-green-light); }
+  .doc-output-intro h3 { font-size:1.4rem; font-weight:700; margin-bottom:10px; letter-spacing:0.01em; }
   .doc-output-intro.jd-intro h3 { color:var(--gold); }
   .doc-output-intro.posting-intro h3 { color:#b8f0b8; }
-  .doc-output-intro p { font-size:0.9rem; line-height:1.6; }
-  .doc-output-intro.jd-intro p { color:rgba(255,255,255,0.8); }
-  .doc-output-intro.posting-intro p { color:rgba(200,240,200,0.85); }
-  .doc-steps { display:flex; flex-direction:column; gap:7px; margin-top:12px; }
-  .doc-step { display:flex; gap:10px; align-items:flex-start; font-size:0.88rem; line-height:1.5; }
-  .doc-output-intro.jd-intro .doc-step { color:rgba(255,255,255,0.75); }
-  .doc-output-intro.posting-intro .doc-step { color:rgba(200,240,200,0.8); }
-  .doc-step-num { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:700; flex-shrink:0; margin-top:2px; }
+  .doc-output-intro p { font-size:0.92rem; line-height:1.65; font-weight:400; }
+  .doc-output-intro.jd-intro p { color:rgba(255,255,255,0.85); }
+  .doc-output-intro.posting-intro p { color:rgba(210,245,210,0.88); }
+  .doc-steps { display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+  .doc-step { display:flex; gap:10px; align-items:flex-start; font-size:0.9rem; line-height:1.55; font-weight:400; }
+  .doc-output-intro.jd-intro .doc-step { color:rgba(255,255,255,0.82); }
+  .doc-output-intro.posting-intro .doc-step { color:rgba(210,245,210,0.85); }
+  .doc-step-num { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; flex-shrink:0; margin-top:2px; }
   .doc-output-intro.jd-intro .doc-step-num { background:var(--gold); color:var(--navy); }
-  .doc-output-intro.posting-intro .doc-step-num { background:#7ec87e; color:#1a4a1a; }
+  .doc-output-intro.posting-intro .doc-step-num { background:var(--posting-green-light); color:var(--posting-green); }
 
   /* ── OUTPUT TABS ── */
   .output-tabs { display:flex; border-bottom:2px solid #eee; background:white; }
@@ -290,7 +307,8 @@
 
     <div class="results-orientation" role="region" aria-label="Audit Results Summary">
       <h2>📊 Your Equity Audit Results</h2>
-      <p>Your document was scored across four equity dimensions — inclusive language (gender, disability, and racial/cultural neutrality), visual accessibility, screen reader compatibility, and structural equity barriers including physical demands and ADA compliance.</p>
+      <p>Your document was scored across multiple equity dimensions — inclusive language (gender, disability, and racial/cultural neutrality), visual accessibility, screen reader compatibility, structural equity barriers, and physical demands and ADA compliance.</p>
+
       <div class="score-chart-row">
         <div class="score-chart-left">
           <div class="donut-wrap" aria-hidden="true">
@@ -308,39 +326,40 @@
         </div>
 
         <div class="next-steps-block">
-          <h4>📋 How to use your results</h4>
+          <h4>📋 How to Use Your Results</h4>
           <div class="next-steps-overall">
             <div class="action-step">
               <div class="action-num">1</div>
               <div class="action-text">
-                <strong>Fix the red flags first.</strong>
-                Red flags are the most urgent issues. They may expose your organization to legal risk or significantly reduce who applies. Review each flagged section below for the suggested fix.
+                <strong>Review the red flags and changes EquiDraft has suggested.</strong>
+                Your revised Job Description and Job Posting below already include the suggested changes. Each item marked <strong>[ORIGINAL]</strong> shows what was in your document; each <strong>[SUGGESTED]</strong> shows the equity-centered replacement. Delete whichever version you do not want to keep.
+                <span class="action-sub">The reasoning behind each flag is explained in the dimension sections below. Share that reasoning with any leaders who ask why these changes are being recommended.</span>
               </div>
             </div>
             <div class="action-step">
               <div class="action-num">2</div>
               <div class="action-text">
-                <strong>Fill in every required field.</strong>
-                Every line marked <strong>[MISSING — DATA REQUIRED]</strong> must be completed before you use the document. See the Job Description and Job Posting tabs below.
+                <strong>Complete every required field.</strong>
+                Every line marked <strong>[MISSING — DATA REQUIRED]</strong> must be filled in before you use the document. See the Job Description and Job Posting tabs below.
               </div>
             </div>
             <div class="action-step">
               <div class="action-num">3</div>
               <div class="action-text">
-                <strong>Download your documents.</strong>
-                Click the Download button under each document to save a .txt file. Open it in Google Docs or Microsoft Word — no login required.
+                <strong>Download your documents before closing.</strong>
+                EquiDraft does not save your session. Click the Download button under each document now to save your work. Open the .txt file in Google Docs or Microsoft Word — no login required.
               </div>
             </div>
           </div>
 
-          <!-- Contextual doc directions — revealed after audit -->
           <div class="doc-directions" id="docDirections">
             <div class="doc-dir-block">
               <h5>📄 Job Description — Next Steps</h5>
               <ol>
                 <li>Replace every <strong>[MISSING — DATA REQUIRED]</strong> line with real information before saving or filing.</li>
-                <li>Share with your hiring manager for review and sign-off.</li>
-                <li>Confirm your Physical Demands section with the hiring manager before filing — required for ADA compliance.</li>
+                <li>Review each <strong>[ORIGINAL] → [SUGGESTED]</strong> pair and delete the version you are not keeping.</li>
+                <li>Share with your hiring manager for review and sign-off before posting the role.</li>
+                <li>Confirm Physical Demands with the hiring manager before filing — required for ADA compliance.</li>
                 <li>Save to your HRIS. Revisit annually or whenever the role changes significantly.</li>
               </ol>
             </div>
@@ -348,6 +367,7 @@
               <h5>📢 Job Posting — Next Steps</h5>
               <ol>
                 <li>Fill in salary range, location, benefits, and how to apply — candidates cannot evaluate the role without this information.</li>
+                <li>Review each <strong>[ORIGINAL] → [SUGGESTED]</strong> pair and delete the version you are not keeping.</li>
                 <li>Read the posting aloud before publishing. If it sounds stiff or confusing, simplify it.</li>
                 <li>Confirm your ATS portal is screen reader accessible and offer an alternative application method (email or phone).</li>
                 <li>Save a copy in a dedicated Job Postings folder — separate from your HR files.</li>
@@ -372,6 +392,10 @@
           <p id="scoreDesc"></p>
         </div>
       </div>
+      <div class="dimensions-intro">
+        <h3>Equity Dimensions Breakdown</h3>
+        <p>Here is the detailed assessment of your submitted document, broken down dimension by dimension. Expand each section to see specific findings, suggested language, and the equity research behind each flag.</p>
+      </div>
       <div class="audit-sections" id="auditSections"></div>
     </div>
 
@@ -391,10 +415,15 @@
           <h3>📄 Internal Job Description</h3>
           <p>This document is for internal HR use only — not for candidates. It lives in your HR files or HRIS and guides hiring decisions, compensation benchmarking, and performance reviews.</p>
           <div class="doc-steps">
-            <div class="doc-step"><div class="doc-step-num">1</div><span>Replace every <strong>[MISSING — DATA REQUIRED]</strong> line with real information before saving or filing.</span></div>
-            <div class="doc-step"><div class="doc-step-num">2</div><span>Share with your hiring manager for review and sign-off before posting the role.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Confirm Physical Demands with the hiring manager. Save to your HRIS. Review annually.</span></div>
+            <div class="doc-step"><div class="doc-step-num">1</div><span><strong>Download this document now.</strong> EquiDraft does not save your session — download before closing.</span></div>
+            <div class="doc-step"><div class="doc-step-num">2</div><span>Review each <strong>[ORIGINAL] → [SUGGESTED]</strong> pair and delete the version you are not keeping.</span></div>
+            <div class="doc-step"><div class="doc-step-num">3</div><span>Replace every <strong>[MISSING — DATA REQUIRED]</strong> line before saving or filing.</span></div>
+            <div class="doc-step"><div class="doc-step-num">4</div><span>Share with your hiring manager for sign-off. Confirm Physical Demands. Save to your HRIS.</span></div>
           </div>
+        </div>
+        <div class="download-warning">
+          <span class="download-warning-icon">⬇</span>
+          <div><strong>Download before closing.</strong> EquiDraft does not save sessions. Your work will be lost if you close or refresh this page without downloading.</div>
         </div>
         <div class="required-fields" id="jd-required" style="display:none"></div>
         <div class="accessibility-note">
@@ -414,10 +443,15 @@
           <h3>📢 External Job Posting</h3>
           <p>This is what candidates see. It is shorter, warmer, and written directly to the person applying. Publish this on your careers page, LinkedIn, Indeed, and other job boards.</p>
           <div class="doc-steps">
-            <div class="doc-step"><div class="doc-step-num">1</div><span>Fill in every <strong>[MISSING — DATA REQUIRED]</strong> field — especially salary range, location, and how to apply.</span></div>
-            <div class="doc-step"><div class="doc-step-num">2</div><span>Read it aloud before posting. If it sounds stiff or confusing, simplify it.</span></div>
-            <div class="doc-step"><div class="doc-step-num">3</div><span>Save a copy in a dedicated Job Postings folder — separate from your HR records.</span></div>
+            <div class="doc-step"><div class="doc-step-num">1</div><span><strong>Download this document now.</strong> EquiDraft does not save your session — download before closing.</span></div>
+            <div class="doc-step"><div class="doc-step-num">2</div><span>Review each <strong>[ORIGINAL] → [SUGGESTED]</strong> pair and delete the version you are not keeping.</span></div>
+            <div class="doc-step"><div class="doc-step-num">3</div><span>Fill in every <strong>[MISSING — DATA REQUIRED]</strong> field — especially salary range, location, and how to apply.</span></div>
+            <div class="doc-step"><div class="doc-step-num">4</div><span>Read it aloud before posting. If it sounds stiff or confusing, simplify it.</span></div>
           </div>
+        </div>
+        <div class="download-warning">
+          <span class="download-warning-icon">⬇</span>
+          <div><strong>Download before closing.</strong> EquiDraft does not save sessions. Your work will be lost if you close or refresh this page without downloading.</div>
         </div>
         <div class="required-fields" id="posting-required" style="display:none"></div>
         <div class="accessibility-note">
@@ -506,14 +540,20 @@ async function runAudit() {
 function renderResults(result) {
   const banner = document.getElementById('detectionBanner');
   const typeMap = {
-    job_description: { cls:'jd',     icon:'📄', label:'Job Description detected' },
-    job_posting:     { cls:'posting', icon:'📢', label:'Job Posting detected' },
-    mixed:           { cls:'mixed',   icon:'🔀', label:'Mixed document detected' },
-    unclear:         { cls:'mixed',   icon:'❓', label:'Document type unclear' }
+    job_description: { cls:'jd',      label:'Job Description Detected' },
+    job_posting:     { cls:'posting',  label:'Job Posting Detected' },
+    mixed:           { cls:'mixed',    label:'Mixed Document Detected' },
+    unclear:         { cls:'unclear',  label:'Document Type Unclear' }
   };
   const typeInfo = typeMap[result.documentType] || typeMap.unclear;
+  const whyMap = {
+    job_description: 'EquiDraft identified this as an internal job description. For best results, job descriptions and job postings should be separate documents — they serve different audiences and have different purposes.',
+    job_posting:     'EquiDraft identified this as an external job posting. For best results, job descriptions and job postings should be separate documents — the JD is for HR and compliance; the posting is for candidates.',
+    mixed:           'EquiDraft detected elements of both a job description and a job posting in the same document. Combining these creates confusion — your HR files and your job boards need different versions.',
+    unclear:         'EquiDraft could not clearly identify whether this is a job description or a job posting. A complete document will produce more accurate equity findings and better output.'
+  };
   banner.className = 'detection-banner ' + typeInfo.cls;
-  banner.innerHTML = typeInfo.icon + ' <span>' + typeInfo.label + ' — ' + (result.documentTypeMessage || '') + '</span>';
+  banner.innerHTML = `<div class="detection-banner-title">📋 ${typeInfo.label}</div><div class="detection-banner-why">${whyMap[result.documentType] || ''}</div>`;
 
   const score = result.score || 0;
   document.getElementById('scoreNum').textContent = score;
@@ -601,9 +641,7 @@ function renderResults(result) {
   document.getElementById('jdOutput').textContent      = result.jobDescription?.document || '';
   document.getElementById('postingOutput').textContent = result.jobPosting?.document     || '';
 
-  // Reveal contextual doc directions
   document.getElementById('docDirections').classList.add('visible');
-
   document.getElementById('results').classList.add('visible');
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -685,8 +723,8 @@ function downloadDoc(type) {
   }
 
   const header = isJD
-    ? 'EQUIDRAFT BY PARITY HR\nJob Description\nchooseparity.com\n\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE FILING.\n\n' + '='.repeat(60) + '\n\n'
-    : 'EQUIDRAFT BY PARITY HR\nJob Posting\nchooseparity.com\n\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE POSTING.\n\n' + '='.repeat(60) + '\n\n';
+    ? 'EQUIDRAFT BY PARITY HR\nJob Description\nchooseparity.com\n\nREVIEW ALL [ORIGINAL] → [SUGGESTED] PAIRS AND DELETE THE VERSION YOU ARE NOT KEEPING.\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE FILING.\n\n' + '='.repeat(60) + '\n\n'
+    : 'EQUIDRAFT BY PARITY HR\nJob Posting\nchooseparity.com\n\nREVIEW ALL [ORIGINAL] → [SUGGESTED] PAIRS AND DELETE THE VERSION YOU ARE NOT KEEPING.\nCOMPLETE ALL [MISSING — DATA REQUIRED] FIELDS BEFORE POSTING.\n\n' + '='.repeat(60) + '\n\n';
 
   const footer = '\n\n' + '='.repeat(60) + '\nGenerated by EquiDraft by Parity HR — chooseparity.com\nFounded by Vanessa Martinez, SPHR, DEI Certified';
 
@@ -755,7 +793,8 @@ APPLICATION PROCESS
 [ ] Posting tested with NVDA or VoiceOver before publishing
 
 REQUIRED FIELDS
-[ ] All [REQUIRED] placeholders completed before posting
+[ ] All [MISSING — DATA REQUIRED] placeholders completed before posting
+[ ] All [ORIGINAL] → [SUGGESTED] pairs reviewed and resolved
 [ ] Pay range reviewed and approved
 [ ] Accommodation contact email confirmed active
 [ ] Application deadline confirmed with hiring manager
