@@ -6,7 +6,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 function parseJSON(text) {
-  // Strip ALL markdown fences anywhere in the text
   const clean = text
     .replace(/```json/gi, '')
     .replace(/```/g, '')
@@ -101,9 +100,9 @@ Only flag what is actually in the document.
 
 RULE 8 — PHYSICAL DEMANDS AND ADA COMPLIANCE (goes in: structuralEquity)
 ALWAYS produces exactly one item. Evaluate all three components:
-A. PHYSICAL DEMANDS SECTION — flag if missing entirely. Every job document needs one regardless of whether the role is remote, hybrid, or office-based. A missing section is always a flag — never assume physical demands are obvious.
+A. PHYSICAL DEMANDS SECTION — flag if missing entirely. Every job document needs one regardless of whether the role is remote, hybrid, or office-based.
 B. SPECIFICITY — flag if present but vague (e.g. "must be able to perform the duties of this role," "standard office environment" with no detail). Good physical demands describe actual conditions: seated computer work, lifting requirements, screen time, noise levels, travel, standing.
-C. ADA ACCOMMODATION STATEMENT — flag if missing alongside physical demands. The accommodation statement must appear in the document and must include a contact method. "Accommodations available upon request" with no contact is insufficient.
+C. ADA ACCOMMODATION STATEMENT — flag if missing alongside physical demands. Must include a contact method.
 SCORING: Flag if A or C are missing. Warn if B is vague. Good only if all three are present and specific.
 ONE item always present.
 
@@ -148,55 +147,62 @@ function documentsPrompt(input) {
   return `You are an equity-centered HR expert. Using the job document below, generate a complete internal Job Description and a complete external Job Posting. Return ONLY valid JSON — no markdown, no backticks, no text before or after. You MUST close every bracket and brace. Fit in 5000 tokens.
 
 ════════════════════════════════════════
-MANDATORY LANGUAGE RULES — APPLY IN BOTH DOCUMENTS
-Do not copy problematic language from the original. Rewrite every instance.
+CRITICAL: HOW TO HANDLE FLAGGED LANGUAGE
 ════════════════════════════════════════
 
-RULE A — REMOVE ALL GENDERED LANGUAGE
-Never use: "he," "she," "his," "her," "he/she," "guy," "gal," "girl," "guys," "ladies."
-Rewrite gendered descriptions with neutral alternatives.
-Example: "HR guy Matt and marketing gal Callie" → "HR professional Matt and marketing professional Callie"
+When you find problematic language in the input, DO NOT silently replace it. Instead, show BOTH the original and the suggested replacement using this exact bracket format on its own line:
 
-RULE B — REMOVE ALL VAGUE AND CODED PHRASES
-Never use these words anywhere in either document. Replace every instance with specific, plain-language alternatives:
-- "fast-paced" → describe the actual work: "you will manage multiple client accounts simultaneously with shifting weekly priorities"
-- "dynamic" → describe what actually changes: "priorities and client needs shift week to week"
-- "self-starter" → "you manage your own schedule and deadlines without daily supervision"
+[ORIGINAL: "exact problematic phrase"] → [SUGGESTED: "your specific equity-centered replacement"]
+
+This applies to ALL of the following:
+- Gendered language (he, she, guys, gal, salesman, etc.)
+- Vague or coded phrases (fast-paced, rockstar, ninja, hustle, self-starter, passionate, etc.)
+- Ableist or neurotypical defaults (high energy, always on, upbeat, positive energy, etc.)
+- Racially or culturally coded language (culture fit, well-spoken, polished, articulate, etc.)
+
+The HR professional will review each pair and delete the version they do not want. Do not hide, remove, or silently rewrite flagged language — always show both. Language that is already equitable should be kept as-is with no bracket notation.
+
+════════════════════════════════════════
+MANDATORY LANGUAGE RULES — APPLY IN BOTH DOCUMENTS
+════════════════════════════════════════
+
+RULE A — FLAG ALL GENDERED LANGUAGE using [ORIGINAL] → [SUGGESTED] format.
+Never silently remove. Example: [ORIGINAL: "HR guy Matt"] → [SUGGESTED: "HR professional Matt"]
+
+RULE B — FLAG ALL VAGUE AND CODED PHRASES using [ORIGINAL] → [SUGGESTED] format:
+- "fast-paced" → describe the actual work: "manages multiple concurrent projects with shifting weekly priorities"
+- "dynamic" → describe what actually changes: "priorities and needs shift week to week"
+- "self-starter" → "manages own schedule and deadlines without daily supervision"
 - "passionate" → name the actual skill or commitment required
-- "rockstar," "ninja," "hustle" → remove entirely, describe the actual work
+- "rockstar," "ninja," "hustle" → describe the actual work
 - "go above and beyond" → describe the actual expectation specifically
 - "strong work ethic" → name the observable behavior
-- "positive energy" → remove entirely — this is a subjective, culturally-defined standard that excludes candidates with depression, chronic illness, or different cultural communication styles. Do not include it in either document in any form.
+- "positive energy" → [SUGGESTED: remove — this is a subjective standard that excludes candidates with depression, chronic illness, or different cultural communication styles]
 - "entrepreneurial spirit" → describe the actual independent work expected
 - "thrives under pressure" → describe the actual working conditions specifically
 - "wear many hats" → list the actual variety of responsibilities
 
-RULE C — REMOVE NEUROTYPICAL AND ABLEIST DEFAULTS
-Never imply a high-energy, always-available, or neurotypical default is required.
-Remove or rewrite: "always bring positive energy," "high energy," "always on," "upbeat," "enthusiastic" as a requirement.
+RULE C — FLAG NEUROTYPICAL AND ABLEIST DEFAULTS using [ORIGINAL] → [SUGGESTED] format:
+"always bring positive energy," "high energy," "always on," "upbeat," "enthusiastic" as a requirement.
 
 RULE D — PHYSICAL DEMANDS ARE A REQUIRED EQUITY DIMENSION
-Every job document must include a Physical Demands section regardless of whether the role is remote, hybrid, or office-based. This is required for ADA compliance and candidate equity — candidates with disabilities deserve to know the physical requirements before investing time in an application.
-- Be specific: describe actual conditions (seated computer work, screen time, lifting requirements, noise levels, travel, standing/walking)
-- Never use vague language like "standard office environment" or "must be able to perform the duties of this role"
-- Always include an ADA accommodation statement with a contact method in both documents
+Every document must include a Physical Demands section. Be specific about actual conditions. Always include an ADA accommodation statement with a contact method.
 
 ════════════════════════════════════════
 DOCUMENT STRUCTURE RULES
-These two documents serve different audiences and must be structured accordingly.
 ════════════════════════════════════════
 
 JOB DESCRIPTION — INTERNAL HR DOCUMENT ONLY
 - Purpose: internal filing, HRIS, compensation benchmarking, performance management
 - Audience: HR team, hiring manager, legal — NOT candidates
-- Do NOT include: company origin story, founder bios, marketing copy, culture descriptions, "about us" narrative
+- Do NOT include: company origin story, founder bios, marketing copy, culture descriptions
 - DO include: all administrative fields, competencies, working conditions, legal statements
 - Tone: precise, functional, compliance-focused
 
 JOB POSTING — EXTERNAL CANDIDATE-FACING DOCUMENT
 - Purpose: attract qualified, diverse applicants
 - Audience: candidates — write in second person (you/your) throughout
-- DO include: company story and context (1-2 sentences), reporting structure (who they report to), salary or salary range, schedule and hours, FLSA status, work arrangement (remote/hybrid/on-site), benefits
+- DO include: company story (1-2 sentences), reporting structure, salary, schedule, FLSA, benefits
 - Tone: warm, plain, direct, welcoming
 
 Mark every gap as [MISSING — DATA REQUIRED: explain specifically what is needed and why].
@@ -207,11 +213,11 @@ Return this exact JSON:
 {
   "jobDescription": {
     "requiredFields": ["<specific missing field and why it is needed internally>"],
-    "document": "JOB DESCRIPTION\n\nPOSITION TITLE: [from document or MISSING — DATA REQUIRED: insert official position title]\nDEPARTMENT: [from document or MISSING — DATA REQUIRED: insert department name]\nREPORTS TO: [from document or MISSING — DATA REQUIRED: insert direct supervisor title]\nFLSA STATUS: [Exempt or Non-Exempt based on salary and duties — or MISSING — DATA REQUIRED: confirm with HR or legal counsel before filing]\nPAY BAND: [from document or MISSING — DATA REQUIRED: insert approved salary range before filing — required for compensation benchmarking]\nLOCATION: [from document or MISSING — DATA REQUIRED: insert work location and remote, hybrid, or on-site status]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED: insert the date this description takes effect]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it fits the organization. Use document content. No marketing language.]\n\nESSENTIAL FUNCTIONS\n[Numbered list of core responsibilities drawn directly from the document. Use actual duties — no generic placeholders. Rewrite any vague language into specific, observable tasks.]\n\nMINIMUM QUALIFICATIONS\n[Required education, experience, and skills. Where a degree is not legally required for this work, include: 'Or equivalent combination of education and experience.' List relevant certifications as alternatives to degree where appropriate.]\n\nPREFERRED QUALIFICATIONS\n[Qualifications that strengthen a candidacy but are not required to perform the core functions.]\n\nCOMPETENCIES\n[CRITICAL: If the input document contains explicitly listed competencies, reproduce them VERBATIM — do not rewrite, reorder, or replace them. Only generate competencies if none are provided in the input.]\n\nWORKING CONDITIONS\n[Schedule, hours per week, remote or hybrid arrangement, travel requirements. From document or MISSING — DATA REQUIRED.]\n\nPHYSICAL DEMANDS AND WORKING CONDITIONS\n[REQUIRED FOR ADA COMPLIANCE. List specific physical requirements of this role. Describe actual conditions — do not use vague language like 'standard office environment.' Examples: prolonged sitting at a workstation, repetitive use of hands and wrists, extended screen use, ability to lift up to [X] lbs, occasional standing or walking, ability to work in variable noise environments. From document or confirm with hiring manager before filing.]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone number].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by applicable law."
+    "document": "JOB DESCRIPTION\n\nPOSITION TITLE: [from document or MISSING — DATA REQUIRED: insert official position title]\nDEPARTMENT: [from document or MISSING — DATA REQUIRED: insert department name]\nREPORTS TO: [from document or MISSING — DATA REQUIRED: insert direct supervisor title]\nFLSA STATUS: [Exempt or Non-Exempt based on salary and duties — or MISSING — DATA REQUIRED: confirm with HR or legal counsel before filing]\nPAY BAND: [from document or MISSING — DATA REQUIRED: insert approved salary range before filing — required for compensation benchmarking]\nLOCATION: [from document or MISSING — DATA REQUIRED: insert work location and remote, hybrid, or on-site status]\nEFFECTIVE DATE: [MISSING — DATA REQUIRED: insert the date this description takes effect]\n\nPOSITION SUMMARY\n[2-3 sentences describing the role, its purpose, and how it fits the organization. Use document content. No marketing language.]\n\nESSENTIAL FUNCTIONS\n[Numbered list of core responsibilities drawn directly from the document. Use actual duties. Show [ORIGINAL] → [SUGGESTED] for any vague or coded language found in the duties.]\n\nMINIMUM QUALIFICATIONS\n[Required education, experience, and skills. Where a degree is not legally required, include: Or equivalent combination of education and experience. Show [ORIGINAL] → [SUGGESTED] for any problematic language.]\n\nPREFERRED QUALIFICATIONS\n[Qualifications that strengthen a candidacy but are not required to perform the core functions.]\n\nCOMPETENCIES\n[CRITICAL: If the input document contains explicitly listed competencies, reproduce them VERBATIM — do not rewrite, reorder, or replace them. Only generate competencies if none are provided in the input.]\n\nWORKING CONDITIONS\n[Schedule, hours per week, remote or hybrid arrangement, travel requirements. From document or MISSING — DATA REQUIRED.]\n\nPHYSICAL DEMANDS AND WORKING CONDITIONS\n[REQUIRED FOR ADA COMPLIANCE. List specific physical requirements. Describe actual conditions — no vague language. Examples: prolonged sitting at a workstation, repetitive use of hands and wrists, extended screen use, ability to lift up to [X] lbs, occasional standing or walking. From document or confirm with hiring manager before filing.]\n\nACCOMMODATION STATEMENT\nReasonable accommodations may be made to enable individuals with disabilities to perform the essential functions of this position. To request an accommodation, contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone number].\n\nEEO STATEMENT\nWe are an equal opportunity employer. We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, genetic information, sexual orientation, gender identity, or any other characteristic protected by applicable law."
   },
   "jobPosting": {
     "requiredFields": ["<specific missing field that must be completed before this posting goes public>"],
-    "document": "JOB POSTING\n\n[Position Title]\n[Organization Name — from document or MISSING — DATA REQUIRED]\n[Location | Work arrangement: Remote, Hybrid, or On-Site — from document or MISSING — DATA REQUIRED]\n[Salary or salary range — from document or MISSING — DATA REQUIRED: candidates deserve to know compensation before investing time in an application. Salary transparency reduces pay gaps and increases qualified applicants.]\n[Schedule and hours — from document or MISSING — DATA REQUIRED: e.g. Full-time, Part-time, expected hours per week]\n[FLSA Status: Exempt or Non-Exempt — from document or MISSING — DATA REQUIRED: required by law to disclose]\n[Reports to: supervisor title — from document or MISSING — DATA REQUIRED]\n\nABOUT [ORGANIZATION NAME]\n[1-2 sentences describing what the organization does, who it serves, and why the work matters. From document content. Warm, plain language. No jargon.]\n\nABOUT THIS ROLE\n[3-4 sentences in second person describing what you will do and why this role matters. Welcoming language. Drawn from document. No vague phrases.]\n\nWHAT YOU WILL DO\n[Bulleted list of key responsibilities in plain language. Use you and your throughout. Drawn from document duties. Rewrite any vague language into specific, observable tasks.]\n\nWHAT WE ARE LOOKING FOR\nRequired:\n[Required qualifications listed clearly. Where a degree is not legally required, include: Or equivalent combination of relevant experience and training.]\n\nPreferred:\n[Qualifications that would strengthen your application but are not required.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: insert salary or salary range, health insurance details, paid time off, retirement plan, mental health benefits, disability coverage, remote work stipend or equipment, professional development budget, and any other benefits. Candidates cannot assess whether this role is right for them without this information.]\n\nPHYSICAL DEMANDS\n[REQUIRED FOR ADA COMPLIANCE AND CANDIDATE EQUITY. Plain-language description of physical requirements written accessibly for candidates. Describe actual conditions. Example: This role involves extended time at a computer workstation, regular keyboard and mouse use, and extended screen time. Occasional in-person meeting attendance may be required. If you have questions about physical requirements or need an accommodation, please reach out before applying.]\n\nOUR COMMITMENT TO EQUAL OPPORTUNITY\nWe are an equal opportunity employer committed to a workplace where every person is treated with dignity and respect. We welcome applicants of all backgrounds, identities, and abilities. We comply with all applicable federal, state, and local equal employment opportunity laws.\n\nHOW TO APPLY\n[Clear application instructions. Include deadline if known. State that accommodations are available during the application and interview process. Include an alternative application method — email or phone — for candidates who cannot use the online portal.]\n\nACCOMMODATION NOTICE\nWe are committed to an accessible application and interview process. If you need an accommodation at any stage, please contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone] before the application deadline. We will work with you to meet your needs."
+    "document": "JOB POSTING\n\n[Position Title]\n[Organization Name — from document or MISSING — DATA REQUIRED]\n[Location | Work arrangement: Remote, Hybrid, or On-Site — from document or MISSING — DATA REQUIRED]\n[Salary or salary range — from document or MISSING — DATA REQUIRED: candidates deserve to know compensation before investing time in an application.]\n[Schedule and hours — from document or MISSING — DATA REQUIRED]\n[FLSA Status: Exempt or Non-Exempt — from document or MISSING — DATA REQUIRED]\n[Reports to: supervisor title — from document or MISSING — DATA REQUIRED]\n\nABOUT [ORGANIZATION NAME]\n[1-2 sentences describing what the organization does, who it serves, and why the work matters. From document content. Warm, plain language. No jargon.]\n\nABOUT THIS ROLE\n[3-4 sentences in second person describing what you will do and why this role matters. Show [ORIGINAL] → [SUGGESTED] for any vague or coded language.]\n\nWHAT YOU WILL DO\n[Bulleted list of key responsibilities in plain language. Use you and your throughout. Show [ORIGINAL] → [SUGGESTED] for any vague or coded language found in duties.]\n\nWHAT WE ARE LOOKING FOR\nRequired:\n[Required qualifications listed clearly. Where a degree is not legally required, include: Or equivalent combination of relevant experience and training. Show [ORIGINAL] → [SUGGESTED] for any problematic language.]\n\nPreferred:\n[Qualifications that would strengthen your application but are not required.]\n\nWHAT WE OFFER\n[MISSING — DATA REQUIRED: insert salary or salary range, health insurance, paid time off, retirement plan, mental health benefits, disability coverage, remote work stipend, professional development budget, and any other benefits.]\n\nPHYSICAL DEMANDS\n[REQUIRED FOR ADA COMPLIANCE AND CANDIDATE EQUITY. Plain-language description of physical requirements. Describe actual conditions. Example: This role involves extended time at a computer workstation, regular keyboard and mouse use, and extended screen time. If you have questions about physical requirements or need an accommodation, please reach out before applying.]\n\nOUR COMMITMENT TO EQUAL OPPORTUNITY\nWe are an equal opportunity employer committed to a workplace where every person is treated with dignity and respect. We welcome applicants of all backgrounds, identities, and abilities. We comply with all applicable federal, state, and local equal employment opportunity laws.\n\nHOW TO APPLY\n[Clear application instructions. Include deadline if known. State that accommodations are available. Include an alternative application method — email or phone — for candidates who cannot use the online portal.]\n\nACCOMMODATION NOTICE\nWe are committed to an accessible application and interview process. If you need an accommodation at any stage, please contact [MISSING — DATA REQUIRED: insert HR contact name, email, and phone] before the application deadline. We will work with you to meet your needs."
   }
 }
 
@@ -231,10 +237,9 @@ export async function onRequestPost(context) {
     if (!apiKey) return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     if (!input)  return new Response(JSON.stringify({ error: 'No input provided' }),      { status: 400, headers: { 'Content-Type': 'application/json' } });
 
-    // Run both calls in parallel — faster than sequential, each safely under token limit
     const [auditText, docsText] = await Promise.all([
-      callClaude(apiKey, auditPrompt(input),    6000),
-      callClaude(apiKey, documentsPrompt(input), 6000)
+      callClaude(apiKey, auditPrompt(input),     6000),
+      callClaude(apiKey, documentsPrompt(input),  6000)
     ]);
 
     let auditResult, docsResult;
@@ -251,7 +256,6 @@ export async function onRequestPost(context) {
       return new Response(JSON.stringify({ error: 'Documents parse error. Model returned: ' + docsText.substring(0, 300) }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
 
-    // Merge into one response for the frontend
     const result = {
       ...auditResult,
       jobDescription: docsResult.jobDescription,
