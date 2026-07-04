@@ -121,6 +121,23 @@
     .progress-bar { padding: 12px 18px; }
     .progress-step span { display: none; }
   }
+
+  /* ── ACCESS GATE ── */
+  #mainTool { display: none; }
+  #accessGate { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55vh; padding: 48px 24px; }
+  .gate-card { background: var(--white); border-radius: 14px; box-shadow: 0 3px 24px rgba(0,44,73,0.09); padding: 44px 40px; max-width: 440px; width: 100%; text-align: center; border: 1px solid rgba(0,44,73,0.07); }
+  .gate-logo { font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
+  .gate-equi { color: var(--navy); }
+  .gate-draft { color: var(--gold); }
+  .gate-byline { font-size: 0.7rem; color: var(--slate); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 26px; }
+  .gate-card h2 { font-size: 1.2rem; color: var(--navy); font-weight: 700; margin-bottom: 8px; }
+  .gate-card p { font-size: 0.92rem; color: var(--slate); line-height: 1.6; margin-bottom: 22px; }
+  .gate-input { width: 100%; border: 2px solid #ddd; border-radius: 10px; padding: 13px 16px; font-family: Arial, sans-serif; font-size: 1rem; color: var(--navy); margin-bottom: 12px; }
+  .gate-input:focus { outline: none; border-color: var(--navy); }
+  .gate-error { background: #fff0ee; border: 1px solid #f0b0a0; border-radius: 8px; padding: 12px 16px; color: var(--coral); font-size: 0.85rem; margin-bottom: 14px; display: none; line-height: 1.5; text-align: left; }
+  .gate-success { background: #f2f8f4; border: 1px solid #b8d8b8; border-radius: 8px; padding: 12px 16px; color: var(--sage); font-size: 0.85rem; margin-bottom: 14px; display: none; line-height: 1.5; font-weight: 600; }
+  .gate-purchase-link { font-size: 0.83rem; color: var(--slate); margin-top: 18px; }
+  .gate-purchase-link a { color: var(--navy); font-weight: 700; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -150,6 +167,25 @@
     </div>
   </div>
 </div>
+
+<div id="accessGate">
+  <div class="gate-card">
+    <div class="gate-logo"><span class="gate-equi">Equi</span><span class="gate-draft">Draft</span></div>
+    <div class="gate-byline">by Parity HR</div>
+    <h2>Log in to EquiDraft</h2>
+    <p>Use the email and password you were sent after purchase.</p>
+    <div class="gate-error" id="gateError" role="alert"></div>
+    <div class="gate-success" id="gateSuccess" role="status"></div>
+    <input type="email" class="gate-input" id="loginEmail" placeholder="you@example.com" autocomplete="username" aria-label="Email" />
+    <input type="password" class="gate-input" id="loginPassword" placeholder="Password" autocomplete="current-password" aria-label="Password" />
+    <button class="btn" id="gateBtn" onclick="doLogin()" style="width:100%; justify-content:center; margin-top:4px;">Log In</button>
+    <div class="gate-purchase-link">
+      Don't have access yet? <a href="https://chooseparity.com/equidraft" target="_blank" rel="noopener">Purchase access here</a>
+    </div>
+  </div>
+</div>
+
+<div id="mainTool">
 
 <div class="progress-bar" role="navigation" aria-label="Progress">
   <div class="progress-step active">
@@ -258,6 +294,8 @@
 
 </div>
 
+</div>
+
 <footer>
   <strong>EquiDraft by Parity HR</strong>
   Equity-centered document drafting for nonprofits, small businesses, and mission-driven organizations.<br>
@@ -265,6 +303,57 @@
 </footer>
 
 <script>
+async function doLogin() {
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+  const errorEl = document.getElementById('gateError');
+  const successEl = document.getElementById('gateSuccess');
+  const btn = document.getElementById('gateBtn');
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  errorEl.style.display = 'none';
+  successEl.style.display = 'none';
+
+  if (!email || !password) {
+    errorEl.textContent = 'Please enter both your email and password.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Logging in...';
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await response.json();
+    if (data.valid) {
+      successEl.textContent = 'Access granted. Loading EquiDraft...';
+      successEl.style.display = 'block';
+      sessionStorage.setItem('equidraft_token', data.token);
+      sessionStorage.setItem('equidraft_email', data.email);
+      setTimeout(() => {
+        document.getElementById('accessGate').style.display = 'none';
+        document.getElementById('mainTool').style.display = 'block';
+      }, 700);
+    } else {
+      errorEl.textContent = data.error || 'Email or password is incorrect.';
+      errorEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Log In';
+    }
+  } catch (err) {
+    errorEl.textContent = 'Something went wrong. Please try again.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Log In';
+  }
+}
+
 function updateCounter() {
   const input = document.getElementById('jdInput');
   const counter = document.getElementById('charCounter');
@@ -321,9 +410,13 @@ async function runAudit() {
   const animInterval = animateProcessingSteps();
 
   try {
+    const token = sessionStorage.getItem('equidraft_token');
     const response = await fetch('/api/audit', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (token || '')
+      },
       body: JSON.stringify({ input })
     });
     const data = await response.json();
@@ -340,6 +433,16 @@ async function runAudit() {
   } catch(err) {
     clearInterval(animInterval);
     document.getElementById('processingOverlay').classList.remove('visible');
+
+    if (err.message === 'Please log in to use EquiDraft.') {
+      document.getElementById('mainTool').style.display = 'none';
+      document.getElementById('accessGate').style.display = 'flex';
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      btnText.textContent = 'Start My Draft';
+      return;
+    }
+
     errorMsg.textContent = 'Something went wrong: ' + err.message + '. Please try again.';
     errorMsg.style.display = 'block';
     btn.disabled = false;
@@ -354,6 +457,21 @@ document.addEventListener('DOMContentLoaded', function() {
     input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && e.ctrlKey) runAudit();
     });
+  }
+
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+  [emailInput, passwordInput].forEach(function(el) {
+    if (el) {
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doLogin();
+      });
+    }
+  });
+
+  if (sessionStorage.getItem('equidraft_token')) {
+    document.getElementById('accessGate').style.display = 'none';
+    document.getElementById('mainTool').style.display = 'block';
   }
 });
 </script>
